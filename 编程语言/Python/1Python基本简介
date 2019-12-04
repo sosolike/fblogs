@@ -1,0 +1,62 @@
+Python简介：
+    1：Python属于动态类型语言，有以下几个基本特征：
+        1：变量没有严格的数据类型要求，运行时动态确定；语法简单，类库丰富，编码效率较高；
+        2：其运行方式为Python解释器解释执行，无需先进行编译链接为可执行文件；
+        3：Python支持C/C++来扩展Python功能模块，以提高执行效率；
+    
+    2：Python常见使用场景：
+        1：web开发：Python具有flask、tornado、Django等web框架，可以迅速进行web开发；
+        2：数据采集：Python具有scrapy、beautiful soup等爬虫框架，可以方便的进行数据采集；
+        3：数据分析：Python具有Numpty、Pandas、Matplotlib等数据分析处理类库，可以进行数据分析图形化等；
+    
+    3：Python解释器：
+        1：Cpython：负责解释执行Python代码，Python官方解释器，可在命令行直接启动并运行Python代码；
+        2：Ipython：基于Cpython的交互式解释器，即python代码的解释方式以及执行方式均是由Cpython来完成，Ipython仅仅只是在Cpython基础上增强了交互方式；
+        3：PyPy：PyPy采用JIT动态编译技术，和Cpython完全不同，整体上PyPy对于python代码的执行效率高于Cpython，PyPy和Cpython的区别在于：(https://pypy.readthedocs.io/en/latest/cpython_differences.html)
+        4：Jpython：运行着java平台的Python解释器，可以直接将Python代码编译为java字节码执行；
+
+        不同的解释器对同一段python代码的解释方式和执行方式有可能会不同
+    
+    4：Python编码方式：
+        1：Python同时支持以传统面向对象的方式和面向过程的方式来编写代码；但是Python本身一切皆是对象，包括函数、变量等均是对象；
+
+    5：Python程序文件：
+        1：Python源程序有一个或者多个Python源文件组成，每一个Python源文件均以.py作为后缀；
+    
+    6：Python语言标准：
+        1：Python包括Python2.x版本和Python3.x版本；
+        2：Python2.x版本和3.x版本互不兼容，语法也有较大差异，因此在编写Python脚本之前需要先明确将会在哪个版本的解释器上运行；
+    
+    7：Python-PEP：
+        1：PEP全称：Python Enchancement Proposals；即Python增强提案；
+        2：官方将PEP分为三类：
+            I - Informational PEP   ：信息类：提供信息，有告知类信息，也有指导类信息等
+            P - Process PEP         ：流程类：Python本身之外的周边信息
+            S - Standards Track PEP ：标准类：主要描述Python的新功能、实践、标准、规范等内容；
+        3：PEP访问地址：https://www.python.org/dev/peps/pep-0020/    #0020即为提案编号；
+        4：推荐查看的PEP:
+            PEP 8   – Style Guide for Python Code，Python编码规范（必读）
+            PEP 257 – Docstring Conventions，文档注释规范
+            PEP 3120 – Using UTF-8 as the default source encoding，默认编码
+            PEP 7   – Style Guide for C Code，C扩展
+            PEP 20  – The Zen of Python，Python之禅
+            PEP 202 – List Comprehensions，列表生成式
+            PEP 274 – Dict Comprehensions，字典生成式
+            PEP 234 – Iterators，迭代器
+            PEP 279 – The enumerate() built-in function，enumerate枚举
+            PEP 282 – A Logging System，日志模块
+            PEP 285 – Adding a bool type，布尔值
+            PEP 289 – Generator Expressions，生成器表达式
+            PEP 318 – Decorators for Functions and Methods，装饰器
+            PEP 342 – Coroutines via Enhanced Generators，协程
+            PEP 343 – The “with” Statement，with语句
+            PEP 380 – Syntax for Delegating to a Subgenerator，yield from语法
+            PEP 405 – Python Virtual Environments，虚拟环境
+            PEP 471 – os.scandir() function，遍历目录
+            PEP 484 – Type Hints，类型约束
+            PEP 492 – Coroutines with async and await syntax，async/await语法
+            PEP 498 – Literal String Interpolation Python，字面字符串插值
+            PEP 525 – Asynchronous Generators，异步生成器
+            PEP 3105 – Make print a function，print改为函数
+            PEP 3115 – Metaclasses in Python 3000，元类
+            PEP 3333 – Python Web Server Gateway Interface v1.0.1，Web开发
