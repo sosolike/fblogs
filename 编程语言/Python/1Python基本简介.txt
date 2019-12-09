@@ -9,25 +9,24 @@ Python简介：
         2：数据采集：Python具有scrapy、beautiful soup等爬虫框架，可以方便的进行数据采集；
         3：数据分析：Python具有Numpty、Pandas、Matplotlib等数据分析处理类库，可以进行数据分析图形化等；
     
-    3：Python解释器：
-        1：Cpython：负责解释执行Python代码，Python官方解释器，可在命令行直接启动并运行Python代码；
-        2：Ipython：基于Cpython的交互式解释器，即python代码的解释方式以及执行方式均是由Cpython来完成，Ipython仅仅只是在Cpython基础上增强了交互方式；
-        3：PyPy：PyPy采用JIT动态编译技术，和Cpython完全不同，整体上PyPy对于python代码的执行效率高于Cpython，PyPy和Cpython的区别在于：(https://pypy.readthedocs.io/en/latest/cpython_differences.html)
-        4：Jpython：运行着java平台的Python解释器，可以直接将Python代码编译为java字节码执行；
+    3：Python执行方式：
+        1：编码方式：
+            1：Python同时支持以传统面向对象的方式和面向过程的方式来编写代码；但是Python本身一切皆是对象，包括函数、变量等均是对象；
+        2：程序文件：
+            1：Python源程序有一个或者多个Python源文件组成，每一个Python源文件均以.py作为后缀；
+        3：解释执行：
+            python是解释执行的脚本编程语言，需要python解释器解释执行，常见以下python解释器：
+            1：Cpython：负责解释执行Python代码，Python官方解释器，可在命令行直接启动并运行Python代码；
+            2：Ipython：基于Cpython的交互式解释器，即python代码的解释方式以及执行方式均是由Cpython来完成，Ipython仅仅只是在Cpython基础上增强了交互方式；
+            3：PyPy：PyPy采用JIT动态编译技术，和Cpython完全不同，整体上PyPy对于python代码的执行效率高于Cpython，PyPy和Cpython的区别在于：(https://pypy.readthedocs.io/en/latest/cpython_differences.html)
+            4：Jpython：运行着java平台的Python解释器，可以直接将Python代码编译为java字节码执行；
 
-        不同的解释器对同一段python代码的解释方式和执行方式有可能会不同
+            不同的解释器对同一段python代码的解释方式和执行方式有可能会不同
+        4：语言标准：
+            1：Python包括Python2.x版本和Python3.x版本；
+            2：Python2.x版本和3.x版本互不兼容，语法也有较大差异，因此在编写Python脚本之前需要先明确将会在哪个版本的解释器上运行；
     
-    4：Python编码方式：
-        1：Python同时支持以传统面向对象的方式和面向过程的方式来编写代码；但是Python本身一切皆是对象，包括函数、变量等均是对象；
-
-    5：Python程序文件：
-        1：Python源程序有一个或者多个Python源文件组成，每一个Python源文件均以.py作为后缀；
-    
-    6：Python语言标准：
-        1：Python包括Python2.x版本和Python3.x版本；
-        2：Python2.x版本和3.x版本互不兼容，语法也有较大差异，因此在编写Python脚本之前需要先明确将会在哪个版本的解释器上运行；
-    
-    7：Python-PEP：
+    4：Python-PEP：
         1：PEP全称：Python Enchancement Proposals；即Python增强提案；
         2：官方将PEP分为三类：
             I - Informational PEP   ：信息类：提供信息，有告知类信息，也有指导类信息等
