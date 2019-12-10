@@ -67,10 +67,11 @@
                 检测方式：re.match(r'[+-]?\d+$',var)  #如果返回None则表示未匹配到整数字符串；反之则是；
             
             3：可以通过 int() 函数在进行类型转换是是否抛出 ValueError 异常类判断是否是整数字符串：
-                try:
-                    int(var)
-                except ValueError as e:
-                    return False
-                else:
-                    return True
-    
+                if(var_name != str(True) and var_name != str(False)):
+                    try:
+                        int(var)
+                    except ValueError as e:
+                        return False
+                    else:
+                        return True
+        
