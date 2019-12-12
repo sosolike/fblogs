@@ -14,7 +14,7 @@ Python简介：
             1：Python同时支持以传统面向对象的方式和面向过程的方式来编写代码；但是Python本身一切皆是对象，包括函数、变量等均是对象；
         2：程序文件：
             1：Python源程序有一个或者多个Python源文件组成，每一个Python源文件均以.py作为后缀；
-        3：解释执行：
+        3：解释器：
             python是解释执行的脚本编程语言，需要python解释器解释执行，常见以下python解释器：
             1：Cpython：负责解释执行Python代码，Python官方解释器，可在命令行直接启动并运行Python代码；
             2：Ipython：基于Cpython的交互式解释器，即python代码的解释方式以及执行方式均是由Cpython来完成，Ipython仅仅只是在Cpython基础上增强了交互方式；
