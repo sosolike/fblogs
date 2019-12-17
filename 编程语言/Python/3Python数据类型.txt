@@ -153,16 +153,235 @@
             2：使用正则表达式：
                 re.match(r'[+-]?\d+[.]?\d+$')  # 如果返回None则表示未匹配到浮点数字符串，否则匹配到；       
                  
-    3：布尔值：
-        1：python中的布尔值分别为True和False;Python中的布尔值只能是True和False，除此之外的写法均是非法字符；
-        2：python语言中，''、""、空列表[]、空字典{}、空tuple(,)、空set、None、0等在条件运算中会被自动转换为布尔值False；
-        3：布尔值也可以直接转换为整数和浮点数；
-            True：转换为整数:1；转换为浮点数:1.0;
-            False：转换为整数：0；转换为浮点数：0.0
+三：布尔值：
+    1：python中的布尔值分别为True和False;Python中的布尔值只能是True和False，除此之外的写法均是非法字符；
+    2：python语言中，''、""、空列表[]、空字典{}、空tuple(,)、空set、None、0等在条件运算中会被自动转换为布尔值False；
+    3：布尔值也可以直接转换为整数和浮点数；
+        True：转换为整数:1；转换为浮点数:1.0;
+        False：转换为整数：0；转换为浮点数：0.0
     
-    4：空值：None：
-        1：None表示空的概念，什么也没有，和值为空的某个具体数据类型不同，如：""、[]、{}等不同；在条件运算中，None会被自动转换为布尔值False；
-        2：python中空记做None;只能是None，除此之外的任何其他形式都是非法字符；
-        3：None是全局唯一的，即在Python解释器中只有一个None；如果有多个变量为None，那么这些变量的id值是相同的；
+四：空值：None：
+    1：None表示空的概念，什么也没有，和值为空的某个具体数据类型不同，如：""、[]、{}等不同；在条件运算中，None会被自动转换为布尔值False；
+    2：python中空记做None;只能是None，除此之外的任何其他形式都是非法字符；
+    3：None是全局唯一的，即在Python解释器中只有一个None；如果有多个变量为None，那么这些变量的id值是相同的；
     
-    
+五：字符串：str
+    1：字符串特征：
+        1：python中表示字符串的数据类型为str，可以使用''或者""创建字符串；
+        2：并且python中并无单独表示字符的数据类型，单个字符和单字符的字符串等价；
+        3：python中的str在不同的python版本中表示不同的内容；在python2.x版本中，str表示二进制字节串；在python3.x版本中，str表示unicode字符串；
+        4：因为字符编码的原因，python2.x版本中，在创建字符串时推荐使用u''或者u""的方式创建，表示unicode字符串；在python3.x版本中则可以直接创建，无需带上u前缀；
+        5：字符串(比如：整数字符串和浮点数字符串)不允许直接和整数/浮点数进行算术/比较运算，否则将会报TypeError异常；
+        6：str实现了__iter__方法，str类型属于可迭代对象；因此同样拥有可迭代对象基本特征：
+            1：str中每一个字符都有序号，序号从左向右从0开始计数，序号从右向左从-1开始计数；
+            2：str允许直接遍历得到字符串中的字符；
+            3：str能够直接进行切片操作；
+    2：常见的转义字符：
+        1：python中的常用转义字符有以下几个:\r \n \t \v \\ \' \" \b \f
+        2：转义字符反转义：
+            对于单个转义字符需要反转义：则可以使用\\来反转义转义字符；如：\\r即表示\r；
+            如果有较多转义字符需要反转义：则可以使用r""或者r''老包裹需要反转义的转义字符；
+    3：字符串类型转换：(将其他数据类型转换为字符串类型)
+        1：转换为str类型：
+            通过str(var_name)转换：
+                1：对于布尔值True和False，转换完成之后将是"True"和"False"
+                2：对于None值，转换完成之后将是"None"
+                3：对于整数或者浮点数，转换完成之后将是数字字符串，负数的负号('-')会以字符的形式保留，但是正号('+')不会保留；
+        2：转换为unicode类型：
+            对于python2.x版本，需要先转换为str类型，再通过var_name.decode()解码为unicode类型。具体使用的解码规则和得到该二进制字节串时的编码规则相同；
+            对于python3.x版本，str字符本身即为unicode类型，因此无需转换，可直接得到unicode字符串；
+    4：字符串相关操作：
+        1：获取字符串长度：
+            len(str_var)
+
+        2：连接字符串：
+            str_var+str_var
+
+        3：重复字符串：
+            str_var*n
+
+        4：字符串切片操作：
+            1:获取第pos个位置的字符
+                str_var[pos] 
+            备注：1:pos如果为正数，则从右向左计算位置；pos如果为负数，则从左向右计算位置；   
+
+            2:获取字符串中位置在start之后的字符(包括start位置)；
+                str_var[start:]    
+            备注：1：start无论是正数还是负数均表示一个位置，在取子串时都是从该位置起从左向右取值；
+
+            3:获取字符串中位置在start和end之间的字符(包括start位置,不包括end位置)；
+                str_var[start:end]    
+            备注：1：因为切片操作取值时是按照从左向右的方向取值，因此start和end数值无论正负，start位置必须在end位置左边，否则将取不到子串；
+            
+            4:获取字符串中位置在start和end之间的字符，并按照step的步长取值，(包括start，不包括end)
+                str_var[start:end:step]
+            备注：1：因为切片操作取值时是按照从左向右的方向取值，因此start和end数值无论正负，start位置必须在end位置左边，否则将取不到子串；
+        
+        4：字符串中子串检测类操作：
+            1：检测子串是否在字符串中:
+                child_str in str_var
+            备注：如果在则返回True，如果不在则返回False；
+
+            2：检测子串是否不在字符串中
+                child_str not in str_var 
+            备注：如果不在则返回True，如果在则返回False；
+
+            3：从左向右，在父串中查找子串首次出现的位置，直至串尾，如果找到，则返回首次出现的位置，否则返回-1    
+                str_var.find(child_str)
+
+            4：从右向左，在父串中查找子串首次出现的位置，直至串首，如果找到，则返回首次出现的位置，否则返回-1
+                str_var.rfind(child_str)  
+
+            5：在父串中的start_position处开始，从左向右查找子串首次出现的位置，直至串尾，如果找到返回目标在父串中的位置，如果未找到返回-1
+                str_var.find(child_str,start_postion)    
+
+            6：在父串中的start_position和end_position区间，从左向右查找子串首次出现的位置，如果找到返回目标在父串中的位置，如果未找到返回-1
+                str_var.find(child_str,start_postion,end_position)
+            
+            7：检测字符串是否以指定子串开头
+                str_var.startswith('start_str')
+
+            8：检测字符串是否以指定子串结尾
+                str_var.endswith('end_str')
+
+        5：字符串替换类操作：
+            1：替换str_var中的指定字符串，如果替换成功返回替换之后的字符串，原字符串保持不变,替换模式为全部替换；
+                new_replace_str = str_var.str_replace("old_str","new_str")    
+
+            2：替换str_var中指定的字符串，并指定替换次数，如果替换成功返回替换之后的字符串，原字符串保持不变；
+                new_replace_str = str_var.str_replace("old_str","new_str",maxReplaceTimes)
+        
+        6：字符串格式化类操作：
+            1：去除字符串左侧空格
+                str_var.lstrip()
+
+            2：去除字符串右侧空格
+                str_var.rstrip()
+
+            3：去除字符两侧空格
+                str_var.strip()
+            
+            4：格式化字符串：
+                python2.x和python3.x针对字符串有不同的格式化方式，推荐使用format来格式化字符串：
+                1：format格式化字符串特点：
+                    1：无需关注被格式化参数类型，无论何种类型都将被自动转为字符串类型；
+                    2：填充方式灵活，支持按顺序填充，按数据序号填充，按关键字填充，按字典中的key来填充；单个参数也可以多次使用填充；
+                2：基本语法：
+                    "待替换字符串".format(格式化参数)  
+                    说明：待替换字符串由自定义字符串和模板字符串组成，自定义字符串会被原样打印，模板字符串会被格式化参数替换;
+
+                3：模板字符串：即{}构成的格式化占位符--{<参数填充位>:<格式控制符>}：
+                    参数填充位(用来对应格式化参数)，有以下几种方式：
+                        1：模板字符串中单纯使用{}来标识，格式化参数将会按照顺序填充标识位：
+                            "python {} str {}".format("has","object")："python has str object"
+
+                        2：在模板字符串的{}中指定序号，format()方法将会按照参数顺序和序号的对应关系来填充标识位：
+                            "python {1} str {0}".format("object","has")："python has str object"
+                        
+                        3：在模板字符串的{}中使用关键字来标识，format()方法将会按照参数名称与标识位名称的对应关系来填充标识位：
+                            "python {fa} str {fb}".format(fb="object", fa="has")："python has str object"
+                        
+                        4：在模板字符串的{}中用字典的key来标识，format()方法会按照字典的key与模板字符串中的key的对应关系来填充：
+                            python_info = {'ia':'has','ib','object'}
+                            "python {info[ia]} str {info[ib]}".format(info=python_info)
+                    
+                    格式控制符：用来对填充位填充的内容进行格式化
+                        1：格式控制符用来对填充位填充的内容进行格式化，格式控制符需要以 : 和参数填充位的标识分隔开；如{1:.2f}、{:.2f}
+
+                        2：格式控制符功能：
+                            <填充> ：指用何种字符填充空白位置
+                            <对齐> ：指输出的内容相对于空白位左、右、居中对齐，<左对齐，>右对齐，^居中对齐
+                            <宽度> ：指当前标识位置输出宽度；
+                            如：设置标识位置输出宽度为6位，并使用-来填充空白位置，标识位的内容右对齐：
+                                "{:-<6} python".format("a")：a----- python
+                                设置标识位置输出宽度为6位，并使用-来填充空白位置，标识位的内容居中对齐：
+                                "{:-<6} python".format("a")：--a--- python
+
+                            <,> ：数字的千位分隔符，适用于整数和浮点数，需要明确千分位是使用 , ；
+                            <.精度> ：指浮点数小数部分的精度，或者字符串的最大输出宽度；
+                            <类型> ：  b: 输出整数的二进制方式;
+                                      c: 输出整数对应的Unicode字符;
+                                      d: 输出整数的十进制方式;
+                                      o: 输出整数的八进制方式;
+                                      x:输出整数的小写十六进制方式;
+                                      X:输出整数的大写十六进制方式;
+                                      e: 输出浮点数对应的小写字母e的指数形式;
+                                      E: 输出浮点数对应的大写字母E的指数形式;
+                                      f: 输出浮点数的标准浮点形式;
+                                      %: 输出浮点数的百分比形式;
+
+                        3：上述格式控制字符可以根据需要组合使用，但是填充，对齐是建立在宽度的基础上；
+                4：相关异常：        
+                    1：在使用format()函数进行格式化时，如果参数个数/顺序无法与模板字符串中的标识位对应，将会抛出 IndexError 异常；因此在使用 format() 函数时务必处理该异常；
+                 
+            5：字符串类型检测：
+                str.isalnum()               #是否全为字母或数字：
+                str.isalpha()               #是否全字母：
+                str.isdigit()               #是否全数字：
+                str.islower()               #是否全小写：
+                str.isupper()               #是否全大写：
+
+            6：字符串大小写转换：
+                str.upper()        #转换成大写
+                str.lower()        #转换成小写
+                str.swapcase()     #大小写切换
+                str.title()        #每个单词的首字母大写
+                str.capitalize()   #整个字符串的首字母大写
+
+            7：分割字符串：
+                split_list = str_var.split('split_str')
+                说明：使用分割字符串:split_str来分割str_var,结果得到一个list;
+
+            8：url字符串的编码与解码：
+                1：将dict转为查询字符串：
+                    对于python2:可以使用urllib中的urlencode()函数：
+                        from urllib import urlencode
+                        encode_res = urlencode({'name':'tom','age':23})
+                        print encode_res    #age=23&name=tom
+                    对于python3：可以使用urllib模块下的parse模块中的urlencode()函数
+                        from urllib import parse
+                        encode_res = parse.urlencode({'name':'tom','age':23})
+                        print(encode_res)    #age=23&name=tom
+                
+                2：对URL进行编码与解码
+                    编码：
+                        对于python2：可以使用urllib模块下的quote()函数对url编码；
+                            from urllib import quote
+                            encode_url = quote("http://abc.domain.com/中?姓=测试_姓")
+                            print(encode_url)   #http%3A//abc.domain.com/%E4%B8%AD%3F%E5%A7%93%3D%E6%B5%8B%E8%AF%95_%E5%A7%93
+
+                        对于python3：可以使用urllib模块下的parse模块的quote()函数编码；
+                            from urllib import parse
+                            encode_url = parse.quote("http://abc.domain.com/中?姓=测试_姓")
+                            print(encode_url)   #http%3A//abc.domain.com/%E4%B8%AD%3F%E5%A7%93%3D%E6%B5%8B%E8%AF%95_%E5%A7%93
+
+                    解码：
+                        对于python2：可以使用urllib模块下的unquote()函数解码；
+                            from urllib import quote
+                            encode_url = quote("http%3A//abc.domain.com/%E4%B8%AD%3F%E5%A7%93%3D%E6%B5%8B%E8%AF%95_%E5%A7%93")
+                            print(encode_url)   #http://abc.domain.com/中?姓=测试_姓
+
+                        对于python3：可以使用urllib模块下的parse模块的unquote()函数解码；
+                            from urllib import parse
+                            decode_url = parse.unquote("http%3A//abc.domain.com/%E4%B8%AD%3F%E5%A7%93%3D%E6%B5%8B%E8%AF%95_%E5%A7%93")
+                            print(decode_url)   #http://abc.domain.com/中?姓=测试_姓
+            
+            12：对html标签进行转换：
+                对于python2可以使用如下方式：
+                    #将HTML实体转换为HTML标签:html_str = '&lt;div&gt;'
+                    import HTMLParser
+                    html_parser = HTMLParser.HTMLParser()
+                    html = html_parser.unescape(html_str)   #'&lt;div&gt;' => '<div>'
+
+                    #将HTML标签转换为HTML实体：html_str = "<div>"
+                    import cgi
+                    txt = cgi.escape(html_str)   #  '<div>' => '&lt;div&gt;'
+            
+                对于python3则统一使用以下方式：html_str = '&lt;div&gt;'
+                    #将HTML实体转换为HTML标签：
+                    import html
+                    html.unescape(html_str)    #"<div>"
+
+                    #将HTML标签转换为HTML实体：
+                    import html
+                    html.escape(html_str)    #"&lt;div&gt;"
