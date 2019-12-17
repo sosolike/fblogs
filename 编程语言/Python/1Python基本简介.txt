@@ -1,8 +1,9 @@
 Python简介：
     1：Python属于动态类型语言，有以下几个基本特征：
-        1：变量没有严格的数据类型要求，运行时动态确定；语法简单，类库丰富，编码效率较高；
+        1：没有严格的数据类型要求，变量的数据类型在运行时动态确定；
         2：其运行方式为Python解释器解释执行，无需先进行编译链接为可执行文件；
-        3：Python支持C/C++来扩展Python功能模块，以提高执行效率；
+        3：由于Python程序解释执行的特点，导致Python本身执行效率并不如C/C++等静态类型语言执行效率高；但是其语法简单，对应业务场景的类库丰富，编码效率较高；
+        4：Python支持C/C++来扩展Python功能模块，以提高执行效率；
     
     2：Python常见使用场景：
         1：web开发：Python具有flask、tornado、Django等web框架，可以迅速进行web开发；
@@ -11,11 +12,11 @@ Python简介：
     
     3：Python执行方式：
         1：编码方式：
-            1：Python同时支持以传统面向对象的方式和面向过程的方式来编写代码；但是Python本身一切皆是对象，包括函数、变量等均是对象；
+            1：Python同时支持以传统面向对象的方式和面向过程的方式来编写代码；
         2：程序文件：
             1：Python源程序有一个或者多个Python源文件组成，每一个Python源文件均以.py作为后缀；
         3：解释器：
-            python是解释执行的脚本编程语言，需要python解释器解释执行，常见以下python解释器：
+            python是解释执行的脚本编程语言，Python源程序需要由python解释器解释执行，常见以下python解释器：
             1：Cpython：负责解释执行Python代码，Python官方解释器，可在命令行直接启动并运行Python代码；
             2：Ipython：基于Cpython的交互式解释器，即python代码的解释方式以及执行方式均是由Cpython来完成，Ipython仅仅只是在Cpython基础上增强了交互方式；
             3：PyPy：PyPy采用JIT动态编译技术，和Cpython完全不同，整体上PyPy对于python代码的执行效率高于Cpython，PyPy和Cpython的区别在于：(https://pypy.readthedocs.io/en/latest/cpython_differences.html)
