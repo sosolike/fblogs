@@ -158,25 +158,37 @@
 
     2：对于不同python版本的字符编码说明：
         对于python2.x版本：
-            1.1：如果使用python2.x版本：由于其默认使用ASCII字符集合ASCII字符编码规则，那么python脚本文件中则不能使用任何ASCII字符集以外的文字及符号，包括注释中也不能使用；python程序本身也不能处理非ASCII字符集的字符；
+            1.1：如果使用python2.x版本：由于其默认使用ASCII字符集合ASCII字符编码规则，因此python脚本文件中不能使用任何非ASCII字符集字符(包括注释中也不能使用)；python程序本身也不能读取和处理非ASCII字符集的字符；
 
-            1.2：如果当前脚本文件中需要有非ASCII字符集的文字或者符号，则需要在脚本文件第一行(如果带了shebang，则加在第二行)加上：# -*- coding: UTF-8 -*-或者# coding:utf-8,即可表明该脚本文件使用unicode字符集，并且编码为UTF-8编码;
+            1.2：如果当前脚本文件内容中需要使用非ASCII字符集的字符，则需要设置当前文件的字符编码，设置方式为：
+                在脚本文件第一行(如果带了shebang，则加在第二行)加上一下代码：
+                    # -*- coding: UTF-8 -*-
+                    或者
+                    # coding:utf-8,
+                即可表明该脚本文件使用unicode字符集，并且编码为UTF-8编码;
 
-            1.3：在文件开头添加上# coding:utf-8或者# -*- coding: UTF-8 -*-的方式，仅表明当前文件本身的编码使用unicode字符集，并使用utf-8编码，但是程序本身不能处理非ASCII字符集字符，需要进一步设置python解释器中的字符编码；
-
-            1.4：设置python解释器字符编码：
+            1.3：在文件开头添加上# coding:utf-8或者# -*- coding: UTF-8 -*-的方式，仅表明当前文件本身的编码使用unicode字符集，并使用utf-8作为编码规则，但是程序本身不能仍然处理非ASCII字符集字符，如果Python程序本身需要处理费ASCII字符集字符，则需要设置Python解释器字符编码，设置方式如下：
                 import sys
                 reload(sys)
-                sys.setdefaultencoding('utf-8')  # 不是必须设置为utf-8，如果使用unicode作为解释器的字符集，并且使用utf-8作为编码规则，那么设置为utf-8即可，否则可以设置为其他需要的编码类型；
-                通过上述设置，python程序对于需要处理的数据也采用unicode字符集，并使用utf-8作为字符编码规则；
-
-            1.5：在将python文件以及python解释器设置为unicode字符集并以utf-8作为字符编码之后，在使用其他字符编码的时候均需要以unicode作为中间转换桥梁，即先转换为unicode字符编号，然后再进行编码/解码；
-            1.6：对于python2.x版本，推荐在使用字符串时以unicode的格式使用，即使用字符串时在字符串之前添加u：u'字符串'
+                sys.setdefaultencoding('utf-8')
+            注意：
+                1：上述设置是设置python解释器内部的字符编码，设置完成后程序才可以读取和处理非ASCII字符集字符；
+                2：字符编码可以设置为UTF-8或者UTF-16或者UTF-32等，一般设置为UTF-8，表明Python解释器使用unicode字符集，使用UTF-8编码规则；
+                3：上述设置完成后，在进行字符编码转换时需要以unicode字符作为中间字符；然后使用其他的编码规则进行编码和解码；
+            
+            1.4：对于Python2.x版本使用字符串的建议：
+                1：Python2.x版本中str表示的是字节串，unicode表示的是字符串，两者不同；
+                2：Python2.x版本中在使用非ascii字符集字符串时，推荐在字符串之前使用u表示该字符串是unicode字符串，而非字节串；如:u'字符串'；
+                3：Python2.x版本中进行字符串比对时，建议使用unicode字符串进行比对，而非使用str字节串进行比对；
+                4：Python2.x版本中字符串和字节串之间转换路线：str--解码-->unicode--编码-->str；
 
         对于python3.x版本：
-            1.1：python3以后的版本默认使用unicode字符集，无需再像python2.x一样修改字符编码配置；
-            1.2：同样，在python3中进行编码转换时，也需要以unicode作为中间桥梁--先转换成unicode字符集中的字符编号，然后再进行编码/解码
-    
+            1.1：python3.x版本以后的版本默认使用unicode字符集，无需再像python2.x一样修改python文件以及python解释器的字符编码配置；
+            1.2：python3.x版本以后：
+                1：使用bytes类型表示字节串，即:b'\xe5\x8e\x9f\xe5',表示的是二进制字节串；
+                2：而str则直接表示unicode类型，即：'字符串',表示的就是unicode字符串；
+            1.3：python3.x版本中字符串和字节串之间转换路线：bytes--解码-->unicode--编码-->bytes
+
     3：python中进行编码转换
         1：编码使用encode()函数；原型：encode(encoding='UTF-8',errors='strict')
             1.1：功能：按照指定的编码规则将字符(字符串)进行编码，在python中，就是将unicode字符集中字符对应的字符编号转换为二进制串的过程；
