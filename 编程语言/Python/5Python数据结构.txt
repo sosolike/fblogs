@@ -152,7 +152,60 @@
                 dict_name.clear()
             10：获取字典键值对个数：len(dict_name)
 
-    4：集合：set
+    4：集合：set类型：set;可以存放多种不同数据类型的数据，存放值本身，无序且不可重复;
+        1：集合的特征：
+            1：集合中可以存储任意数据类型的数据，且数据无序，不可重复，具备自动去重的能力；
+            2：集合可以任意添加、删除元素；
+        
+        2：集合的创建：
+            1：创建空集合：set()    #空集合只能使用set()函数来创建  如：set()
+            2：创建非空集合：set() 或者 {}    #只有在创建非空集合时才能使用{},如：set([1,2,3,4])或者{1,2,3,4}
+        
+        3：集合的操作：
+            1：添加元素：add(obj)
+                #如：s.add(1)
+            
+            2：移除元素：remove(obj)
+                #如：s.remove(1)，如果被移除的元素不在集合中将会报异常KeyError；
+            
+            3：移除一个元素：discard(obj)
+                #如s.discard(1),和remove不同，被移除元素不在集合中时不会报告异常,不做任何处理；
+            
+            4：随机移除元素：pop()
+                #如：s.pop()
+            
+            5：删除集合中所有的元素：clear()
+                #如：s.clear()
+            
+            6：返回x集合和其他集合的并集：union()
+                #如：x.union(set1,set2,...)
+            
+            7：返回x集合和其他集合的交集：intersection()
+                #如：x.intersection(set1,set2,...)
+            
+            8：返回x集合和y集合的差集：difference()
+                #如：x.difference(y)  返回x集合中有，但是y集合中没有的元素
+            
+            9：检测两个集合是否包含相同的元素，如果有返回True,否则返回False:isdisjoint(set)
+                #如：s.isdisjoint(set)
+            
+            10：检测x是否是y的子集：issubset()
+                x = {"a", "b", "c"}
+                y = {"f", "e", "d", "c", "b", "a"}
+                #如：x.issubset(y)  返回True
+            
+            11：检测y是否是x的子集：issuperset()
+                #如：
+                    x = {"f", "e", "d", "c", "b", "a"}
+                    y = {"a", "b", "c"}
+                    x.issuperset(y)  返回True
+            12：获取集合中的元素个数：
+                len(set_name)
+            
+            13：检测元素是否在集合中:
+                data in set_name
+                或者:
+                data not in set_name
 二：Python扩展数据结构：collections
     1：具名元祖：namedTuple
     2：双端队列：deque
