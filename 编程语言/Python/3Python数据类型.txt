@@ -18,7 +18,7 @@
             # number 必须是其他进制的整数
             hex(int number)    
         转换至十进制：使用int()内置函数
-            # number必须是其他进制的整数字符串,需要使用str(其他进制数字)进行类型转换，如str(0Xc)，不可直接使用0Xc、'0Xc'、"0Xc"
+            # number必须是其他进制的整数字符串,需要使用str(其他进制数字)内置函数先转换至字符串类型，如str(0Xc)，不可直接使用0Xc、'0Xc'、"0Xc"
             # base参数则为当前数字的进制，默认是10进制；
             int(str number,base=10)    
     3：数据类型转换：(将其他类型数据转换为十进制整数)
@@ -156,7 +156,8 @@
 三：布尔值：
     1：python中的布尔值分别为True和False;Python中的布尔值只能是True和False，除此之外的写法均是非法字符；
     2：python语言中，''、""、空列表[]、空字典{}、空tuple(,)、空set、None、0等在条件运算中会被自动转换为布尔值False；
-    3：布尔值也可以直接转换为整数和浮点数；
+    3：布尔值也可以通过bool(var_name)内置函数将其他数据类型转换为布尔值；
+    4：布尔值也可以通过int()和float()函数转换为整数和浮点数；
         True：转换为整数:1；转换为浮点数:1.0;
         False：转换为整数：0；转换为浮点数：0.0
     
@@ -183,7 +184,7 @@
             如果有较多转义字符需要反转义：则可以使用r""或者r''老包裹需要反转义的转义字符；
     3：字符串类型转换：(将其他数据类型转换为字符串类型)
         1：转换为str类型：
-            通过str(var_name)转换：
+            通过str(var_name) 内置函数转换：
                 1：对于布尔值True和False，转换完成之后将是"True"和"False"
                 2：对于None值，转换完成之后将是"None"
                 3：对于整数或者浮点数，转换完成之后将是数字字符串，负数的负号('-')会以字符的形式保留，但是正号('+')不会保留；
@@ -193,6 +194,7 @@
     4：字符串相关操作：
         1：获取字符串长度：使用len()内置函数
             len(str_var)
+            说明：len()函数是内置函数，可以直接使用，可以返回对象(str,list,dict,set,tuple)的长度或者项目的个数
 
         2：连接字符串：
             str_var+str_var
@@ -331,8 +333,12 @@
             7：分割字符串：
                 split_list = str_var.split('split_str')
                 说明：使用分割字符串:split_str来分割str_var,结果得到一个list;
+            
+            8：将一个数字按照字符编码转换为对应的字符：
+                可以通过内置函数:chr(i)来实现；
+                说明：1：该函数用来将一个数字根据对应的字符编码转换为字符，其使用的字符集是ASCII字符集，因此i的值只能在0~255之间；
 
-            8：url字符串的编码与解码：
+            9：url字符串的编码与解码：
                 1：将dict转为查询字符串：
                     对于python2:可以使用urllib中的urlencode()函数：
                         from urllib import urlencode
@@ -366,7 +372,7 @@
                             decode_url = parse.unquote("http%3A//abc.domain.com/%E4%B8%AD%3F%E5%A7%93%3D%E6%B5%8B%E8%AF%95_%E5%A7%93")
                             print(decode_url)   #http://abc.domain.com/中?姓=测试_姓
             
-            12：对html标签进行转换：
+            10：对html标签进行转换：
                 对于python2可以使用如下方式：
                     #将HTML实体转换为HTML标签:html_str = '&lt;div&gt;'
                     import HTMLParser
