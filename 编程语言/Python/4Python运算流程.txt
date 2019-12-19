@@ -63,6 +63,25 @@
                 exec()函数用来执行存储在字符串或者文件中的代码段，因此可以通过exec()函数来执行声明变量的代码字符串来动态创建变量：
             2：动态创建变量：
                 exec("a = []")  # print(type(a)) : <class 'list'>
+            3：exec()函数说明：
+                原型：exec(str,globals=None,locals=None)
+                功能：执行str对象中的代码块，并返回None；(想要正确执行该函数，str必须是符合Python语法要求的代码块组成的字符串)
+                参数：str：由符合Python语法要求的代码块组成的字符串
+                     globals：dict,全局变量作用域，默认使用globals()，如果指定该参数，那么该参数可以用来定义str中代码所需要的变量，并且str中的代码执行之后产生的新变量也将只存在于传入的dict中，将不再是globals()返回的dict中；
+                     locals：dict,局部变量，默认使用locals()，如果指定该参数，那么该参数可以用来定义str中代码所需要的变量，如果locals和globals中同时存在，则locals中的变量值会覆盖globals中的变量值；并且str中的代码执行之后产生的新变量也将只存在于传入的locals参数的dict中，将不再是globals参数的dict中；
+                说明：1：exec中可以直接执行一个代码块，但是并不会返回执行结果，而是单纯的执行代码块而已；
+                     2：exec的globals参数和locals参数不仅仅可以为str中的代码提供需要的变量，同时也规定了str中的代码执行之后产生的新变量的作用域；保证str代码的执行安全；
+                     3：由于exec执行str中的代码和实际执行代码相同，因此在调用exec执行str中代码时务必保证str中的代码无害；
+            4：关于eval()函数和exec()函数的区别：
+                原型：eval(expression,globals=None,locals=None)
+                功能：执行str格式的表达式，并将执行结果返回；
+                参数：str：由符合Python语法要求的代码块组成的字符串，只能是表达式(比如:算术运算、条件运算、逻辑运算、按位运算、函数调用等及其组合)，不能是任何语句；
+                     globals：dict,全局变量作用域，默认使用globals()，如果指定该参数，那么该参数可以用来定义str中代码所需要的变量；
+                     locals：dict,局部变量，默认使用locals()，如果指定该参数，那么该参数可以用来定义str中代码所需要的变量，如果locals和globals中同时存在，则locals中的变量值会覆盖globals中的变量值；
+                说明：1：eval()相比exec()只是执行一个简答的表达式，并非执行代码块；
+                      2：eval()会将执行结果返回，而exec()并不会返回任何对象，只返回None;
+                      3：虽然eval()函数仅仅只是执行简单的表达式，并不会修改变量或者创建新的变量，因此相对exec更安全,但是并非绝对安全，eval支持函数调用的表达式，如果被调用函数中执行了有害代码，通过eval同样能够造成破坏；
+
 
     变量赋值：
         1：变量可以在声明的同时赋值，如：var_name = 12;
