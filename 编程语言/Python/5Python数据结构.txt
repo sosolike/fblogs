@@ -1,21 +1,21 @@
 一：Python内置数据结构：
-    1：列表：list：python中的list就是一个可以存储任意数据类型数据的线性表；符号为[]； 如：[1,2,3,4]；
+    1：列表：list：一个可以存储任意数据类型数据的线性表，是个可变对象；符号为[]； 如：[1,2,3,4]；
         1：列表特征：
             1：列表中的元素可以是任意数据类型的数据，但只能是值本身，不能存储k-v键值对；
             2：列表中的元素默认按照存储顺序排序；从左向右序号从0开始计数，从右向左序号从-1开始计数；
             3：list在python中是可变对象；列表中的元素可以任意增加、修改或者删除；
-        2：列表支持的操作：
-            创建列表：
-                1：通过[]创建列表：
-                    1：lista = []    #创建空列表
-                    2：lista =[1,2,3]    #创建有元素的列表
-                2：通过列表生成式创建列表：
-                    1：lista = [表达式 for 变量 in 列表]    #列表生成式生成列表，如：[i+1 for i in range(10)]
-                    2：lista = [表达式 for 变量 in 列表 if 表达式]    #带条件的列表生成式生成列表，如：[i*2 for i in range(5) if i%2==0 ]
-                3：将其他数据类型转换为列表：
-                    1：lista = list(tuple)    #将tuple类型的数据转换为list类型，如：list((1,2,3,4))
-                    2：dicta.keys()    #将字典的key提取为一个列表
-                    3：dicta.values()    #将字典的值提取为一个列表
+        2：创建列表：
+            1：通过[]创建列表：
+                1：lista = []    #创建空列表
+                2：lista =[1,2,3]    #创建有元素的列表
+            2：通过列表生成式创建列表：
+                1：lista = [表达式 for 变量 in 列表]    #列表生成式生成列表，如：[i+1 for i in range(10)]
+                2：lista = [表达式 for 变量 in 列表 if 表达式]    #带条件的列表生成式生成列表，如：[i*2 for i in range(5) if i%2==0 ]
+            3：将其他数据类型转换为列表：
+                1：lista = list(tuple)    #将tuple类型的数据转换为list类型，如：list((1,2,3,4))
+                2：dicta.keys()    #将字典的key提取为一个列表
+                3：dicta.values()    #将字典的值提取为一个列表
+        3：列表的元素操作：
             列表元素操作：
                 1：获取元素值：list_name[idnex]    
                     #如：list_name = [1,2,3,4]  list_name[0]:1
@@ -53,15 +53,105 @@
                     #如：list1=[1,2]  1 not in list1:False
                 7：使用连接符连接list中的元素：join(list_name) ;使用join()函数连接list时，list中的元素必须都为str类型，否则将会有TypeError异常；
                     #如：list_name = ['a','b','c']  "-".join(list_name):"a-b-c"
+                8：元祖本身也支持切片操作：切片操作之后仍然返回一个tuple对象
+                    #如：list_name[pos]、list_name[start:]、list_name[start:end]、list_name[:end]、list_name[start:end:step]
 
-            列表的迭代：
-                for item in list_name:
-                    #item为列表中的元素
-                或者：
-                for (index,item) in enumerate(list_name):
-                    #index为索引，item为列表中的值
-    2：元祖：tuple
-    3：字典：dict
+        4：列表的迭代：
+            for item in list_name:
+                #item为列表中的元素
+            或者：
+            for (index,item) in enumerate(list_name):
+                #index为索引，item为列表中的值
+
+        5：异常：访问列表中的元素要特别注意不要出现元素索引越界；否则将会报IndexError;
+
+    2：元祖：tuple：一个可以存储任意数据类型数据的线性表，是个不可变对象；符号为()；如:(1,2,3)；
+        1：元祖的特征：
+            1：列表中的元素可以是任意数据类型的数据，但只能是值本身，不能存储k-v键值对；
+            2：列表中的元素默认按照存储顺序排序；从左向右序号从0开始计数，从右向左序号从-1开始计数；
+            3：tuple和list不同之处在于，tuple是不可变对象，tuple中的元素一旦确定，将不能再增加、删除、修改元素(元素本身是可变对象时可以修改)；
+        
+        2：元祖的创建：
+            1：通过()创建元祖：
+                1：tuplea = (,) 或者(1,2)   #创建一个空元祖或者只有一个元素的元祖时，必须在()中加一个 ',' ；否则将会把()当做运算符号来对待;如:(1,)或者(,)
+            2：将list转换为元祖：
+                1：tuplea = tuple([])    #将一个list转换为tuple,tuple([1,2]):(1,2)；
+            3：因为能够将list转换为元祖，因此可以通过列表生成式来创建元祖：
+                1：tuplea = tuple(表达式 for 变量 in 列表)    #使用list表达式创建tuple；
+                2：tuplea = tuple(表达式 for 变量 in 列表 if 表达式)    #使用list表达式创建tuple；
+        
+        3：元祖元素的操作：
+            1：元祖的基本操作：
+                1：获取元祖中的元素：tuplea[index]
+                    #如：tuplea = (1,2,3)  tuplea[1]:2
+                2：统计列表中元素的出现的个数：tuplea.count(obj)    
+                    #如：tuplea = (1,2,3,3,3,3)  tuplea.count(3):4
+                3：返回元素第一次出现时的索引：tuplea.index(obj)    
+                    #如：tuplea = (1,2,3,3)  tuplea.index(3):2
+                4：返回元祖中的最大值：max(tuplea)    
+                    #如：tuplea = (1,2,3)  max(tuplea):3
+                5：返回元祖中的最小值：min(tuplea)    
+                    #如：tuplea = (1,2,3)  min(tuplea):1
+                6：tuple中不能修改、新增、删除元素，除非元素本身是可变对象；
+        
+            2：元祖其他操作：
+                1：获取元祖长度：len(tuplea)    
+                        #如：tuplea = (1,2,3)  len(tuplea):3
+                2：合并两个tuple：tuple1+tuple2    
+                        #如：tuple1=(1,2)  tuple2=(3,4) tuple1+tuple2:(1,2,3,4)
+                3：重复tuple:tuple1*n,n是重复次数
+                    #如：tuple1 = (1,2)  tuple1*2:(1,2,1,2)
+                4：检测元素是否在元祖中：in
+                    #如：tuple1=(1,2)  1 in tuple1:True
+                5：检测元素是否不在元祖中：not in
+                    #如：tuple1=(1,2)  1 not in tuple1:False
+                6：使用连接符连接tuple中的元素：join(tuple) ;使用join()函数连接tuple时，tuple中的元素必须都为str类型，否则将会有TypeError异常；
+                    #如：tuple = ('a','b','c')  "-".join(tuple):"a-b-c"
+                7：元祖本身也支持切片操作：切片操作之后仍然返回一个tuple对象
+                    #如：tuplea[pos]、tuplea[start:]、tuplea[start:end]、tuplea[:end]、tuplea[start:end:step]
+        
+        5：元祖的迭代：
+            for x in tuple_name:
+                #x为元祖中的元素
+
+            for (index,i) in tuple_name:
+                #index为元祖中的索引
+                #i为元祖中的值
+        
+        6：异常：访问元祖中的元素要特别注意不要出现元素索引越界；否则将会报IndexError;
+    3：字典：dict,用来存放键值对的数据结构；符号为{};如：{'name':'tom','age':23}
+        1：字典的特征：
+            1：字典中存储键值对，而非单个值；其中键名可以为字符串、数字、元祖等不可变对象，但是不可修改，不可重复；键值可以为任何数据类型的数据；
+            2：字典中的键值对默认无序；
+            3：字典在python中是可变对象；字典中可以任意添加、删除以及修改键值；
+        
+        2：创建字典：
+            1：dicta = {}    #创建一个空的字典;
+            2：dicta = {'key':value}    #创建有键值对的字典；
+
+        3：字典的相关操作：
+            1：获取键值：
+                dict_name['key']    #键名不存在将会报KeyError，使用该方式获取键值时务必处理KeyError异常；
+            2：获取键的值，不在则返回默认值：
+                dict_name.get(key,default=None)    #获取键值时推荐使用get方法，无需处理KeyError异常，没有给定默认值时返回None；
+            3：检测键名是否在字典中：
+                dict_name.has(key)    #如果存在则返回True，不存在则返回False
+                在条件表达式中也可以使用int 和 not in来检测键名是否在字典中：
+                    key in dict_name  或者 key not in dict_name
+            4：返回字典中所有的键名：
+                dict_name.keys()    #返回值是所有key组成的list
+            5：返回字典中所有的键值：
+                dict_name.values()    #返回值是所有value组成的list
+            6：返回字典中所有的键值对：
+                dict_name.items()     #返回值是由键名和键值组成的tuple构成的list
+            7：删除字典中的key,并把key的值返回,如果未给定key则返回default：
+                dict_name.pop(key,default)
+            8：随机删除并返回字典中的键值对：
+                dict_name.popitem()
+            9：删除字典内所有元素：
+                dict_name.clear()
+            10：获取字典键值对个数：len(dict_name)
+
     4：集合：set
 二：Python扩展数据结构：collections
     1：具名元祖：namedTuple
