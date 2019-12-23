@@ -119,7 +119,7 @@
                 #i为元祖中的值
         
         6：异常：访问元祖中的元素要特别注意不要出现元素索引越界；否则将会报IndexError;
-        
+
     3：字典：dict,用来存放键值对的数据结构；符号为{};如：{'name':'tom','age':23}
         1：字典的特征：
             1：字典中存储键值对，而非单个值；其中键名可以为字符串、数字、元祖等不可变对象，但是不可修改，不可重复；键值可以为任何数据类型的数据；
@@ -210,8 +210,149 @@
                 data not in set_name
 
 二：Python扩展数据结构：collections
-    1：具名元祖：namedTuple
-    2：双端队列：deque
+    1：具名元祖：namedtuple：元祖中的每一个元素均有名称；
+        使用流程：
+            1：导入namedtuple：
+                from collections import namedtuple
+
+            2：创建namedtuple实例：
+                name_tuple = namedtuple(tuplename,field_names,verbose,rename=False)
+                功能：创建namedtuple实例的过程即是创建namedtuple结构的过程，包括该namedtuple中将要存放的元素个数以及每一个元素的名称
+                参数：tuplename：具名元祖名称；
+                     field_names：每一个元素的名称，多个元素的名称之间使用空格隔开；如："name age id"；
+                     rename：如果字段名称中有包含python关键字，该参数必须设置为True；否则默认为False即可；
+                     verbose：保持默认即可；
+                Stuff  = namedtuple('stuff',"name age id")
+
+            3：使用namedtuple：使用namedtuple即是通过创建好的namedtuple实例对象来存储具体数据的过程：示例：
+                stuff_tom = Stuff("tom",23,1)
+            
+            4：操作namedtuple中的元素：
+                1：访问元素值：
+                    1：通过名称来访问元素：namedtuple_name.field_name；示例：stuff_tom.name    # "tom"
+                    2：通过元素索引来访问元素：namedtuple_name[index]；示例：stuff_tom[1]    # 23
+                2：其余操作和tuple一致：如：
+                    1：统计列表中元素的出现的个数：ntuple.count(obj)    
+                        #如：ntuple = (1,2,3,3,3,3)  ntuple.count(3):4
+                    2：返回元素第一次出现时的索引：ntuple.index(obj)    
+                        #如：ntuple = (1,2,3,3)  ntuple.index(3):2
+                    3：返回元祖中的最大值：max(ntuple)    
+                        #如：ntuple = (1,2,3)  max(ntuple):3
+                    4：返回元祖中的最小值：min(ntuplea)    
+                        #如：ntuple = (1,2,3)  min(ntuple):1
+                    5：获取元祖长度：len(tuplea)    
+                        #如：ntuple = (1,2,3)  len(ntuple):3
+                    6：合并两个tuple：tuple1+tuple2    
+                            #如：ntuple1=(1,2)  ntuple2=(3,4) ntuple1+ntuple2:(1,2,3,4)
+                    7：重复tuple:tuple1*n,n是重复次数
+                        #如：ntuple1 = (1,2)  ntuple1*2:(1,2,1,2)
+                    8：检测元素是否在元祖中：in
+                        #如：ntuple=(1,2)  1 in ntuple:True
+                    9：检测元素是否不在元祖中：not in
+                        #如：ntuple1=(1,2)  1 not in ntuple1:False
+                    10：使用连接符连接tuple中的元素：join(tuple) ;使用join()函数连接tuple时，tuple中的元素必须都为str类型，否则将会有TypeError异常；
+                        #如：ntuple = ('a','b','c')  "-".join(ntuple):"a-b-c"
+                    11：元祖本身也支持切片操作：切片操作之后仍然返回一个tuple对象
+                        #如：ntuple[pos]、ntuple[start:]、ntuple[start:end]、ntuple[:end]、ntuple[start:end:step]
+                    12：namedtuple仍然是不可变对象，因此其不能修改、新增、删除元素，除非元素本身是可变对象；
+                3：namedtuple特有的操作：
+
+            2：具名元祖其他操作：
+                1：获取所有字段名：_fields:通过_fields属性，可以获取该tuple中所有的字段名；
+                    如：user._fields
+                
+                2：通过list创建namedtuple：_make([]):通过_make方法可以创建一个namedtuple；
+                    如：User._make(['tom',27,1])
+                
+                3：由于namedtuple本质上仍是元祖，因此不允许直接修改namedtuple中的元素，如需修改，需要使用_replace()方法进行；
+                    如：user_tom._replace(age=23)
+                
+                4：如果需要将namedtuple以更友好的方式打印，可以使用_asdict()；
+                    如：user_tom._asdict()
+
+    2：双端队列：deque：双端队列：本质上是一个双向循环列表，可以高效的在左右两端增删数据；
+        1：deque的特征：
+            1：deque仍然是一个线性表，但是和list底层实现不同，list是一个单向线性表；而deque是一个双向循环列表，支持高效的从头部和尾部增删数据；
+            2：因为deque本质仍是一个线性表，因此其他特征和list相同：
+                1：deque中的数据有序，从左向右，序号从0开始；从右向左，序号从-1开始；
+                2：deque支持任意增加、修改、删除数据；是一个可变对象；
+                3：deque没有数据类型要求，可以存储任意数据类型的数据，只能存储值本身，不能存储k-v键值对信息；
+
+    
+        2：deque创建：
+            1：导入deque：
+                from collections import deque
+            
+            2：创建deque实例对象：
+                deque([iterable[, maxlen]])
+                功能：创建一个deque;
+                参数：iterable：一个可迭代对象，如list,tuple,str等；可迭代对象的元素即为deque的元素；
+                    maxlen：该deque最多能够容纳的元素个数，如果超出该值将会截取元素至该值设定的长度，截取方向是从左至右截取，保留尾部；
+                示例：
+                    #创建一个空deque: dlist = deque()    
+
+                    #创建一个非空deque：dlist = deque([1,2])   
+
+                    #创建一个设定元素个数的deque：dlist = deque([1,2,3,4],2)    # [3,4]
+ 
+        3：deque操作元素：和list对元素的操作方式完全相同；如：
+            1：获取元素值：list_name[idnex]    
+                #如：list_name = deque([1,2,3,4])  list_name[0]:1
+
+            2：设置元素值：list_name[index]    
+                #如：list_name = deque([1,2,3,4])  list_name[0]=4:[4,2,3,4]
+
+            3：插入元素值：list_name.insert(index,obj)    
+                #如：list_name = deque([1,2,3,4])  list_name.insert(0,5):[5,1,2,3,4]
+
+            4：追加元素值：list_name.append(obj)    
+                #如：list_name = deque([1,2,3,4])  list_name.append(5):[1,2,3,4,5]
+
+            5：移除最后一个元素值：list_name.pop()    #注意和list不同，该方法不能设置位置参数，deque默认删除并返回最后一个元素；    
+                #如：list_name = deque([1,2,3,4])  list_name.pop():[1,2,3]
+
+            6：移除第一个匹配到的元素：list_name.remove(obj)   
+                #如：list_name = deque([1,2,3,4,3])  list_name.remove(3):[1,2,4,3]
+
+            7：统计列表中元素的出现的个数：list_name.count(obj)    
+                #如：list_name = deque([1,2,3,3,3,3])  list_name.count(3):4
+
+            8：返回元素第一次出现时的索引：list_name.index(obj)    
+                #如：list_name = deque([1,2,3,3])  list_name.index(3):2
+
+            9：返回列表中的最大值：max(list_name)    
+                #如：list_name = deque([1,2,3])   max(list_name):3
+            10：返回列表中的最小值：min(list_name)    
+                #如：list_name = deque([1,2,3])  min(list_name):1
+
+            11：获取列表长度：len(list_name)    
+                #如：list_name = deque([1,2,3])  len(list_name):3
+
+            12：反向列表中的元素：list_name.reverse()  
+                #如：list_name = deque([1,2,3])  list_name.reverse(list_name):[3,2,1]
+
+            13：合并两个list：list1+list2(避免使用list1+=list2)
+                #如：list1=deque([1,2])  list2=[3,4] list1+list2:[1,2,3,4]
+
+            14：重复list:list1*n,n是重复次数
+                #如：list1 = deque([1,2])  list1*2:[1,2,1,2]
+
+            15：检测元素是否在列表中：in
+                #如：list1=deque([1,2])  1 in list1:True
+
+            16：检测元素是否不在列表中：not in
+                #如：list1=deque([1,2])  1 not in list1:False
+
+            17：使用连接符连接list中的元素：join(list_name) ;使用join()函数连接list时，list中的元素必须都为str类型，否则将会有TypeError异常；
+                #如：list_name = deque(['a','b','c'])  "-".join(list_name):"a-b-c"
+
+            18：元祖本身也支持切片操作：切片操作之后仍然返回一个tuple对象
+                #如：list_name[pos]、list_name[start:]、list_name[start:end]、list_name[:end]、list_name[start:end:step]
+
+        4：deque和list的选择：
+            1：如果对list有大量的pop(0)或者insert(0,obj)操作，推荐使用deque；
+            2：deque对于列表头部的增删时间复杂度是O(1)；list对于头部元素的增删时间复杂度是O(n)
+
     3：计数器：Counter
     4：有序字典：OrderDict
     5：默认字典：defaultDict
