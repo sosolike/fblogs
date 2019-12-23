@@ -123,7 +123,7 @@
     3：字典：dict,用来存放键值对的数据结构；符号为{};如：{'name':'tom','age':23}
         1：字典的特征：
             1：字典中存储键值对，而非单个值；其中键名可以为字符串、数字、元祖等不可变对象，但是不可修改，不可重复；键值可以为任何数据类型的数据；
-            2：字典中的键值对默认无序；
+            2：python2.x版本中，dict中的键值对默认无序；python3.x版本中，dict中的键值对默认有序，按照存入顺序排序；
             3：字典在python中是可变对象；字典中可以任意添加、删除以及修改键值；
         
         2：创建字典：
@@ -393,9 +393,48 @@
             6：返回topN列表：most_common([n])，即取出计数排名前N个元素，如果没有参数N，则返回全部元素
                 counter = Counter("aaaadddwwe")
                 counter.most_common(2) :[('a',4),('d',3)]
-                
-    4：有序字典：OrderDict
-    5：默认字典：defaultDict
+
+    4：有序字典：OrderDict：有序字典，OrderedDict会记录键值对的存储顺序，在遍历时按照存储顺序遍历；
+        1：OrderedDict特征：
+            1：OrderedDict特征和dict完全相同，都是字典，仅仅是增加了维护键值对的存储顺序；
+            
+        2：OrderedDict的使用：
+            1：导入OrderDict：
+                from collections import OrderedDict
+
+            2：创建OrderedDict对象：
+                1：创建空的OrderedDict：OrderedDict()
+                2：通过dict创建基于key排序的OrderedDict：OrderedDict(sorted(list_name.items(),key=lambda t:t[0]))   
+                3：通过dict创建基于value排序的OrderedDict：OrderedDict(sorted(list_name.items(),key=lambda t:t[1]))
+        
+            3：OrderedDict操作：
+                1：OrderedDict基本操作和dict的操作相同;
+                2：但是对于popitem(last=True)函数：默认返回最右边的key-value,如果将last参数设置为False,则弹出最左边的key-value对；
+                3：move_to_end(key,last=True)函数：默认将指定的key-value对移动到最右边，如果last=False,则移至最左边；
+
+    5：默认字典：defaultDict：带有默认值的dict字典，其他功能和dict完全相同，提供一个字典的数据结构；
+
+        1：defaultdict特征：
+            1：基本特征和dict的特征完全相同，唯一和dict不同的是，defaultdict可以设置在键名不存在时返回何种数据；
+            2：defaultdict继承自dict,是dict的子类
+    
+        2：defaultdict的使用：
+            1：导入defaultdict：
+                from collections import defaultdict
+        
+            2：创建defaultdict实例对象：
+                1：创建一个defaultdict：defaultdict(default_factory);
+                    说明：  1：其中default_factory默认是None;如果该值为None,在访问不存在的键名时将会报KeyError异常，此时和默认的dict行为一致；
+                            2：如果需要在访问不存在的键名时有默认值返回，则需要设置default_factory:
+                                如果设置为int：默认值为0；
+                                设置为str：默认值是空字符串；
+                                设置为list：默认值是空list；
+                                设置为dict：默认值是空dict；
+                                设置为set：默认值是空set；
+                                也可以设置为任意一个对象类型，将会执行该类的构造函数，并返回一个实例对象；
+            
+            3：defaultdict操作：
+                1：基本操作和默认的dict完全相同；
 三：序列排序：
     1：sort()
     2：sorted()
