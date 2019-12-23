@@ -13,8 +13,8 @@
                 2：lista = [表达式 for 变量 in 列表 if 表达式]    #带条件的列表生成式生成列表，如：[i*2 for i in range(5) if i%2==0 ]
             3：将其他数据类型转换为列表：
                 1：lista = list(tuple)    #将tuple类型的数据转换为list类型，如：list((1,2,3,4))
-                2：dicta.keys()    #将字典的key提取为一个列表
-                3：dicta.values()    #将字典的值提取为一个列表
+                2：dict_name.keys()    #将字典的key提取为一个列表
+                3：dict_name.values()    #将字典的值提取为一个列表
         3：列表的元素操作：
             列表元素操作：
                 1：获取元素值：list_name[idnex]    
@@ -111,14 +111,15 @@
                     #如：tuplea[pos]、tuplea[start:]、tuplea[start:end]、tuplea[:end]、tuplea[start:end:step]
         
         5：元祖的迭代：
-            for x in tuple_name:
+            for item in tuple_name:
                 #x为元祖中的元素
 
-            for (index,i) in tuple_name:
+            for (index,item) in tuple_name:
                 #index为元祖中的索引
                 #i为元祖中的值
         
         6：异常：访问元祖中的元素要特别注意不要出现元素索引越界；否则将会报IndexError;
+        
     3：字典：dict,用来存放键值对的数据结构；符号为{};如：{'name':'tom','age':23}
         1：字典的特征：
             1：字典中存储键值对，而非单个值；其中键名可以为字符串、数字、元祖等不可变对象，但是不可修改，不可重复；键值可以为任何数据类型的数据；
@@ -152,10 +153,11 @@
                 dict_name.clear()
             10：获取字典键值对个数：len(dict_name)
 
-    4：集合：set类型：set;可以存放多种不同数据类型的数据，存放值本身，无序且不可重复;
+    4：集合：set;可以存放多种不同数据类型的数据，存放值本身，无序且不可重复;
         1：集合的特征：
             1：集合中可以存储任意数据类型的数据，且数据无序，不可重复，具备自动去重的能力；
             2：集合可以任意添加、删除元素；
+            3：只能存储数据本身；
         
         2：集合的创建：
             1：创建空集合：set()    #空集合只能使用set()函数来创建  如：set()
@@ -194,7 +196,7 @@
                 y = {"f", "e", "d", "c", "b", "a"}
                 #如：x.issubset(y)  返回True
             
-            11：检测y是否是x的子集：issuperset()
+            11：检测x是否是y的父集：issuperset()
                 #如：
                     x = {"f", "e", "d", "c", "b", "a"}
                     y = {"a", "b", "c"}
@@ -206,6 +208,7 @@
                 data in set_name
                 或者:
                 data not in set_name
+
 二：Python扩展数据结构：collections
     1：具名元祖：namedTuple
     2：双端队列：deque
