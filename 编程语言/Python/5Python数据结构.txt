@@ -353,7 +353,47 @@
             1：如果对list有大量的pop(0)或者insert(0,obj)操作，推荐使用deque；
             2：deque对于列表头部的增删时间复杂度是O(1)；list对于头部元素的增删时间复杂度是O(n)
 
-    3：计数器：Counter
+    3：计数器：Counter:计数器；用来统计可迭代对象(如：str,list,tuple,dict)中元素出现的次数；继承自dict，是字典的子类；
+        1：Counter的特征：
+            1：Counter用来统计可迭代对象中元素的出现次数，元素作为key,次数作为值；Counter继承自dict,因此其实例仍然是一个dict；
+    
+        2：Counter的使用：
+            1：导入Counter类：
+                from collections import Counter
+
+            2：创建Counter实例对象：
+                1：创建一个空的Counter：counter = Counter()
+                2：从一组键值对创建Counter：counter = Counter(a=3,b=3)
+                3：从一个iterable对象创建Counter：counter = Counter(list/str/dict/tuple)
+        
+        3：Counter操作：
+            1：获取元素的个数：
+                counter = Counter(['a','a','s'])
+                counter['a']：2
+                特别注意：如果Counter中没有对应的键名，则返回0；而非KeyError异常；
+
+            2：更新Counter实例(向Counter中追加待统计内容)：
+                counter = Counter("aaass")
+                counter.update("as")
+                counter['a']：4
+            
+            3：键的删除：不能直接为键赋值为0，需要使用del来删除键：
+                counter = Counter("aaasss")
+                counter['a'] = 0 :['a':0,'s':3]
+                del counter['a'] :['s':3]
+            
+            4：相关转换：
+                dict(counter)   ：将counter转换为dict字典：键名为元素，键值为该元素出现的次数
+                list(counter)   ：将counter转换为list列表：键名为列表的元素
+                set(counter)    ：将counter转换为set集合：键名为集合的元素
+                
+            5：重置counter对象：该操作仅重置counter对象，并不会删除该counter
+                counter.clear()
+            
+            6：返回topN列表：most_common([n])，即取出计数排名前N个元素，如果没有参数N，则返回全部元素
+                counter = Counter("aaaadddwwe")
+                counter.most_common(2) :[('a',4),('d',3)]
+                
     4：有序字典：OrderDict
     5：默认字典：defaultDict
 三：序列排序：
