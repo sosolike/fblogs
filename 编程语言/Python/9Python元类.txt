@@ -28,8 +28,95 @@
     4：关于类的继承链可以通过类的__mro__属性来查看；（__mro__属性本来是用作查看类实例方法的解析顺序，也可以通过该属性来查看类的继承链；只能在python3中使用）
         print(A31.__bases__)    # (<class '__main__.A31'>, <class 'object'>);
         print(A32.__bases__)    # (<class '__main__.A32'>, <class '__main__.A31'>, <class 'object'>);
-
 二：关于类的__new__方法和__init__方法：
+    在创建类实例对象时会执行类的两个魔术方法：__new__和__init__：关于这两个方法的功能和区别如下：
+    1：关于__new__方法：
+        1：该方法声明方式如下：def __new__(cls,*args,**kwargs)；
+        2：功能：在创建类的实例对象时会调用该方法；该方法的作用在于创建一个实例对象，并返回；
+        3：参数：cls：当前类本身；
+        4：返回值：
+            1：该方法必须是返回一个对象；这个对象可以是当前类父类的实例对象或者object的实例对象或者其他任意实例对象；
+            2：如果是当前类父类的实例对象，则可以使用super(当前类名,cls).__new__(cls)创建父类实例对象；
+            3：如果当前类没有父类，则可以使用object.__new__(cls)创建实例对象并返回；
+            4：该方法也可以返回一个其他任意的实例对象；
+        5：该方法是一个类方法，即使没有使用@classmethod装饰器装饰该方法，该方法也只能是且必须是类方法，因为此时该类的实例对象并未创建；
+
+二：所谓一切皆是对象：
+    1：python语言本身是彻底的面向对象，python中变量、函数、类均是对象；
+    2：关于类也是对象：
+        1：在面向对象概念上：
+            python中的类(class)和传统面向对象中类的概念相同，都是用来创建实例对象的；
+        2：在面向对象编码上：
+            python中可以完全通过类(class)来按照传统面向对象的语法形式编写代码；
+        3：在实际实现上：
+            实际上python中类(class)的本质和传统面向对象中类的本质并不相同：
+                传统意义上面向对象中的类实际上是一段定义的语法结构；而python中的类(class)实际上是由另一个传统面向对象中所谓的类(元类)创建的对象，并且类(class)中定义的属性和方法实际上都只是对类这个对象的补充；创建类的类称之为元类；通过示例即可看到：
+                    # 定义一个元类
+                    class SelfMetaclass(type):
+                        def __new__(cls,name,bases,attrs):
+                            print("meta class info:") 
+                            #打印元类中的cls值和id
+                            print("cls is:{}   id is:{}".format(cls,id(cls)))    
+                            meta_class_object = type.__new__(cls,name,bases,attrs)
+                            #打印元类中创建的对象值和id
+                            print("meta_object is:{}  id is:{}".format(meta_class_object,id    (meta_class_object)))
+                            #返回创建的对象
+                            return meta_class_object
+
+                        # 定义一个类
+                        class F(object):
+                            # 指定该类的元类为SelfMetaclass
+                            __metaclass__ = SelfMetaclass
+                            def __new__(cls,*args,**kwargs):
+                                print("class info:")
+                                # 打印当前类的cls值和id
+                                print("cls is:{}   id is:{}".format(cls,id(cls))) 
+                                class_object = super(F,cls).__new__(cls)
+                                #打印当前类创建的对象和id
+                                print("class object is:{}    id is:{}".format(class_object,id(class_object)))
+                                return class_object
+
+                            def __init__(self):
+                                print("init info:")
+                                # 打印最终需要初始化的对象和id：
+                                print("self is:{} id is:{}".format(self,id(self)))
+
+                        #创建实例对象：
+                        f = F()
+                    执行之后：
+                    meta class info:
+                    cls is:<class '__main__.SelfMetaclass'>   id is:140528819780432
+                    meta_object is:<class '__main__.F'>  id is:140528819781376
+
+                    class info:
+                    cls is:<class '__main__.F'>   id is:140528819781376
+                    class object is:<__main__.F object at 0x10e405a90>    id is:4534065808
+
+                    init info:
+                    self is:<__main__.F object at 0x10e405a90> id is:4534065808
+                    从执行结果中也可以看到：
+                        1：从打印顺序上可以看出，在创建实例对象时，实际上会先执行元类的__new__方法创建元类的实例对象，之后才会执行类的__new__方法，创建类(class)的实例对象，接着调用__init__方法对类的实例对象进行初始化；
+                        2：metaclass中代表类本身的cls参数值是元类本身的名称，因此元类实际上才是传统意义上的类；
+                        3：而class中代表类的cls参数值和id分别和元类中创建的对象值和id完全相同，也印证了python中的类(class)实际上是另一个真正意义上类的实例对象；
+                        4：从类F的init函数也可以看出，类的构造函数实际上是对__new__方法返回的实例对象进行初始化；
+                        5：从上述例子也可以看出，python中通过class创建对象的本质实际上是创建元类的实例对象并对元类实例对象进行初始化的过程；而class本身实际上类似于是对元类实例对象装饰；
+        4：关于__metaclass__：
+            1：python中通过__metaclass__属性设置一个类的元类，python中默认的唯一一个元类则是type，在不显式设置该属性时，默认使用type类作为当前类的元类；
+            2：__metaclass__属性的值不一定必须是一个真正意义上的类，也可以是一个函数，但是要求无论是函数还是类都必须返回一个type类调用__new__方法返回的对象；
+        5：查看一个对象的类：python中通过type()函数或者对象(class)的__class__属性即可查看该实例对象的类；
+            1：对于实例对象(object)通过type()函数或者__class__属性返回的则是创建该对象的类(class)；
+            2：对于类(class)通过type()函数或者__class__属性则返回的是该类的元类，因为类(class)本质上就是一个对象，所以查看类的元类本质上和返回对象(object)的类(class)作用原理相同；
+            3：使用示例：
+                type(F)    # <class '__main__.SelfMetaclass'> 
+                F.__class__    # <class '__main__.SelfMetaclass'>
+        6：关于元类的使用：
+            元类本质上是类(类对象)的类，通过在元类的__new__方法中添加逻辑，可以为使用相同元类的类增加公共处理逻辑，使得类中的逻辑更轻量简洁或者实现一些语法糖的效果；最典型的应用就是通过元类来实现ORM；
+            
+二：关于元类(metaclass)、类(class)、实例对象(object)：
+    在python中的面向对象体系中有三级，分别是：元类(metaclass)、类(class)、实例对象(object)；
+    1：元类：创建类的类；使用一个类(class)创建实例对象时，首先会
+
+
 
 三：关于元类：
 
