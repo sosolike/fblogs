@@ -98,8 +98,14 @@
                 with B() as Y:
                  with C() as Z:
                     #do something
+
+        2：多上下文管理器嵌套：
+            with A() as X,B() as Y,C() as Z:
+                #do something
         
-        2：使用nested()函数：
+        3：使用nested()函数：
+            from contextlib import nested
+
             with nested(A(),B(),C()) as X,Y,Z:
                 #do something
     
