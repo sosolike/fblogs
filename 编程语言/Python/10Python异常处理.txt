@@ -1,0 +1,161 @@
+一：python中错误异常类继承树：
+    1：异常类继承结构：python中预置了一部分可能发生的错误异常类型，均是BaseException的子类，其继承结构如下：
+        BaseException：所有异常类的基类
+            |--SystemExit：解释器请求退出
+            |--KeyboardInterrupt：用户中断执行程序
+            |--GeneratorExit：生成器发生异常
+            |--Exception：所有用户异常类的基类
+                |--StopIteration：迭代器没有可迭代的值
+                |--StandardError：所有的内建标准异常的基类
+                    |--BufferError
+                    |--ArithmeticError：数值计算错误的基类
+                        |--FloatingPointError：浮点计算错误
+                        |--OverflowError：数值运算超出最大限制
+                        |--ZeroDivisionError：除(或取模)零 (所有数据类型)
+                    |--AssertionError
+                    |--AttributeError：对象无此属性
+                    |--EnvironmentError：文件、操作系统错误类基类
+                    |    |--IOError：输入/输出操作失败
+                    |    |--OSError：操作系统错误
+                    |         |--WindowsError (Windows)
+                    |         |--VMSError (VMS)
+                    |--EOFError：达到EOF
+                    |--ImportError：导入模块或者对象失败
+                    |--LookupError：无效数据查询的基类
+                    |    |--IndexError ：无此索引
+                    |    |--KeyError：无此键名
+                    |--MemoryError：内存溢出错误
+                    |--NameError：使用一个还未定义的变量
+                    |    |--UnboundLocalError：在函数内部调用外部的全局变量导致出错；
+                    |--ReferenceError：弱引用(Weak reference)试图访问已经垃圾回收了的对象
+                    |--RuntimeError
+                    |    |--NotImplementedError：尚未实现的方法
+                    |--SyntaxError：语法错误
+                    |    |--IndentationError：缩进错误
+                    |         |--TabError：Tab和空格混用
+                    |--SystemError：解释器系统错误
+                    |--TypeError：数据类型错误
+                    |--ValueError：无效参数的基类
+                        |--UnicodeError：Unicode 相关的错误
+                            |--UnicodeDecodeError：Unicode 解码时的错误
+                            |--UnicodeEncodeError：Unicode 编码时错误
+                            |--UnicodeTranslateError：Unicode 转换时错误
+    
+    2：常见的需要捕获并处理的有：
+        对于文件及文件内容的操作常见的有：OSError、IOError、EOFError
+        对于列表、tuple操作元素时：IndexError
+        对于字典操作元素时：KeyError
+        对于迭代器和生成器：StopIteration
+        对于数据类型转换：TypeError
+        对于对象的属性访问时：AttributeError
+        数据编码转换时：ValueError、UnicodeError、UnicodeDecodeError、UnicodeEncodeError、UnicodeTranslateError
+        系统有关：SyntaxError、SystemExit、MemoryError、IndentationError
+
+二：python中对于错误异常的处理：
+    1：程序中如果未对可能发生的错误异常进行处理，那么发生错误异常时，将会一直向上抛出，直至解释器，最终将错误异常信息打印至控制台；
+    2：python中也提供了try...except语法结构来对可能发生的错误异常进行捕获并设置处理方式；
+
+三：使用try...except来捕获并处理错误异常：
+    1：try...except语法：
+        try:
+            # 正常运行，但是有可能发生错误异常的代码
+        except ExceptionClass as e:
+            #处理错误异常信息，ExceptionClass错误异常class，e则是错误异常类的实例对象；
+        else:
+            #如果未发生错误异常，将会执行该区域的语代码
+        finally:
+            #无论是否发生错误异常，都将执行这一区域代码
+    
+    2：异常的数据类型：
+        python中的异常均是直接或者间接继承自BaseException的一个类(class),而try...except捕获到的则是某个异常类的实例对象；通过该异常类的实例对象即可调用异常类的实例属性或者实例方法获取错误异常的详细信息；
+
+    3：对于异常的捕获和处理：
+        对于错误异常的捕获：
+            1：在except中尽量设置具体的异常类型，而非直接设置Exception类型，保证能够处理到需要处理的错误异常，并且不会导致真正的错误被漏掉；
+            2：在设置多个错误异常类型时，其范围从上至下应该逐渐增大，不能逐渐缩小，否则小范围的错误异常无法被捕获到；如：
+                try:
+                    # 正常运行，但是有可能发生错误异常的代码
+                except ExceptionClass as e:
+                    #处理错误异常信息
+                except ExceptionClass2 as e:
+                    #处理错误异常信息
+                except ExceptionClass3 as e:
+                    #处理错误异常信息
+                其中异常类：ExceptionClass能够捕获的错误异常范围要小于ExceptionClass2小于ExceptionClass3
+
+        对于错误异常的处理：
+            在except语句块中可以对捕获到的错误异常进行记录、处理，也可以直接忽略该异常，并且如果不能在本级处理，也可以将异常再次抛出，由上层使用者捕获并处理；
+
+    4：在错误异常语法中，else语句块和finally语句块都是非必须语句块，可以根据需要添加；其中else语句块中的代码，在try块中无任何错误异常发生时将执行；finally语句块中的代码，无论try块中的代码是否有异常，都会被执行；
+
+    5：对于错误异常处理的注意事项：
+        1：务必对一切可能发生的错误异常进行处理，增强程序的健壮性，不要漏掉可能的错误异常，也不要对不要处理异常的地方处理异常；(比如在网络请求，文件操作等容易出错的地方进行错误异常处理,对于一些基本的语句则无需进行错误异常处理)；
+
+        2：务必精确处理错误异常，捕获错误异常时要保证错误异常类型更具体，避免直接使用Exception甚至BaseException来捕获所有的错误异常；如果捕获的错误异常范围过大会因为异常处理机制而导致漏掉真正的语法错误，导致程序不容易发现真正的bug而不好调试；
+
+        3：避免滥用错误异常处理，减小错误异常处理范围，避免使用一个大的try块来包裹多余的代码；同样因为错误异常处理范围过大，会导致有的核心错误被处理掉难以发现；
+
+        4：在使用第三方模块时，也需要了解第三方模块的异常机制，并及时处理对应的异常；
+    
+    6：使用raise抛出错误异常：
+        由于逻辑的需要或者对于捕获到的错误异常无法处理时，需要将异常抛出由上层使用者进行处理；python中使用raise抛出异常实例：raise ExceptionClass()
+
+    7：自定义异常类：
+        1：python中内置了常见的错误异常类型，可以直接使用；也可根据需要自定义错误异常类型，自定义的错误异常类型必须直接或者间接继承自BaseException，一般继承自Exception即可；
+        2：自定义的错误异常类，使用时需要先使用import导入，并在需要抛出的地方使用raise ExceptionClass()抛出错误异常类实例对象；
+
+四：使用sys.excepthook来捕获全局错误异常：
+    1：如果异常被try...except块捕获，那么将会按照预定的方式来处理捕获到的错误异常，如果错误异常未被捕获而上抛至解释器，那么解释最终会调用sys.excepthook这个函数来处理，默认情况下会将错误异常信息打印至控制台；
+    2：该函数支持重写，因此想要以自定义的方式来处理未捕获的错误异常，可以通过重写该函数实现；
+    3：sys.excepthook重写时，需要指向一个自定义的错误处理函数，该函数接收三个参数，分别为：exc_type(错误类型)、exc_value(错误值)、tb(错误栈);如：
+        def my_excepthook(exc_type,exc_val,tb):
+            """托管全局错误异常"""
+            try:
+                currentTime = datetime.datetime.now()
+                exc_time = currentTime.strftime("%Y-%m-%d %H:%M:%S")
+            except:
+                pass
+
+            tracback = ""
+            while tb:
+                filename = tb.tb_frame.f_code.co_filename
+                function = tb.tb_frame.f_code.co_name
+                fileline = tb.tb_lineno
+                tracback += '   File "%.500s", line %d, in %.500s\n' % (filename, fileline, function)
+                tb = tb.tb_next
+
+            print({
+                "exception datetime":format(exc_time),
+                "exception type":format(exc_type),
+                "exception reason":format(exc_value),
+                "exception tracback":format(tracback),
+            })
+        
+        sys.excepthook = my_excepthook()
+
+
+五：关于异常处理的其他建议：
+    1：避免使用过多的try块处理错误异常：
+        1：对于dict而言，取值时尽量使用get()函数取值，如果key不存在时将会返回默认值，而不是直接报告KeyError异常；
+        2：对于set而言，如果需要移除一个数据，则尽量使用discard()而非remove()；在数据不存在时，discard并不会报告异常，但是remove将会报KeyError；
+        3：可以使用上下文管理器代替众多try块：
+            class RaiseError():
+                def __init__(self,exception_type,exception_reason):
+                    #exception_type指需要捕获的异常类型
+                    #exception_reason指需要向客户端返回的错误异常信息，可以自定义成json数据返回
+                    self.exception_type = exception_type
+                    self.exception_reason = exception_reason
+                
+                def __enter__(self):
+                    return self
+
+                def __exit__(self,exc_type,exc_val,exc_tb):
+                    if exc_type == self.exception_type:
+                        print({'ok':False,'reason':self.exception_reason,'data':None})
+                    return True
+
+            with RaiseError(ZeroDivisionError,"除数为0"):
+                1/0
+        
+            将会直接打印：{'ok':False,'reason':self.exception_reason,'data':None}
+            上述方式在对用户传入的参数核验是比较方便；
