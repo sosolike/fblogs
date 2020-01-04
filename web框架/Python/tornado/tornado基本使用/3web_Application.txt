@@ -1,0 +1,84 @@
+一：Application：
+    1：tornado.web.Application类用来创建一个应用；
+    2：创建Application类实例对象的过程实际上是对当前应用进行配置并初始化的过程；
+
+二：创建方式：
+    1：创建方式：Application(handlers=None,default_host="",transforms=None,**settings)
+    2：实例化参数说明：
+        1：对于handler：表示URL路径和处理该请求的Handler之间的映射关系；
+            1：设置方式：每一个映射需要以tuple的方式传入，顺序为：(url,handler,initialize_param,name)；
+            2：参数说明：
+                url：表示请求URL的路径
+                handler：表示处理该请求的类
+                initialize_param：是一个dict，表示传给当前Handler的inialize方法的参数；
+                name：当前映射关系的别名
+            3：示例如下：
+                ('/user',UserHandler,{'tom':'name},name='get_user_info')
+
+            4：传递方式：多个URL和Handler之间的映射关系需要以list的方式传入Application；示例如下：
+                [
+                    (r"/",MianHandler),
+                    (r"/user",UserHandler,{'uid':1})
+                ]
+            5：路由匹配方式：tornado接收到请求之后将会遍历URL和Handler之间的列表，如果匹配到预设的URL，将会实例化与该URL对应的Handler；
+        
+        2：default_host：
+
+        3：settings：当前应用的相关配置，常用的有以下几个：
+            debug：True开启调试模式，False关闭调试模式，debug为True时表示：
+                autoreload:True：服务进程自动加载；
+                compiled_template_cache:False：template模板禁止缓存
+                server_traceback:True：错误页面将会包含错误栈信息；
+                static_hash_cache：True：静态文件缓存开启
+
+            autoreload：代码修改之后，是否自动重启服务进程；True自动重启，False不自动重启；
+
+            compiled_template_cache:是否开启template模板编译缓存，True：开启，False：关闭；与之相关的配置还有以下几个：
+                template_path：模板文件目录
+                template_whitespace：对模板中空白的处理方式，具体处理方式在：tornado.template.filter_whitespace
+                template_loader: 默认分配一个 tornado.template.BaseLoader进行模版加载；如果设置了该Loder那么设置的template_path和 autoescape将失效；模板加载是将会按照自定义的加载方式加载；
+
+            server_traceback:True时错误页面将会包含错误异常栈，False时将不会包含错误异常栈，debug=True时将自动启用；
+
+            static_hash_cache:是否开启静态文件缓存，如果是True则开启缓存，如果是False则关闭缓存，建议线上开启缓存；与之相关的配置项还有以下几个：
+                static_path：静态文件目录
+                static_url_prefix：静态文件的Url前缀，默认为"/static/"；
+                static_handler_class, static_handler_args: 可以自定义处理静态文件的动作和参数，而不是默认的 tornado.web.StaticFileHandler. static_handler_args, 如果设置了，应该有一个字典被传入到动作类的 initialize 方法中
+
+            default_handler_class和default_handler_args：表示默认的handler,如果URL在路由列表中未匹配到合适的路由，请求将会交给默认的Handler中进行处理，可以通过该handler自定义404页面；default_handler_args是传递给default_handler_class的initialize的参数；
+
+            compress_response:是否压缩响应，默认开启，线上建议开启；
+
+            log_function:每个请求结束时调用，记录本次请求的详细信息，默认实现将写入loggin模块的根记录器，可通过重新设置来覆盖默认记录请求的方式；
+
+            cookie_secret：安全cookie的密钥
+
+            login_url：authenticated装饰器检测到用户未登录，将会自动跳转至login_url配置的地址；
+
+            xsrf_cookies：如果为True，将会启用xsrf攻击保护，与之相关的配置还有：
+                xsrf_cookie_version：xsrf_cookie生成的版本号，一般默认即可；
+
+
+三：Application对象相关方法：
+    listen(port,address='',**kwargs)：
+        1：该方法用来在指定端口启动一个HTTP server
+        2：使用该方法启动一个HTTP server之后仍然需要使用 IOLoop.current().start()来启动该服务；
+        3：如果是多进程模式，不要使用该方法启动服务，而是创建一个HTTPServer，然是用bind()绑定端口之后使用start()方法启动；如：
+            http_server = HTTPServer()
+            http_server.bind(8888)
+            http_server.start(0)
+
+    add_handler(host_pattern,host_handlers)：
+        添加给定的handler到handler表；
+    
+    reverse_url(name,*args)：
+        返回别名为name的url路径；
+    
+    log_request(handler)：
+        http请求完成时会将该请求的信息写入到日志中；默认情况下回写入到python的根logger；
+        如果要修改该方法可以是在子类中覆写该方法，或者是创建Application时设置log_function参数；
+
+
+
+
+
