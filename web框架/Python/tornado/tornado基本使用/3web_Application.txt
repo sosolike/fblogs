@@ -21,10 +21,8 @@
                     (r"/user",UserHandler,{'uid':1})
                 ]
             5：路由匹配方式：tornado接收到请求之后将会遍历URL和Handler之间的列表，如果匹配到预设的URL，将会实例化与该URL对应的Handler；
-        
-        2：default_host：
 
-        3：settings：当前应用的相关配置，常用的有以下几个：
+        2：settings：当前应用的相关配置，常用的有以下几个：
             debug：True开启调试模式，False关闭调试模式，debug为True时表示：
                 autoreload:True：服务进程自动加载；
                 compiled_template_cache:False：template模板禁止缓存
