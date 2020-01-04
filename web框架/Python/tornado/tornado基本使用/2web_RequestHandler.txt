@@ -1,0 +1,397 @@
+一：关于RequestHandler：
+    1：属于tornado.web模块，是所有http请求处理的基类；其基本定义为：
+        class tornado.web.RequestHandler(application,request,**kwargs)；
+
+    2：在tornado中，一个请求对应一个处理该请求的类(class)，这些类都必须继承自RequestHandler才能成为一个可以处理请求的类；如下示例：
+        class UserHandler(tornado.web.RequestHandler):
+            pass
+        该类中可以添加处理HTTP请求的方法，方法中就是实现业务逻辑的地方
+
+    3：通过创建Application时可以指定一个处理对应请求的类；如下示例：
+        application = tornado.web.Application([
+            (r"/user", UserHandler),
+        ])
+        在访问http://host/user时会将该请求交给UserHandler中的HTTP方法来处理；
+
+二：RequestHandler中的HTTP处理方法：
+    1：处理HTTP请求的方法：
+        1：tornado中的请求根据请求地址和请求方法，最终会被分发至对应的请求处理类的某个方法中进行处理；这些处理方法就是处理业务逻辑的地方；
+        2：RequestHandler中根据HTTP请求类型提供了以下处理方法，子类Handler必须实现这些方法来进行业务处理：
+            def get(self,*args,**kwargs):
+                # 处理GET请求的方法
+            
+            def post(self,*args,**kwargs):
+                # 处理POST请求的方法
+            
+            def put(self,*args,**kwargs):
+                # 处理PUT请求的方法
+
+            def delete(self,*args,**kwargs):
+                # 处理DELETE请求的方法
+
+            def head(self,*args,**kwargs):
+                # 处理HEAD请求的方法
+            
+            def patch(self,*args,**kwargs):
+                # 处理PATCH请求的方法
+            
+            def options(self,*args,**kwargs):
+                # 处理OPTIONS请求的方法
+        
+        3：一个请求处理类中可以实现一个或者多个处理方法，同一个请求地址会根据请求类型的不同来执行不同的处理方法处理请求；
+        4：如果收到的请求其对应请求类型的处理方法并未实现，将会返回HTTPError(405)错误；
+    2：接收HTTP请求参数的方法：
+        1：获取某个查询字符串参数：
+            get_query_argument(name,default=None,strip=True)
+            说明：
+                1：返回指定name的查询字符串参数；
+                2：default可以设置默认值，如果查询字符串中没有该参数将会返回默认值；
+                3：strip表示是否去除两边空格，默认为True；
+                4：如果有多个同名查询字符串参数，将会取最后一个作为最终值；
+            
+            get_query_arguments(name,strip=True)
+            说明：
+                1：返回指定name的查询字符串参数；
+                2：strip表示是否去除两边空格，默认为True；
+                3：如果有多个同名参数将会返回一个list，按顺序存储对应的值,如果参数不存在，将会返回一个空的list；
+        
+        2：请求体
+            get_body_argument(name,default=None,strip=True)
+            说明：
+                1：只能获取请求体中指定name的参数；
+                2：default可以设置默认值
+                3：strip表示是否去除两边的空格，默认为True；
+                4：如果请求体中有多个同名参数，将会取最后一个值作为最终参数值；
+            
+            get_body_arguments(name,strip=True)
+            说明：
+                1：只能获取请求体中的数据
+                2：strip表示是否去除两边的空格
+                3：如果有多个同名参数，将会返回一个list，按顺序存储对应的值,如果参数不存在，将会返回一个空list
+        
+        3：统一接收查询字符串值和请求体
+            get_argument(name,default=None,strip=True)
+            说明：
+                1：可以同时获取查询字符串参数和请求体参数
+                2：default可以设置默认值
+                3：strip表示是否去除两边空格，默认为True
+                4：如果有多个同名参数(无论是查询字符串还是请求体)，将会取最后一个作为最终值；
+            
+            get_arguments(name,strip=True)
+                #可以获取查询字符串参数和请求体参数
+                #strip表示是否去除两边空格
+                #如果有多个同名参数(无论是查询字符串还是请求体)，将会返回一个列表，按顺序存储对应的值；如果参数不存在，将会返回一个空list
+        
+        4：接收上传文件：
+            tornado中可以通过 self.request.files 获取上传文件信息；返回结果是一个dict,key为上传文件字段名；
+                1：获取上传文件内容：self.request.files['up_file_name'][0]['body']
+                2：获取上传文件类型：self.request.files['up_file_name'][0]['content_type']
+                3：获取上传文件名称：self.request.files['up_file_name'][0]['filename']
+        
+        5：获取请求信息：
+            1：所有的请求信息都再self.request对象中，包括请求头信息和body信息；
+            2：该对象具有以下属性：如：
+                protocol='http'
+                host='120.78.163.206:8899'
+                method='GET'
+                uri='/?uname=tom23&uname=a'
+                version='HTTP/1.1'
+                remote_ip='183.14.31.214'
+                headers={
+                    'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2', 
+                    'Accept-Encoding': 'gzip, deflate', 
+                    'Host': '120.78.163.206:8899', 
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8', 
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:58.0) Gecko/20100101 Firefox/58.0', 
+                    'Connection': 'keep-alive'}
+
+        6：获取路径参数：path_args,path_kwargs
+            1：url路径中的参数可以通过self.path_args和self.path_kwargs获取；
+            2：路径中的参数在进入具体处理方法之前就已经传递，因此路径中的参数在prepare方法中就可以获取到；
+
+三：RequestHandler中的HTTP响应方法：
+    1：设置响应头：set_header
+        方法原型：def set_header(self,name,value)
+
+        功能：设置响应头信息，只对当前所在的Handler类中的响应有效
+
+        参数：self：表示当前Handler类实例对象
+             name：响应头字段名
+             value：响应头字段值
+
+        返回值：该方法无返回值
+
+        备注：每调用一次即修改对应响应头字段的值，如果响应头字段有多个值必须一次设置完成，不能调用多次为一个字段分别添加多个值；
+
+    2：添加响应头：add_header
+        方法原型：def add_header(self,name,value)
+
+        功能：添加响应头信息，只对当前所在的Handler类中的响应有效
+
+        参数：self：表示当前Handler类实例对象
+             name：响应头字段名
+             value：响应头字段值
+
+        返回值：该方法无返回值
+
+        备注：该方法即可以调用一次来为字段设置所有的值，也可以调用多次来为同一个字段添加多个不同的值
+    
+    3：清理响应头：clear_header
+        方法原型：def clear_header(self,name)
+
+        功能：清理之前使用set_header函数设置的响应头信息，只对当前所在的Handler类中的响应有效
+
+        参数：self：表示当前Handler类实例对象
+              name：响应头字段名
+
+        返回值：该方法无返回值
+
+        备注：该方法只能清理set_header中设置的响应头字段；
+    
+    4：设置响应状态码：set_status
+        方法原型：def set_status(self,status_code,reason=None)
+
+        功能：设置响应中的状态码，只对当前Handler类中的响应有效
+
+        参数：self：表示当前Handler类实例对象
+             status_code：状态码
+             reason：原因，如果是None时，status_code必须存在于httplib.response，并且会自动匹配httplib.response中的reason;
+
+        返回值：该方法无返回值
+
+    5：向响应缓冲区中写入响应内容：write
+        方法原型：def write(self,chunk)
+
+        功能：向响应缓冲区中写入响应内容；
+
+        参数：需要响应给客户端的内容，可以是字符串或者字典，不能是其他类型的数据，否则将会报错；如果是字典时tornado会默认将字典当做json对象发送，并且会自动设置响应头为application/json；
+
+        返回值：该方法无返回值；
+
+        备注：
+            1：该方法仅能够将响应内容写入缓冲区，并不能将响应内容直接发往客户端；如果需要发往客户端需要调用flush方法或者finish方法来将响应内容写入网络；
+            2：默认情况下write会自动调用finish方法结束请求，但是将请求方法设置为协程时，需要手动调用finish来将响应写入网络；
+    
+    6：向网络中写入响应内容：flush
+        方法原型：def flush(self,include_footers=False,callback=None)
+
+        功能：将响应缓冲区中的内容写入网络；
+
+        参数：include_footers：
+             callback：回调函数
+
+        返回值：该方法无返回值；
+
+        备注：
+            1：该方法用来将响应缓冲区的内容写入网络；并且可以分别多次调用将缓冲区的内容写入网络；
+            2：该方法可以设置回调函数，在内容响应至客户端之后将会调用该回调函数，但是flush的回调函数同一时刻只能有一个，否则先执行的将会覆盖掉后执行的；
+
+    7：结束请求，并将响应内容发送至客户端：finish
+        方法原型：def finish(self,include_footers=False,callback=None)
+
+        功能：结束本次请求，并将响应缓冲区中的内容写入网络；
+
+        参数：include_footers：
+             callback：回调函数
+
+        返回值：该方法无返回值；
+
+        备注：
+            1：该方法用来结束请求并将响应缓冲区的内容写入网络；调用之后finish之后的代码将不再运行；
+            2：该方法可以设置回调函数，在内容响应至客户端之后将会调用该回调函数，但是finish的回调函数同一时刻只能有一个，否则先执行的将会覆盖掉后执行的；
+            3：该方法在write函数中会被主动调用，但是如果将函数修饰为一个协程时，该方法必须手动调用才能结束本次请求；
+        
+    8：渲染模板并响应模板内容：render
+        方法原型：def render(self,template_name,**kwargs)
+
+        功能：使用给定参数渲染模板，并将渲染之后的模板作为响应内容响应至客户端；
+
+        参数：template_name：模板名称
+             kwargs：发送给模板的参数
+
+        返回值：该方法无返回值；
+
+    9：渲染模板并返回模板内容：render_string
+        方法原型：def render_string(self,template_name,**kwargs)
+
+        功能：使用给定参数渲染模板，并将渲染之后的模板内容返回；
+
+        参数：template_name：模板名称
+             kwargs：发送给模板的参数
+
+        返回值：返回渲染完成后的模板内容，默认编码是utf-8；
+    
+    10：重定向：redirect
+        方法原型：def redirect(self,permanent=False,status=None)
+
+        功能：重定向到给定的url；
+
+        参数：permanent：重定向类型，如果为False则为302重定向(临时重定向)，如果为True则为301重定向(永久重定向)
+             status：HTTP状态码
+
+        返回值：无返回值
+        
+    11：向客户端发送错误码：send_error
+        方法原型：def send_error(self,status_code=500,**kwargs)
+
+        功能：向客户端发送给定的HTTP错误信息，该方法本质上是调用write_error方法将错误异常信息发送至客户端；
+        
+        参数：status_code：要发送给客户端的错误码
+              kwargs：要发送给错误页面的参数
+
+        返回值：无返回值
+
+        备注：
+            1：如果调用该函数时flush()方法未调用，那么将会放弃已经被写入响应缓冲区中的内容，使用错误页代替；如果已经调用flush()方法，那么该方法只是简单的终止响应；
+            2：可以覆写write_error来自定义该方法返回的错误页，额外的关键字也将发送给write_error；
+    
+    12：自定义错误异常页面：write_error
+        方法原型：def write_error(self,status_code=500,**kwargs)
+
+        功能：自定义错误异常页面
+        
+        参数：status_code：将要发送给客户端的错误码
+              kwargs：发送给错误页面的参数，一般可以将具体的错误信息传递至该参数
+
+        返回值：无返回值
+
+        备注：
+            1：如果所有的Handler中都有同样的错误处理页面(对于接口，可以是统一的错误返回机制)，那么可以定义一个BaseHandler，实现该方法，其余Handler继承该BaseHandler即可；
+            2：对于错误的统一处理和记录都可以在该方法中实现自定义；
+            3：系统默认在发生错误时将会调用该方法；如果自己覆写该方法要考虑调试模式和非调试模式；
+
+四：Handler类的其他方法：
+    1：Handler请求处理类除过以上处理请求的方法以外还提供了其他辅助方法，帮助更方便的处理请求：
+        1：初始化方法：initialize
+            方法原型：def initialize(self,param)
+            
+            功能：Handler类初始化的钩子函数，类似于该类的构造函数，实现该类实例对象的初始化工作 
+
+            参数：self：表示当前Handler类实例对象
+                 param：表示url映射传入该类的参数，即Application中定义URL的path和Handler类之间映射时的第三个参数作为该方法的参数:如：
+                    (r"/",MainHandler,{"setting":"this is setting"})
+
+                    def initialize(self,param):
+                        print param     #输出为：{"setting":"this is setting"}
+
+            返回值：该方法无需返回值
+
+            备注：该方法会在进入http方法之前最先执行；
+        
+        2：前置方法：prepare
+            方法原型：def prepare(self)
+
+            功能：Hnadler类中请求处理方法的前置方法，在请求进入具体的处理方法(get/post/put等)之前会先执行该方法；
+
+            参数：self：表示当前Handler的实例对象
+
+            返回值：该函数无需返回值
+
+            备注：该方法会在initialize方法调用之后，具体处理方法之前调用；
+        
+        3：后置方法：on_finish
+            方法原型：def on_finish(self)
+
+            功能：Hnadler类中请求处理方法的后置方法，执行完具体的处理方法(get/post/put等)之后将会执行该方法
+
+            参数：self：表示该Handler类的实例对象
+
+            返回值：该方法无需返回值
+
+            备注：1：无论http方法是否发生异常或者错误还是顺利执行，该方法都会被执行；
+                 2：该方法是在响应发送至客户端之后才会调用；不会影响响应返回的耗时；
+                 3：由于该方法是在响应发送至客户端之后才会调用，因此不会产生任何输出；避免在该方法中向响应缓冲区发送内容；
+
+五：cookies：
+    普通cookie:
+        1：获取单个cookie：get_cookie
+            方法原型：def get_cookie(self,name,default=None)
+
+            功能：获取指定name的cookie
+
+            参数：cookie名称以及默认值，默认值默认为None
+
+            返回值：如果没有指定cookie将会返回None；
+
+        2：设置单个cookie：set_cookie
+            方法原型：def set_cookie(self,name,value,domain=None,expires=None,path='/',expires_days=None,**kwargs)
+
+            功能：设置一个cookie
+
+            参数：name：cookie名称
+                value：cookie值
+                domain：cookie作用域名
+                expires：cookie过期时间，可以是时间戳、元祖、或者datetime对象；
+                path：cookie作用路径，默认是根路径
+                expires_days：有效天数，如果同时设置了expires和expires_days那么只有expires有效；
+            
+            返回值：该方法无返回值
+        
+        3：删除指定cookie：clear_cookie
+            方法原型：def clear_cookie(name,path='/',domain=None)
+            
+            功能：清除一个cookie
+
+            参数：name：待清除的cookie名称
+                path：待清除的cookie路径
+                domain：带清楚的cookie域名
+                如果同时设置以上三个参数，那么只有对应域名且对应路径且名称为指定name的cookie才会被清理；
+            
+            返回值：该方法无返回值；
+        
+        4：获取所有cookie：cookies
+            通过self.cookies属性即可获取所有cookie值；
+        
+        5：删除所有cookie：clear_all_cookies
+            方法原型：def clear_all_cookie(path='/',domain=None)
+            
+            功能：清除一个cookie
+
+            参数：path：待清除的cookie路径
+                domain：带清楚的cookie域名
+                如果同时设置以上三个参数，那么只有对应域名且对应路径的cookie才会被清理；
+            
+            返回值：该方法无返回值；
+
+    安全cookie：
+        1：所谓的安全cookie是指发往客户端的cookie并非明文单个cookie，而是按照规则加密之后的cookie；唯一的作用就在于可以防止伪造试探cookie；
+        2：创建安全cookie：
+            1：创建方式：set_secure_cookie(self, name, value, expires_days=30, version=None,**kwargs):
+                功能：该方法用来设置安全cookie；
+
+                参数：name：cookie名称
+                     value：cookie值
+                     expires_days=cookie有效期天数
+                     version=使用的加密版本，tornado系统定义了两种加密方式，分别是sha1和sha256，如果version=1则使用sha1加密cookie，如果version=2则使用sha256加密cookie；否则按照DEFAULT_SIGNED_VALUE_VERSION配置的版本加密；
+                
+                返回值：该方法无返回值
+
+                说明：
+                    1：创建安全cookie实际上是调用create_signed_value(self, name, value, version=None)方法来实现cookie加密；
+                    2： 对于create_signed_value函数：
+                        1：功能：用来对cookie加密，并生成最终的cookie内容；
+                        2：参数：name：待加密cookie名称
+                                value：待加密cookie值
+                                version：使用的加密方式，tornado系统定义了两种加密方式，分别是sha1和sha256，如果version=1则使用sha1加密cookie，如果version=2则使用sha256加密cookie；否则按照DEFAULT_SIGNED_VALUE_VERSION配置的版本加密；
+                                所使用的秘钥则是在创建Application时通过cookie_secret指定；
+                        3：返回值：最终将返回一个如下格式的字符串：version|length:unknown|length:created_timestamp|length:key|length:value|signature
+        
+        3：获取安全cookie：
+            1：获取方式：get_secure_cookie(name, value=None, max_age_days=31, min_version=None)
+                功能：获取设置的安全cookie
+
+                参数：name：cookie名称
+                     value：cookie值
+                     max_age_days：安全cookie的有效期天数；该参数用来筛选在有效期天数之内的cookie
+                     min_version：指定加密版本号
+                
+                返回值：该参数返回utf-8字节串，而非字符串；
+
+                说明：
+                     1：关于max_age_days参数，tornado中对于安全cookie的有效期不仅仅只有设置安全cookie时指定的expires_days来保证，实际上在使用该函数来获取安全cookie的时候会通过计算：当前时间戳-max_age_days的秒数是否大于设置安全cookie时指定的expires值来检测当前cookie是否有效，该参数值默认是31天，即如果expires_days设置的有效期大于31天，但是获取安全cookie时并未指定该参数，那么仍然获取不到cookie；
+        
+        4：跟安全cookie相关的几个常量值：
+            1：tornado.web.MIN_SUPPORTED_SIGNED_VALUE_VERSION=1：这个Tornado版本所支持的最旧的签名值版本
+            2：tornado.web.MAX_SUPPORTED_SIGNED_VALUE_VERSION=2：这个Tornado版本所支持的最新的签名值版本
+            3：tornado.web.DEFAULT_SIGNED_VALUE_VERSION = 2：当前版本默认的签名值版本，可以通过在设置安全cookie时传入version参数覆盖
+            4：tornado.web.DEFAULT_SIGNED_VALUE_MIN_VERSION = 1：可以被 RequestHandler.get_secure_cookie 接受的最旧的签名值，可以通过在获取安全cookie的值时通过min_version参数传入；
