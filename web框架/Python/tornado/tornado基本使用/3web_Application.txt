@@ -58,15 +58,17 @@
             xsrf_cookies：如果为True，将会启用xsrf攻击保护，与之相关的配置还有：
                 xsrf_cookie_version：xsrf_cookie生成的版本号，一般默认即可；
 
-
 三：Application对象相关方法：
     listen(port,address='',**kwargs)：
         1：该方法用来在指定端口启动一个HTTP server
-        2：使用该方法启动一个HTTP server之后仍然需要使用 IOLoop.current().start()来启动该服务；
-        3：如果是多进程模式，不要使用该方法启动服务，而是创建一个HTTPServer，然是用bind()绑定端口之后使用start()方法启动；如：
-            http_server = HTTPServer()
-            http_server.bind(8888)
-            http_server.start(0)
+        2：使用方式：app.listen(port)   # port为当前服务需要占用的端口，使用该方式启动服务只能启动一个进程；
+        3：使用该方法启动一个HTTP server之后仍然需要使用 IOLoop.current().start()来启动该服务；
+        4：如果是多进程模式，不要使用该方法启动服务，而是创建一个HTTPServer，然是用bind()绑定端口之后使用start()方法启动；如：
+            from tornado.httpserver import HTTPServer    # 导入HTTPServer
+            http_server = HTTPServer(app)    # app是Application的实例对象
+            http_server.bind(8888)    # 绑定端口
+            http_server.start(num_proccess)    # num_proccess表示需要启动的进程数
+        注意：使用多进程启动tornado时需要关闭debug模式
 
     add_handler(host_pattern,host_handlers)：
         添加给定的handler到handler表；
@@ -77,8 +79,3 @@
     log_request(handler)：
         http请求完成时会将该请求的信息写入到日志中；默认情况下回写入到python的根logger；
         如果要修改该方法可以是在子类中覆写该方法，或者是创建Application时设置log_function参数；
-
-
-
-
-
