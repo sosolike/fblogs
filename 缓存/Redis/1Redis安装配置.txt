@@ -1,0 +1,51 @@
+一：关于Redis：
+    1：Redis是一个基于BSD协议开源的并且基于内存的数据存储结构；
+    2：Redis支持多种数据存储结构：
+        常用的数据结构有：string(字符串)、set(集合)、zset(有序集合)、list(列表)、hash(hash table)、bitmap(二进制位)、hyperloglog(统计算法)
+        其他的数据结如：geospatial index(地里空间)、stream(流)；
+    3：Redis支持将内存中的数据按照策略使用RDB(全量)和AOF(追加)的方式持久化至文件；
+    4：Redis支持多种不同的LRU淘汰算法进行数据失效的机制；
+    5：Redis支持多种不同的运行方式：如单机模式、主从模式、哨兵模式、集群模式；
+
+二：安装和运行：
+    安装：对于linux：可按照以下方式安装和启动：
+        下载Redis安装包
+            wget http://download.redis.io/releases/redis-3.2.11.tar.gz
+
+        解压Redis安装包
+            tar -zvxf redis-3.2.11.tar.gz
+
+        进入Redis安装包
+            cd redis-3.2.11.tar.gz
+
+        编译Redis：
+            make Redis
+
+    编译之后的目录结构(主要的文件和目录)：
+        redis.conf      redis配置文件
+        sentinel.conf   哨兵配置文件
+        src             源码以及可执行文件目录
+        tests           测试文件目录
+        utils           工具类文件目录
+
+    运行：单机运行模式：
+        编译之后，Redis的可执行文件均在src目录中，首先进入src目录
+            cd redis-3.2.11.tar.gz/src
+
+        启动Redis服务：运行redis-server可执行文件即可启动Redis服务
+        使用默认配置启动：
+            ./redis-server(使用默认配置并非使用src同级目录下的redis.conf文件中的配置项)
+        使用配置文件启动：
+            ./redis-server    ../redis.conf(使用指定的配置文件启动Redis服务 ../redis.conf 即为Redis配置文件路径)
+        说明：
+            1：以此方式启动的Redis属于单机运行模式；
+            2：使用默认配置启动时会以6379端口启动；
+            3：使用默认配置启动时服务端无密码；
+            4：使用默认配置启动时服务会以前台的模式运行，如果要以后台模式运行可以通过 ./redis-server & 的方式启动；
+    
+    启动Redis客户端：
+        首先进入src目录
+            cd redis-3.2.11.tar.gz/src
+
+        运行redis-cli可执行文件即可启动Redis客户端
+            ./redis-cli -h host -p port -a password
