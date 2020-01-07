@@ -70,9 +70,49 @@
                 time_t lastsave;    // unix时间戳，表示上次成功执行save或者bgsave命令时的时间；
                 这两个字段会在Redis的周期函数serverCron中来检测当前是否需要执行bgsave；其中serverCron函数用来对Redis进程状态进行维护，每个1s调用一次；
 
-    3：触发RDB的方式：
-        1：在 redis.conf 配置文件中设置自动触发 save 的条件，在相应的时间点内对key的更新次数符合设置条件时将会自动执行RDB操作；
-        2：向Redis服务发送save命令或者bgsave命令；
+    4：RDB文件格式：
+        1：RDB文件特征：RDB文件是二进制格式的，文件中无新行或者空格，并且存储的是每一个键的最终数据而不是操作记录；
+        2：RDB文件格式：
+            RDB文件组织格式为：
+                REDIS:db_version:database:EOF:check_sum
+                    REDIS：
+                        大写的REDIS字符串，表示该文件是Redis的RDB文件，帮助Redis快速检测文件类型；大小为5个字节；
+                    db_version：
+                        RDB文件版本号；大小为4个字节
+                    database：
+                        数据库信息，包括数据号和数据库中存储的键值对，如果数据库中无数据，该值为0；如果有数据则按照database格式存储；
+                    EOF：
+                        RDB文件结束符，标志RDB文件正文内容的结束，使用RDB文件恢复数据时，如果遇到该值说明所有的键值对都已经载入内存了；
+                    check_sum：
+                        检测RDB文件是否有错误或者损坏，该值是根据REDIS、db_version、database、EOF四个部分的内容进行计算而出的；载入RDB文件时会将载入的数据计算得到的校验值和check_sum进行对比；大小为8个字节；
+            
+            database具体数据组织格式：
+                SELECTDB:db_number:key_value_pairs
+                    SELECTDB：
+                        数据库标识，常量，读取程序遇到该值时接下来的数据会被当做数据库号；
+                    db_number：
+                        具体的数据库号；
+                    key_value_pairs：
+                        保存该数据库中的所有的键值对；
+            
+            key_value_pairs键值对组织格式：
+                EXPIRETIME_MS:ms:TYPE:key:value
+                    EXPIRETIME_MS：
+                        表示键值对过期时间标识，遇到该值时接下来读取到的内容会被当做过期时间，以ms为单位；长度为1字节；
+                    ms：
+                        具体的过期时间，8个字节大小
+                    Type：
+                        value的数据类型；Redis中的数据类型之一，长度为1字节
+                    Key：
+                        键名
+                    value：
+                        键值
+                    
+
+            
+                
+
+
 
                 
 
