@@ -1,0 +1,126 @@
+1：异常：
+    1：正常执行逻辑时，发生预料之外的错误称之为异常；
+    2：在编写程序时，不仅要处理'正确'的逻辑，也要预估并处理可能发生的异常来保证程序的健壮；
+
+2：java异常机制：
+    1：java中的异常：
+        1：java中通过异常类来表示某个异常，异常类中存放异常发生时的详细信息；
+        2：java中的异常类继承结构如下：
+            Object
+                |--Throwable:
+                    |--Error：错误，表示JVM在运行中发生的错误：
+                        |--OutOfMemoryError; //内存溢出异常
+                    |--Exception：异常，表示应用程序在运行期间发生的错误；
+                        |--Runtime Exception：运行时异常，编译期间不会检测是否需要处理；
+                            |--NullPointerException //空指针异常
+                            |--ArrayIndexOutOfBoundsException //数组越界异常
+                            |--NumberFormatException  //数字格式化异常
+                            |--...其他运行时异常
+                        |--Checked Exception：编译异常，编译期间就会检测是否需要处理的异常；
+                            |--IOException
+                            |--EOFException
+                            |--FileException
+                            |--SQLException
+                            |--ClassNotFoundException
+                            |--...其他编译时时异常
+
+        3.java中异常的设计思想：
+            Error：表示JVM在运行期间发生的错误，供JVM进行异常处理。
+                   发生此类错误业务程序几乎无能为力，只能尽快结束安全的结束进程，因此业务程序无需捕获并处理Error类型的异常，即使捕获了应用程序一般也无法解决；
+            Exception：表示业务运行期间发生的错误，需要由业务自身捕获并处理；
+                      Exception本身又分为RuntimeException和CheckedException;
+                      RuntimeException：表示运行时异常，在编译期间不会检测是否需要处理此类异常；
+                      CheckedException：表示编译异常，在编译期间就会检测是否需要处理此类异常；
+                      关于RuntimeException和CheckedException的设计思想在于：
+                        CheckedException表示可预料的异常，比如在操作文件时，那么就有可能出现文件不存在这个异常，这个异常是可以提前预料到的；
+                        RuntimeException表示无法预料到但是又有可能发生的异常，
+
+        4：自定义异常类：
+            1.除过系统预置的异常类以外，还可以根据需要自定义异常类,自定义的异常类都是RuntimeException;
+            2.自定义异常类必须直接或者间接继承自Exception或者RuntimeException;且必须提供一个无参构造方法和一个有参构造方法；其中有参数的构造方法中的参数即为发生异常时的描述信息；
+            3.示例如下：
+                public class MyException extends Exception
+                {
+                    public MyException()
+                    {
+                        /*无参构造方法*/
+                    }
+                    public MyException(String exceptionMessage)
+                    {
+                        /*有参构造方法*/
+                    }
+                }
+
+3：声明和抛出异常：
+    1.声明异常：
+        1.如果能够预料到当前方法可能发生的异常，并且该异常一旦发生就必须要处理，那么可以在该方法声明时声明需要被调用方处理的异常；
+        2.java中通过throws关键字声明异常，一次可以声明多个将要抛出的异常，多个异常之间使用,隔开，如:
+            public void testException()
+                    throws Exception1,Exception2{
+                    //方法体
+            }
+        3.通过throws声明的方法在被调用时，编译阶段就会检查是否处理了声明的异常，因此调用方可以选择显式的使用try...catch..来捕获并处理，或者继续使用throws声明由上一个调用方处理；如：
+            //当前方法不能处理，由当前方法的调用方处理，继续使用throws声明异常
+            public void testExc() 
+                    throws Exception1,Exception2{
+                    testException()
+            }
+
+            //当前方法可以处理，由当前方法处理
+            public void testExc(){
+                try{
+                    testException()
+                }catch(Exception1|Exception2 e){
+                    e.printStackTrace();
+                }
+            }
+    2.抛出异常：
+        1.在程序运行过程中，如果发生了java预置的异常，那么程序会自动抛出，也可以根据业务逻辑使用throw手动抛出异常；
+        2.throw抛出异常语法：throw new Exception("异常信息")
+        
+4：捕获并处理异常：
+    1：默认情况下，如果触发异常，但是未捕获并处理异常，发生的异常详细信息会被打印至控制台，也可以使用try...catch机制捕获并自定义异常处理方式；
+    2：使用try...catch机制来捕获并处理异常，其语法结构如下：
+        try{
+            /*有可能发生异常的正常业务代码*/
+        }catch (AEsxception e1){
+            /* 捕获并处理预置异常*/
+        }catch (BException e2){
+            /* 捕获并处理预置异常*/
+        }finally{
+            /* 无论是否发生异常都会执行该代码*/
+        }
+
+    3：try...catch结构详解：
+        1：try语句块：在try语句块中放置正常执行但有可能发生异常的代码；
+        2：catch语句块：在catch语句块中捕获并处理捕获到的异常：
+            1：捕获方式：catch (Exception e){} ：
+            2：语法说明：
+                1：Exception为需要捕获的异常，即异常类；e即为捕获到的异常类实例对象；
+                2：捕获到异常之后，可以使用异常类的实例对象获取异常类中的异常信息：
+                    e.getMessage()：获取发生的异常信息，以字符串形式返回；
+                    e.getStackTrace()：获取发生的异常栈信息，以字符串形式返回；
+                    e.printStackTrace()：向控制台打印异常栈信息；
+                    e.printStackTrace(PrintStream s)：向指定输出流中打印异常栈信息；
+                3：java中允许使用多个catch来捕获多个错误：
+                    1：语法结构：
+                        try{}
+                        catch (AException e1){}
+                        catch (BException e2){}
+                        ...
+                    2：捕获多个异常注意事项：多个异常必须是同级异常或者异常范围由小至大；不能由大至小，否则范围更大的异常优先被捕获，更小的异常将永远无法捕获到；
+                    3：JDK1.7新增的多异常捕获处理语法：
+                        1：多个异常使用|分隔：catch (AException|BException|CException e){}
+                        2：e表示当前捕获到的异常类实例对象，是一个不可变量，有隐式的final修饰，因此在catch中不允许对e重新赋值；
+        3：finally语句块：无论try块中是否发生异常，finally中的代码都将执行；使用finally块的注意事项：
+                1：如果在try块、catch块中有return、throw语句时，将先检查是否有finally语句块，如果有finally语句块时将会优先执行finally语句块中的代码，然后再执行return和throw语句；
+                2：如果在try块、catch块中有System.exit(1)语句，程序将不再执行finally语句块中的代码，执行到System.exit(1)时直接结束虚拟机；
+                3：在finally语句块中执行return或者throw等语句时，将会导致try块和catch块中的return和throw失效，出现不可预料的结果；
+                4：利用finally语法的特性，通常会在finally中进行资源的回收；在JDK7以上的版本提供了资源自动回收机制，在JDK7中几乎所有的资源类（如：文件IO等）均实现了AutoCloseable或者Closeable接口中的close方法，因此在JDK7以上，资源的回收都会在try块中自动进行；
+        4：使用try...catch捕获异常时的注意事项：
+            1：异常处理的类型要精确：避免直接捕获Exception或者RuntimeException异常甚至直接捕获Throwable类型的异常，处理的异常级别过高将会导致一些本该处理的错误也被忽略；
+            2：异常处理的范围要合适：只处理有可能发生异常的代码，避免try块过大，过滤掉本应该被解决的语法错误或者业务错误；
+            3：异常处理的使用要适度：不要使用异常处理的方式代替错误处理，尽量手动提前处理有可能发生的错误，避免滥用异常处理机制；
+            4：异常处理情况要全面：对一切可能发生的异常情况进行处理；避免漏掉本该处理的异常情况，尤其在使用第三方类库、模块时，要及时了解需要处理的异常；
+            5：不要隐藏捕获到的异常，更不能对异常置之不理：要根据异常级别和类型来记录异常，然后以更合适的方式报告异常；
+            6：不能让异常的处理掩盖掉业务逻辑：当前发生异常的方法必须要能够让调用方得知此刻发生了异常，而不是掩盖异常之后汇报null值，否则调用方将无从得知此刻是本就没有数据还是发生了异常没有获取到数据；
