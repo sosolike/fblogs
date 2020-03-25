@@ -1,0 +1,96 @@
+1.结构分层
+    src/main/java/com.package.name(代码文件)
+        |--controller(控制器类,接收、处理、响应用户请求)
+             |--UserController.java
+
+        |--domain/pojo(数据表实体类，jpa项目使用domain命名，mybatis使用pojo命名) 
+            |--User.java(一个domain/pojo文件对应一个数据表)
+
+        |--service(数据处理接口层，定义与数据库交互的接口)
+            |--UserService.java  (定义与user表交互的接口)
+            |--impl (数据处理实现层，实现service中的接口，service具体实现)
+                |--UserServiceImpl.java (UserService的具体实现)
+            
+        |--dao/mapper(sql语句的映射接口文件，直接与数据库交互，执行增删改查语句,dao和mapper是mybatis的不同开发方式，在springboot中推荐使用mapper方式开发)
+            |--UserMapper.java
+            
+        |--utils(自定义类库,工具类，component)
+            
+        |--annotation(自定义注解)
+            
+        |--aspect(切面)
+            
+        |--XxxxApplication.java(项目启动文件)
+    src/main/resources(资源文件，通常是各种配置文件)
+        |--mapper(放置mybatis的xml文件)
+        |--static
+        |--template
+        |--mybatis-config.xml(如果使用注解的话没有该文件)
+        |--spring-config.xml(spring的xml配置文件，通常情况下spring boot项目没有该配置文件)
+
+2.路由映射
+    统一路由处理：
+        @RequestMapping
+        1.注解参数：
+            1.请求路径过滤(类和方法共有时采用 追加模式)
+                String name() default "";
+
+                @AliasFor("path")
+                String[] value() default {};
+
+                @AliasFor("value")
+                String[] path() default {};
+
+            2.请求方法过滤(类和方法共有时采用 共享模式)
+                RequestMethod[] method() default {};
+                说明：
+                    1.该参数用在类上表示该类中所有方法的默认请求方法；
+                    2.具体方法上可以覆盖
+
+            3.请求参数过滤(类和方法共有时采用 冲突模式)
+                String[] params() default {};
+                说明：1.发送来的请求必须携带指定参数，且指定参数必须为指定值
+                      2.如果该参数用在类上表示整个类中的方法在接受请求时都要求带上该参数
+                      3.如果该参数同时用在方法上和类似，表示该方法接受的请求既要有类上表明的参数还要有方法上设置的参数
+                      4.方法上的同名参数可以覆盖类上的值
+                     
+            4.请求头过滤(类和方法共有时采用 冲突模式)
+                String[] headers() default {};
+                说明：1.表示当前请求必须携带指定header头，且值为指定值；
+                     2.用在类上表示整个类的方法都要有该header头，且为指定值；
+                     3.用在方法上表示当前方法接受的请求既要有类上的请求头也要有方法上的请求头
+                     4.方法上的同名请求头可以覆盖类上的；
+
+            5.请求头中的Content-Type字段过滤(类和方法共有时采用 覆盖模式)
+                String[] consumes() default {};
+                    说明：1.表示当前请求的header头必需要有Content-type字段，且值为指定值
+                         2.用在类上表示整个类的方法都要满足该条件
+                         3.用在方法上表示只有该方法需要满足这个条件
+            6.请求头中的Accept字段过滤(类和方法共有时采用 覆盖模式)
+                String[] produces() default {};
+3.参数获取
+@PathVarable
+@RequestParam
+@ModelAttribute
+HttpSeverletRequest
+
+4.响应设置
+
+响应内容：
+    如果设置了@RequestBoady,将会自动把对象、map、list转换为json或者xml，否则将直接走视图处理器，必须返回一个渲染后的页面
+    如果没有设置@RequestBoady,也可以通过HttpSeverletResponse来设置具体返回格式；但是响应头信息的增加和修改只能通过HttpServletResponse来进行
+添加响应头：
+    rsp.addCookie()
+    rsp.addHeader()
+    rsp.addIntHeader()
+    rsp.addDateHeader()
+修改/设置响应头
+    rsp.setHeader()
+    rsp.setIntHeader()
+    rsp.setDateHeader()
+    rsp.setCharacterEncoding("UTF-8");
+    rsp.setStatus(200);
+    rsp.setContentType("application/json");
+
+5.统一异常处理
+6.项目配置
