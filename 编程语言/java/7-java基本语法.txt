@@ -1,19 +1,25 @@
-注释：
-    1：java中的注释：
-        1：注释类型：单行注释、多行注释、文档注释；
-        2：注释功能：单行注释和多行注释用来对代码解释说明，
-                   文档注释用来对当前文件中的类、接口、方法等进行解释说明；
-    2：单行注释：// 代码说明
+1.注释：
+    1.java中的注释：
+        1.注释类型：单行注释、多行注释、文档注释;
+        2.注释功能：单行注释和多行注释用来对代码解释说明;
+                   文档注释用来对当前文件中的类、接口、方法、属性等进行解释说明;
+
+    2：单行注释：
+        语法：// 注释内容
+        位置：语句之前
         例如：int a = 0;    // a的注释
 
     3：多行注释：
-        /*
-         * 代码说明
-         * 代码说明
-         */
+        语法：
+            /*
+            * 注释内容
+            * 注释内容
+            */
+        位置：语句之前
         例如：
            /*
             * 学生姓名
+            * 默认为空
             */
             String studentName = "";
 
@@ -23,73 +29,106 @@
             * 文档注释，对类、接口、方法进行说明
             */
         2：文档注释位置：
-            文档注释必须在类、接口、方法前面，表示对类、接口、方法的说明，不能出现在其他位置，否则视为无效；
+            文档注释必须在类、接口、方法、属性、构造方法前面，表示对类、接口、方法、属性、构造方法的说明，不能出现在其他位置，否则视为无效；
         3：文档注释的作用：
-            文档注释时是对类、接口、方法的说明，可以通过javadoc工具将文档注释生成为html网页文件，可以通过文档注释文件来了解一个类；
+            1.文档注释时是对类、接口、方法、属性、构造方法的描述；
+            2.文档注释可以通过javadoc工具将文档注释生成为html网页文件，可以通过文档注释文件来了解一个类；
         4：文档注释的组成：
-            1：文档注释一般由两部分组成：
-                第一部分：描述，对类、接口、方法的简要描述；
-                第二部分：文档标记，以@作为前缀，对类、接口、方法的基本属性进行说明；
-            2：文档标记：
-                1：文档标记通常有两种：@tag类型的和{@tag}类型的，区别如下：
-                    1：@tag类型的称之为块标记，一般放在文档注释的描述后面，作为标签独立描述某个特征；
-                    2：{@tag}类型的称之为内联标签，一般放在主要描述中，在生成文档注释文件时会标记出该标签，也可以放在块标签的注释中；
-                2：文档标记以@作为前缀，常用的由以下几种：
-                    @author    ：作者
-                        1：表示创建该类、接口、方法的作者，一般用在类、接口的文档注释中；
-                        2：语法形式：@author 作者名称
-                    @version   ：版本号
-                        1：表示类、接口、方法的版本，一般用在类、接口的文档注释中；
-                        2：语法形式：@version 版本号；
-                    @param     ：方法形参
-                        1：表示方法的形参，一般用在方法的文档注释中；
-                        2：语法形式：@param 参数名 参数描述
-                    @return    ：方法返回值
-                        1：表示方法的返回值，一般用在方法的文档注释中；
-                        2：语法形式：@return 返回值描述
-                    @throws/@exception    ：可能抛出的异常
-                        1：表示该方法有可能抛出的异常；
-                        2：语法形式：@throws 异常类型 异常描述|@exception 异常类型 异常描述
-                    @deprecated：过期的方法(注解)
-                        1：表示该方法已经过期，，不再推荐使用该方法；
-                        2：语法形式：直接在方法前面使用@deprecated 过期原因 即可；
-                    @since     ：从当前版本以后
-                        1：表示从当前项目版本之后才有的方法：
-                        2：语法形式：@since 当前项目版本或者当前时间
-                    @see       ：另请参阅
-                        1：多用在类上，标记与该类相关联的类；也可以用在方法上；
-                        2：语法形式：@see  其他类、方法
-                    @code      当前类或者当前方法
-                        1：使用{@code 类名/方法名}可以在文档中标记该类名、方法名；
-                        2：使用语法形式：{@code 类名/方法名}
-                    {@inheritDoc} ：继承父类中的文档注释
-                        1：表示当前陈继承的类、重写的方法继续使用父类的文档注释；
-                        2：使用语法形式：直接在类、方法前使用@inheritDoc注解即可；
-                3：关于文档注释标记使用的注意事项：
-                    1：javadoc标记必须从一行的头开始，不能续在另一行的尾部；
-                    2：javadoc标记严格区分大小写，使用时需要保证javadoc标记的正确性，否则将不能识别；
-                    3：推荐将同种类型的标记放在一起；
-                    4：不同场景下常用的标记：
-                        类、接口常用的标记：@author、@version
-                        方法常用的标记：@param、@return、@exception/@throws、@since
+            1.接口、类的文档注释：通常由三部分组成：
+                第一部分：
+                    1.大概描述接口或者类的作用；
+                    2.通常是一句或者多句话组成，以英文符号 . 结束；
+                第二部分：
+                    1.接口或者类的详细描述；
+                    2.通常是一段或者多段话组成；
+                    3.描述可以使用<p></p>、<pre></pre>等html标签包裹；
+                    4.描述本身由描述内容和文档标记组成，常用的文档标记如下：
+                        1.{@link package.class#member label}：表示链接到其他相关的代码；并且label会以代码字体的形式显示，只能使用在文档的描述部分，以{}包裹；
+                             使用方式：
+                                当前类中未导入包名以及类名；
+                                    1.{@link 包名.类名#方法名(参数类型)} 
+                                当前类中已经导入了包名或者类名；
+                                    1.{@link 类名#方法名(参数类型)} 
+                                    2.{@link 类名} 
+                                    3.{@link #方法名(参数类型)}
+                            文档注释文件显示效果：该标签最终会被作为一个a链接显示；
+                        2.{@linkplain  package.class#member label}：表示链接到其他相关的代码；但是label不会以代码字体的形式显示，而是普通的文本形式，只能使用在文档的描述部分，以{}包裹；
+                             使用方式：
+                                当前类中未导入包名以及类名；
+                                    1.{@linkplain  包名.类名#方法名(参数类型)} 
+                                当前类中已经导入了包名或者类名；
+                                    1.{@linkplain  类名#方法名(参数类型)} 
+                                    2.{@linkplain  类名} 
+                                    3.{@linkplain  #方法名(参数类型)}
+                            文档注释文件显示效果：该标签最终会被作为一个a链接显示；
+                        3.{@code text}：表示以代码字体显示text，不会将文本解释为html标记或者javadoc标记；只能使用在描述部分，使用时需要以{}包裹；
+                             使用方式：{@code string} 或者 {@code <string>}
+                        4.{@literal text}：表示以文本显示text，不会将文本解释为html标记或者javadoc标记；只能使用在描述部分，使用时需要以{}包裹；
+                             使用方式：{@literal text}
+                第三部分：
+                    1.描述类的创建信息，包括作者，版本号，参考类等；
+                    2.该部分必须使用文档标记完成，常用的文档标记如下：
+                        @author 作者
+                        @version 版本号
+                        @since 指定版本之后新增的
+                        @see 参考其他信息，常见使用方式：
+                            @see 文本信息
+                            @see #field  参阅当前类的其他字段
+                            @see #method（类型，类型，...）  参阅当前类的其他方法
+                            @see Class＃field   参阅指定class的其他字段
+                            @see Class＃method（Type，Type，...）   参阅指定class的其他方法
+                            @see package.Class＃field    参阅指定包中的类的属性
+                            @see package.Class＃method（Type，Type，...）参阅指定包中的类的方法
+                            @see package.Class    参阅指定包中的类
+                            @see package   参阅指定包
 
-        5：生成文档注释：
-            1：使用javadoc命令生成文档注释：javadoc [options] [packagenames] [sourcefiles]
+           2.写在方法前面的文档注释：同样由三部分组成，
+                1.第一部分是对方法的概述，通常是一句或者多句话组成，以英文符号 . 结束；
+                2.第二部分是对方法的详细描述，和类、接口的第二部分类似，由html标记包裹，内容则由描述信息和一些文档标记组成；
+                3.第三部分是对方法的参数、返回值、异常的描述，必须有文档标记组成，常用有以下标记：
+                    @author 作者
+                       语法形式：@author 作者
+                    @version 版本号
+                       语法形式：@version 版本号
+                    @param 方法形参
+                       语法形式：@param 参数名 参数描述
+                    @return 方法返回值
+                       语法形式：@return 返回值描述
+                    @throws/@exception 将要抛出的异常
+                       语法形式：@throws 异常类型 异常描述
+                                @exception 异常类型 异常描述
+                    @deprecated：过期的方法(注解)表示该方法已经过期，不再推荐使用该方法；
+                       语法形式：@deprecated 过期原因；
+                    @since 该方法从指定版本之后添加的
+                       语法形式：@since 当前项目版本号或者当前时间
+                    @see 另请参阅
+                        语法形式和类的文档注释中@see标记完全相同；
+
+        5：生成文档注释文件：
+            1：使用javadoc命令生成文档注释：javadoc [options] [packagenames]  [sourcefiles] @files
                 其中：options：表示javadoc命令的选项
-                     packagenames：表示包名
-                     sourcefiles：表示源文件名
-            2：参数如下：
-                -public	    仅显示 public 类和成员
-                -protected	显示 protected/public 类和成员（默认值）
-                -package	显示 package/protected/public 类和成员
-                -private	显示所有类和成员
-                -d <directory>	输出文件的目标目录
-                -version	包含 @version 段
-                -author	包含 @author 段
-                -splitindex	将索引分为每个字母对应一个文件
-                -windowtitle <text>	文档的浏览器窗口标题
+                        -public	    仅显示 public 类和成员
+                        -protected	显示 protected/public 类和成员（默认值）
+                        -package	显示 package/protected/public 类和成员 (对应default权限)
+                        -private	显示所有类和成员
+                        -d <directory>  指定javadoc保存生成的HTML文件的目录
+                        -version	包含 @version 标记
+                        -author	    包含 @author 标记
+                        -windowtitle <text>	文档的浏览器窗口标题
+                        -header header 指定输出的HTML文档的页眉文本。
+                        -footer footer 指定输出的HTML文档的脚注文本。
+                        -bottom text 指定输出的HTML文档底部的文本。
+                     packagenames：
+                        1.表示包列表，即要生成注释文档的包;
+                        2.javadoc命令不支持通配符，因此如果有多个包需要一一列出每一个包；
+                     sourcefiles：
+                        1.表示源文件名，即要生成注释文件的java源文件名称，多个文件可以使用空格隔开;
+                        2.javadoc允许四种源文件：类源代码文件、包描述文件、总体概述文件、其他杂文件
+                     @files：如果使用packagenames和sourcefiles参数指定相关选项时太过麻烦也可以将选项配置在一个文件中，然后使用@files指定配置文件的路径即可；
+            2.使用idea生成文档注释：
+                 Tools --> Generate JavaDoc
 
-标识符、分隔符以及关键字：
+2.标识符、分隔符以及关键字：
     标识符：
         1：java中给包、类、接口、变量、方法等命名的字符串称之为标识符；
         2：标识符命名规则：
@@ -98,39 +137,130 @@
             3：标识符在不同的场景下有不同的要求，具体如下：
                 1：对于包名：推荐采用完整单词、全小写的方式命名，多个单词之间使用.分隔；
                 2：对于类名、接口名：推荐采用完整单词且首字母大写的驼峰式命名法命名；
-                3：对于变量、方法名：推荐采用完整单词的驼峰式命名法命名；
+                3：对于变量、方法名：推荐采用完整单词的首字母小写的驼峰式命名法命名；
             4：标识符名称应该简洁明确，避免中英混合，避免不合理的缩写；
     分隔符：
         语句：
             1：java中一条语句以';'结尾；
-            2：语句可以换行书写，但是尽量保持一行只写一条语句；标识符名称本身不能换行书写；
+            2：语句可以换行书写，但是尽量保持一行只写一条语句，语句中的标识符名称本身不能换行书写；
+            3.一条语句应该尽量简短，避免过于长，尽量不要超过79个字符；
+
+        空行：
+            1.空行不是必须要求的；可以根据需要添加，来增加文件的可读性；
+
         代码块：
             1：java中代码块通过'{}'来表示；
+        
+        空格：
+            1.不同的标识符、关键字之间必须要有空格；
+            2.()内的参数建议使用空格隔开，运算符两侧建议使用空格隔开，增加可读性；
+            3.但是语句中的变量赋值不建议使用空格对齐，如:
+                String name = "a";
+                int    age  = 12;
     关键字：
         1：java中因为语法需要已经使用的标识符称之为关键字，比如class、interface、int等；自定义的标识符不能和关键字同名；
-        2：与关键字类似的还有保留字，即java中暂时没有使用，但是将来可能使用的单词称之为保留字；自定义的标识符同样不能喝保留字同名；
+        2：与关键字类似的还有保留字，即java中暂时没有使用，但是将来可能使用的单词称之为保留字；自定义的标识符同样不能和保留字同名；
 
-基本数据类型：
+流程控制：
+    1：条件：
+        第一种形式：if
+            if(条件){
+                /* do something... */
+            }
+
+        第二种形式：if...else
+            if(条件){
+                /* do something... */
+            }else{
+                /* do something... */
+            }
+
+        第三种形式：if...else if...else
+            if(条件){
+                /* do something... */
+            }else if(条件){
+                /* do something... */
+            }else{
+                /* do something... */
+            }
+        注意：java中if、else if、else语句块会产生作用域，在语句块中声明的变量外部无法访问；
+
+        第四种形式：三目运算：
+            流程规则：如果b>c这个条件成立，将b赋值给a，否则将c赋值给a；
+            a = b>c ? b : c; 
+
+        第五种形式：switch
+            switch(data)
+            {
+                case a:
+                    /* do something */
+                    break;
+                case b:
+                    /* do something */
+                    break;
+                default:
+                    /* do something */
+            }
+            注意：
+                1：swith中的条件值可以是char、byte、short、int等基本数据类型数据，也可以是Character、Byte、Short、Integer等引用类型数据，也可以是String和enum类型的数据；除此之外不允许传入其他类型的数据；
+                2：多个条件的处理方式相同时可以共用处理逻辑，在最后处理完成之后再break即可，如
+                    switvh(data){
+                        case 1:
+                        case 2:
+                            //do something
+                            break;
+                        default:
+                            //do something
+                    }
+                3：default分支不是必须要有的，根据实际情况选择是否需要default分支，如果所有的case都未走入时将会进入default中执行；
+
+    2：循环：
+        循环方式1：while
+            while(条件){
+                /* do something... */
+            }
+
+        循环方式2：do...while
+            do{
+                /* do something... */
+            }while(条件);
+
+        循环方式3：for：
+            for(循环遍量初始值;继续循环条件;循环遍量修改表达式){/* do something... */}
+        
+        循环方式4：forEach
+            for(元素类型 元素变量 : 被遍历对象(数组或者集合))
+
+        循环控制：
+            1：break：立即结束当前循环，并跳出循环开始执行循环之后的代码；
+            2：continue：终止本次循环，不再执行本次循环剩余的语句，并开始下一次循环；
+        注意：
+            1.循环语句块会产生作用域，在循环语句块中声明的变量无法再外部访问；
+            2.不要再循环语句块中执行资源消耗类的操作或者其他延时操作；
+            
+4.基本数据类型：
     1：java中的数据类型分类：
-        数据类型:
-            |--引用类型
-            |--基本类型：
-                |--整数类型：
-                    |--byte：1字节，8位，十进制范围在-128~127；
-                    |--short：2字节，16位，十进制范围在-32768~32767；
-                    |--int：4字节，32位，十进制范围在-2147483648~2147483647(2的-32次方~2的31次方)；
-                    |--long：8字节，64位，十进制范围在2的-64次方~2的63次方；
-                |--浮点数类型：
-                    |--float：4字节，32位，6~7个有效位，单精度类型；
-                    |--double：8字节，64位，15个有效位，双精度类型；
-                |--字符类型：
-                    |--char：2字节，16位，支持65536个字符；
-                |--布尔类型：
-                    |--boolean：1字节，值只有true/false；
+        |--引用类型(class类型)
+            |--引用类型均直接或者间接继承自Object类
+        |--基本类型：
+            |--整数类型：
+                |--byte：1字节，8位，十进制范围在-128~127；
+                |--short：2字节，16位，十进制范围在-32768~32767；
+                |--int：4字节，32位，十进制范围在-2147483648~2147483647(-2^32~2^32-1)；
+                |--long：8字节，64位，十进制范围在-2^64~2^64-1；
+            |--浮点数类型：
+                |--float：4字节，32位，6~7个有效位，单精度类型；
+                |--double：8字节，64位，15个有效位，双精度类型；
+            |--字符类型：
+                |--char：2字节，16位，使用unicode字符集，支持65536个字符；
+            |--布尔类型：
+                |--boolean：1字节，值只有true/false；
+
     2：基本数据类型说明：
         1：整数类型：
-            1：java中的整数按照所占字节数多少分为byte、short、int、long，整数可以为正整数、0、负整数；
-            2：java中的整数支持以二进制、八进制、十进制、十六进制表示；其中：
+            1.java中的整数按照所占字节数多少分为byte、short、int、long，包括正整数、0、负整数；
+            2.java中的整数支持以二进制、八进制、十进制、十六进制表示；
+            3.不同进制的整数：
                 1：不同进制数字组成：
                     1：二进制以0b或者0B作为前缀，由0和1组成；
                     2：八进制以0作为前缀，由0~7组成；
@@ -139,25 +269,27 @@
                 2：不同进制之间类型转换：
                     java中进制转换必须以十进制为中间进制，可以将其他进制转换为十进制，然后再由十进制转换为其他进制；
                     1：十进制转其他进制：借助int类型的包装类Integer提供的方法进行转换：
-                        十进制转二进制：Integer.toBinaryString(num)
-                        十进制转八进制：Integer.toOctalString(num)
-                        十进制转十六进制：Integer.toHexString(num)
-                        十进制转r进制：Integer.toString(进制数,num)
-                        注意：1：待转换值num必须是byte、short、int类型的十进制数字；long型不能通过上述方式进行转换；
-                             2：转换的结果均是对应进制的字符串形式；
+                        十进制转二进制字符串：Integer.toBinaryString(num)
+                        十进制转八进制字符串：Integer.toOctalString(num)
+                        十进制转十六进制字符串：Integer.toHexString(num)
+                        十进制转r进制字符串：Integer.toString(进制数,num)
+                        注意：1：待转换值num必须是byte、short、int类型的十进制数字，不能是long型整数，也不能是整数字符串；
+                              2：转换结果都是对应进制的字符串；
                     2：其他进制转10进制：
                         Integer.parseInt(String num,int radix)
-                        注意：1：待转换值num必须是其他进制的字符串形式；
+                        注意：1：待转换值num必须是其他进制的字符串；
                              2：原始进制radix必须以int类型表示；
                              3：转换结果是int类型的整数；
-            3：整数直接量：
-                1：对于直接给出的数值，称之为直接量，整数数值称之为整数直接量，系统默认整数直接量都是int类型的；
-                2：对于byte、short类型的变量赋值时有所不同：将一个大小在short、byte类型范围内的整数赋值给short、byte、类型的变量，系统只会为该整数分配short、byte对应的内存空间来存储该整数，即系统会将该整数直接量作为short、byte来对待；
-                3：对于long型变量则又有不同：将一个大小在long型范围的整数，赋值给long型的变量，系统并不会将该整数作为long型来对待,而是作为int类型来对待，此时将会报错：int类型的数字过大；为了能将大小在long范围内的数字作为long型来使用，必须在数字后面加上l或者L作为后缀；
-            4：整数类型转换：
+            4.整数字面量：
+                1：直接给出的数值，称之为字面量，整数数值称之为整数字面量，系统默认整数字面量都是int类型的；
+                2：对于除过int类型以外的的变量赋值时有所不同：
+                    1.将一个大小在short、byte类型范围内的整数赋值给short、byte类型的变量，系统只会为该整数分配short、byte对应的内存空间来存储该整数，即系统会将该整数字面量作为short、byte来对待；
+                    2：将一个大小在long型范围的整数，赋值给long型的变量，系统并不会将该整数作为long型来对待,而是作为int类型来对待，此时赋值行为将会报错：int类型的数字过大；为了能将大小在long范围内的数字作为long型来使用，必须在数字后面加上l或者L作为后缀；
+            5.整数类型转换：
                 1：整数类型内部之间转换：在参与运算或者赋值时系统会自动进行整数间类型转换，转换方向如下：
-                    byte->short(char)->int->long->float->double;
-                    注意：转换只能按照上述方向从低精度至高精度转换，不允许从高精度向低精度转换，否则将会报错；
+                    byte->short(char)->int->long;
+                    注意：转换方向从低精度至高精度转换，只能按照上述方向转换，不允许从高精度向低精度转换，否则将会报错；
+
                 2：整数与其他数据类型间的转换：
                     1：将整数转换为String类型：
                         方式1：String s = "" + 整数；
@@ -172,28 +304,36 @@
                                 String s = String.valueOf(num);
 
                         方式2：String s = Integer.toString(int num)；
-                            注意：整数只能为int、short、byte类型的整数,
+                              String s = Short.toString(short num)；
+                              String s = Byte.toString(byte num)；
+                            注意：Integer.toString()中的num只能为int、short、byte类型的整数,
                             示例如下：
-                                String s = Integer.toString(int num)；
+                                int num = 233;
+                                String s = Integer.toString(num)；
+
                     2：将整数转换为boolean值：java中boolean仅占一个字节，不允许在整形和布尔值之间互相转换；
-                    3：整数转浮点数：由于浮点数精度比整数高，因此可以直接将整数转为浮点数；
-                3：使用整数类型时需要特别注意整数取值范围，尤其存储运算结果时；
+
+                    3：整数转浮点数：由于浮点数精度比整数高，可以直接将整数转为浮点数；在运算表达式中，整数类型可以自动转为浮点类型,转换方向如下：
+                        byte->short(char)->int->long->float->double;
+
+                3：使用整数类型时需要特别注意整数取值范围，尤其存储运算结果时要特别注意防止溢出；
+
         2：浮点数类型：
-            1：浮点数类型用来存储小数，包括低精度的folat类型和高精度的double类型；float类型精度只有6~7位，double类型精度有15位；精度越高，小数部位越精确；
+            1：浮点数类型用来存储小数字面量，包括低精度的folat类型和高精度的double类型；
             2：浮点数精度：
-                1：java中的浮点数同样存在无法精确存储小数的问题，由于小数在内存中以2进制存储，而十进制转2进制时如果遇到无法整除的情况，将会产生无限小数，而存储小数的内存有限，将会在限制位进行四舍五入，最终导致无法精确存储小数的问题；
-                2：对于float类型，最多可以存储6~7位有效数字，对于double可以存储15位有效数字；
+                1.由于小数在内存中以2进制存储，而十进制转2进制时采用除2取余法，如果遇到无法整除的情况，将会产生无限小数，而存储小数的内存有限，将会在有效限制位进行四舍五入，最终导致无法精确存储小数；
+                2.对于float类型，最多可以存储6~7位有效数字，对于double可以存储15位有效数字；
                 3：如果需要精确处理小数问题，则可以选择使用BigDecimal类；
-            3：浮点数直接量：
-                1：直接量种表示形式：
+            3：浮点数字面量：
+                1：字面量表示形式：
                     1：十进制形式：如：12.3；
                     2：科学计数法形式：0.123E2；
-                2：java中浮点数的直接量默认为double类型；如果强制使用float类型，可以在直接量后面带上f或者F后缀；
+                2：java中浮点数的字面量默认为double类型；如果强制使用float类型，可以在直接量后面带上f或者F后缀；
             4：java中的其他浮点数：
                 1：java中提供了三个特殊的浮点数：正无穷大、负无穷大、非数；用于表示溢出或者出错；
-                2：正浮点数除以0得到正无穷大(POSITIVED_INFINITY)，负浮点数除以0得到负无穷大(NEGATIVE_INFINITY)，0.0除以0.0或者对负数开放或者该直接量不是数字将得到非数(NAN)；
-                3：所有的正无穷都是相等的，所有的负无穷都是相等的，NAN和任何数都不相等；
-                4：特别注意：只有正负浮点数除以0才会得到无穷大的数；否则将会抛出异常；
+                2：正浮点数除以0得到正无穷大(POSITIVED_INFINITY)，负浮点数除以0得到负无穷大(NEGATIVE_INFINITY)，0.0除以0.0、对负数开方或者该直接量不是数字将得到非数(NAN)；
+                3：所有的正无穷都是相等的，所有的负无穷都是相等的，NAN和任何数都不相等，包括和自己都不相等；
+                4：特别注意：只有正负浮点数除以0才会得到无穷大的数；整数除以0将会报除数非0异常；
             5：浮点数类型转换：
                 1：浮点数类型之间进行转换：
                     folat->double；
@@ -209,303 +349,101 @@
                                 long num = 9999.99999;
                                 String s = String.valueOf(num);
 
-                        方式2：String s = Integer.toString(float num)；
+                        方式2：String s = Float.toString(float num)；
+                               String s = Double.toString(float num)；
                             示例如下：
-                                String s = Integer.toString(12.33)；
+                                String s = Float.toString(12.33)；
+                                String s = Double.toString(12.33)；
                     2：浮点数转整数：浮点数不能直接转为整数，但是可以借助Math类来对浮点数取整；
+                    
                     3：浮点数转布尔值：浮点数不能和布尔值互转；
        
         3：布尔型：
-            1：布尔型用boolean表示，其值只有true和false，表示真和假；
-            2：特别注意：布尔值，只能是true或者false，不能使用0或者空值代表false。不能使用非0值或者非空值代表true;
+            1：布尔型用boolean表示，其值只有true和false，表示真和假,boolean只占用1个字节(但是实际上单个boolean变量在jvm中的具体实现是使用int类型来存储的)；
+            2：特别注意：布尔值，只能是true或者false，不能使用0、空值、NAN代表false，不能使用非0值或者非空值代表true，java条件表达式中不会将其他类型的数据自动转换为布尔值;
             3：关于类型转换：不能在boolean和其他基本数据类型间进行转换；
 
         4：字符型：
-            1：java中使用字符型(char)表示一个字符符号，char占用2个字节，使用Unicode字符集，并使用16位的存储空间来存放字符在Unicode字符集中的编码；
-            2：字符直接量：
+            1：java中使用char类型表示一个字符，char占用2个字节，使用Unicode字符集，使用16位的存储空间来存放字符在Unicode字符集中的编码；
+            2：字符字面量：
                 1：普通字符：'a'、'+'等，由''包裹的单个可打印字符称之为普通字符；
                 2：转义字符：'\r','\n','\t','\v','\\','\'','\"','\b'等，称之为转义字符，表示特殊含义；
                 3：unicode字符：'\u0000'、'\u00ff'等，直接由Unicode值来表示某个字符；前256个字符('\u0000'~'\u00FF')和ASCII码完全相同；
             3：字符本质：
-                1：程序保存字符时，实际上是存储字符在字符集中的编码值，java使Unicode字符集，因此保存的都是字符在Unicode字符集中的编码值，其值范围是0~65535;
-                2：因此在创建字符类型数据时，即可以直接赋值一个字符直接量，也可以赋值一个大小在0~65535之间的整数，系统会自动将该整数作为字符集中的字符编码；
-                3：java中没有字符串类型的基本数据类型，而是由Sring类来间接的实现，因此特别注意单字符的字符串和字符不同，如："a"和'a'并不相同；
-        5：字符串： 
-            1：java基本数据类型中没有字符串类型，但是使用""包裹的字符序列表示一个字符串直接量；而使用以下三个类来创建字符串类型：分别是：String、StringBuffer、StringBuilder，三个创建字符串的类中都是通过字符数组来间接实现字符串的；
-            2：字符串直接量：
-                1：使用""包裹的字符序列 称之为字符串直接量，如："abcd"这种形式；
-                2：注意：字符串直接量必须使用""包裹，字符直接量必须使用''包裹；
-                3：为了能够操作字符串，字符串直接量必须先创建
-            3：通过String创建字符串类型：
-                1：String类特点：
-                    1：String类继承自CharSequence接口，通过一个字符数组来实现字符串，并实现了对字符串操作的各个方法；
-                    2：String类的实现上有以下特征：
-                        1：String类本身由final修饰符修饰，不可被继承；
-                        2：String类中的所有成员属性权限均是private，不可直接被外部访问；并且除过表示字符串hash值以外的属性均由final修饰，一旦赋值将不允许再修改；
-                        3：String类仅提供了成员属性的getter方法，并未提供任何setter方法；
-                        综上：String类是一个不可变类；
-                2：String类实例对象特征：
-                    1：因为String类是一个不可变类，其实例对象是一个不可变对象，String对象一旦创建将不能再修改，即String类型的字符串一旦创建，字符串中的字符将不允许再修改、增删；
-                    2：存储字符串值的字符数组被final修饰，是常量，其引用不能变，因此String类型的字符串进行修改、增删，本质上都是重新复制了原字符串的值，并在复制的新值上进行修改，并返回一个新的String实例对象，而原String实例对象因为失去引用，将会被GC回收；
-                3：创建String类型的实例对象：
-                    java中提供了多个不同的构造方法，允许通过多种不同的方式创建String类型的实例对象；
-                    1：构造方法：public String()：
-                        说明：1：创建一个空的String对象；
-                       创建实例对象：
-                        String emptyString = new String();
-                            
-                    2：构造方法：public String(@NotNull() String original)
-                        说明：1：通过字符串直接量创建String实例对象；
-                       创建实例对象：通过字符串直接量创建String实例对象有两种方式，示例如下：
-                        String a = "abc";   //直接将字符串直接量赋值给String类型变量；
-                        String b = new String("abc");   //通过字符串直接量创建实例对象；
-                        两种方式的异同点：
-                            1：两种方式都将创建一个值为"abc"的String引用，但JVM处理方式并不相同;
-                            2：将字符串直接量赋值给String类型的变量：
-                                JVM会首先会根据字符串hash值在字符串常量池中查找是否有hash值相等的字符串常量，如果有，会将该字符串常量的引用返回，如果没有，JVM将会在堆区创建一个新的String对象，并将该引用添加至字符串常量池中，同时将该字符串引用返回；
-                            3：通过构造方法创建String类型对象：
-                                JVM并不会在字符串常量池中检查是否有相同的字符串(hash值相等)，而是立即在堆区创建String对象，并将该对象的引用返回，并且不会将该字符串引用添加至字符串常量池中(除非使用该String对象显式调用intern()方法)；
-                            4：特别注意：字符串常量池时java为了提高字符串创建性能而提供的缓存字符串常量的机制，位置在JVM的方法区；而通过String类构造方法创建的对象则在JVM的堆区；一般情况下推荐使用直接将字符串常量赋值给String类型变量的方式；
-                    3：构造方法：public String(@NotNull char value[])
-                        说明：1：通过一个字符数组来创建String对象；
-                             2：为了保证创建的字符串对象不被修改，此种方式并不会直接将字符数组的引用赋值给String的value属性，而是将字符数组通过Arrays.copyOf()复制了一份给value;
-                      创建实例对象：String s = new String(['a','b','c'])
-                      与此类似的构造方法还有以下几个：
-                        public String(char value[],int offset,int count)
-                            说明：通过一个字符数组的一部分来创建String对象；
-                        public String(int[] codePoints,int offset,int count)
-                            说明：通过int数组的一部分作为Unicode字符编码值来创建String对象；
-                    4：构造方法：public String(StringBuilder builder)
-                        说明：1：通过StringBuilder创建String对象；
-                             2：由于StringBuilder是可变字符串对象，为了保证String对象不可变，并未将builder的value的引用直接赋值给String对象的value；而是复制builder的value值给String实例对象的value；
-                    5：构造方法：public String(StringBuffer buffer)
-                        说明：1：通过StringBuffer创建String对象；
-                             2：由于StringBuffer是可变字符串对象，为了保证String对象不可变，并未将buffer的value的引用直接赋值给String对象的value；而是复制buffer的value值给String实例对象的value；
-                    6：构造方法：public String(byte bytes[])
-                        说明：通过字节数组创建字符串，字节数组中的数值将作为当前平台默认字符编码的码值来创建实例对象；
-                        与此类似的构造方法还有以下几个(不常用)：
-                        /*按照平台默认字符集，将bytes数组指定区间的数据解码成字符串*/
-                        public String(byte bytes[], int offset, int length)
-                        /*按照指定字符集，将bytes数组解码成字符串*/
-                        public String(byte bytes[], Charset charset)
-                        /*按照指定字符集，将bytes数组解码成字符串*/
-                        public String(byte bytes[], String charsetName)
-                        /*按照指定字符集，将bytes数组指定区间数据解码成字符串*/
-                        public String(byte bytes[], int offset, int length, String charsetName)
-                    上述构造方法中应特别留意前5种常用功能的构造方法；
-                4：String提供的操作String类型字符串的方法：String string = "testString";
-                    1：获取长度：
-                        string.length();
-                    2：检测是否为空：
-                        string.isEmpty();
-                    3：获取指定位置的字符：
-                        string.charAt(int index);
-                    4：返回指定字符首次出现的位置：
-                        string.indexOf(int ch);
-                        string.indexOf(int ch,int fromIndex)
-                    5：返回子串首次出现的位置：
-                        string.indexOf(String str);
-                        string.indexOf(String str,int fromIndex)
-                    6：反向查找字符首次出现的位置：
-                        string.lastIndexOf(int ch);
-                        string.lastIndexOf(int ch, fromIndex);
-                    7：反向查找字符首次出现的位置：
-                        string.lastIndexOf(String str);
-                        string.lastIndexOf(String str, fromIndex);
-                    8：截取字符串：
-                        string.substring(int beginIndex);  /*从起始位置beginIndex截取至字符串结尾*/
-                        string.substring(int beginIndex, int endIndex); /*从beginIndex截取至endIndex*/
-                    9：连接两个字符串：
-                        方式1：string.concat(String str)：
-                            实现原理：系统会先拷贝string的value，至新的字符数组中，然后将str的value追加至字符数组中；
-                        方式2：string+str：
-                            实现原理：先将string和str转换为StringBuilder，然后调用StringBuilder的append方法将str追加至string中，将追加完成的字符串作为参数，重新创建一个String对象返回，性能较差，不推荐使用；
-                        方式3：将string和str手动转换为StringBuilder，调用StringBuilder的append方法将str追加至string结尾，最后手动调用StringBuilder的toString()方法转换为string类型；从操作方式上来看方式3和方式2并无区别，但是对同一个字符串进行大批量的追加操作时，需要来回进行类型转换，并且导致大量的String对象失效，此时推荐使用方式3来连接两个字符串；
-                    10：替换字符串中的字符：
-                        string.replace(char oldChar,char newChar)；实现上效率较差，如果有需要推荐使用StringBuilder实现；
-                    11：转换大小写：
-                        string.toUpperCase()
-                        string.toLowerCase()
-                    12：获取字符数组：
-                        string.toCharArray()
-                    13：清理字符串两侧空格：
-                        string.trim()
-                    14：将其他基本数据类型转换为字符串：
-                        String.valueOf();
-                    15：合并String、StringBuufer、StringBuilder为字符串：
-                        String.join(CharSequence delimiter,Iterable<? extends CharSequence> elements)
-                        String.join(CharSequence delimiter, CharSequence... elements)
-                    16：分隔字符串为子字符串：
-                        string.split(String regex)
-                        string.split(String regex,int limit)
-                    17：检测两个字符串对象是否相等：
-                        string.equals(Object anObject);     
-                        说明：1：anObject必须是String类型的对象；
-                             2：在比较两个字符串是否想等时，只比较两个字符串序列是否相同，相同即返回true，否则返回false,等价于运算符号：=;
-                             3：如果在String和StringBuffer、StringBuilder检测是否相等时使用：
-                                string.contentEquals(charSequence cs)
-                             4：此种确定是否相等时会严格区分大小写，避免区分大小写可以使用：
-                                string.equalsIgnoreCase(String anotherString)
-                    18：比较两个字符串大小(字符序列在字符集中的码值大小)：
-                        string.compareTo(String anotherString)
-                        说明：1：如果当前字符串较大，返回大于0的数，相等返回0，小于返回负数；
-                             2：此种比较方式会严格区分大小写比较，如果需要忽略大小写比较可以使用：
-                                string.compareToIgnoreCase()
-                    19：检测字符串是否以指定子串开头：
-                        string.startsWith(String prefix)
-                        string.startsWith(String prefix, int offset)
-                    20：检测字符串是否以指定子串结尾：
-                        string.endsWith(String suffix)
-                        string.endsWith(String suffix, int offset)
-                    21：返回字符串的hash值：
-                        string.hashCode()
-                    22：获取组成字符串的字符组成数组：
-                        string.getCharts(char dst[], int dstBegin);
-                    23：获取字符串区间组成的字符数组：
-                        strin.getchars(int srcBegin,int srcEnd,char dst[],int dstBegin);
-                    24：获取指定位置的字符在Unicode字符集中的码值：
-                        string.codePointAt(int index);
-                    
-            4：通过StringBuffer创建字符串：
-                1：StringBuffe特点：
-                    1：继承关系：
-                        1：StringBuffer继承自AbstractStringBuilder、Serializeable接口、CharSequence接口；
-                        2：而bstractStringBuilder则继承自CharSequence，Appendable接口；AbstractStringBuilder中定义了存放字符串字符的字符数组value，以及操作字符串的方法，StringBuffer中的众多方法也是直接调用AbstractStringBuilder中的方法；
-                    2：StringBuffer实现上的特点：
-                        1：为了保证对字符串操作的安全性，不允许对字符串操作的方法进行修改，StringBuffer类本身被final修饰，不可被继承；
-                        2：StringBuffer中存放字符串的字符数组并未被final修饰，不是常量，其长度可以根据实际需要修改；
-                        3：StringBuffer中对字符串操作的方法都是对字符串本身进行修改、增删，并返回当前实例对象本身；
-                        4：StringBuffer中的方法都使用了Synchronized修饰，均是同步方法；可以保证字符串的线程安全；
-                        5：StringBuffer是一个可变类，其对象是一个可变对象，该类设计的目的就在于方便对字符串进行编辑修改，并且该类中的方法都是线程安全的方法，可以安全的使用于多线程中；
-                        6：StringBuffer是一个字符串缓存容器，和String类中字符数组的长度即为字符串字符数不同，StringBuffer中字符数组的长度会大于实际存储的字符串字符数，默认情况下StringBuffer中创建一个初始长度为当前字符串直接量长度+16的字符数组，也可以按照需要设置初始长度；
-                        7：StringBuffer中可以通过length()方法获取字符串实际长度，通过capacity()获取当前字符数组的容量；当前字符串进行增加字符操作时会检测字符串长度是否超过当前字符数组容量，如果超过，将会进行扩容；扩容算法如下：
-                            1：会先将容量增大至当前容量的两倍+2：即：newCapacity = 2*value.length +2;
-                            2：检测扩容之后是否满足当前需要的容量(minCapacity)：即：newCapacity ?> minCapacity;
-                            3：如果newCapacity<minCapacity，则将minCapacity赋值给newCapacity；
-                            4：检测库容后的值是否合理，如果newCapacity<0 || newCapacity>MAX_ARRAY_SIZE，则重新设置扩容值：否则直接返回扩容后的值；
-                            5：重新设置时会先检查minCapacity是否大于Integer.max_value，如果大于则直接报异常；否则继续：
-                            6：检查minCapacity是否大于MAX_ARRAY_SIZE，如果大于直接返回minCapacity,否则返回MAX_ARRAY_SIZE；
-                3：StringBuffer实例对象的特点：
-                    1：由于StringBuffer并非不可变类，其对象则是可变对象，可以对StringBuffer类型的字符串本身进行修改；
-                4：创建StringBuffer实例对象：
-                    1：构造方法：public StringBuffer()
-                        说明：创建一个容量为16，字符串为空的StringBuffer对象；
-                        示例：StringBuffer strbuff = new StringBuffer();
-                    2：构造方法：public StringBuffer(int capacity)
-                        说明：创建一个容量为capacity大小，字符串为空的StringBuffer对象；
-                        示例：StringBuffer strbuff = new StringBuffer(20);
-                    3：构造方法：public StringBuffer(String str)
-                        说明：使用字符串直接量创建一个容量为字符串直接量长度+16的StringBuffer对象；
-                        示例：StringBuffer strbuff = new StringBuffer("testString")
-                    4：构造方法：public StringBuffer(charSequence seq)
-                        说明：使用其他CharSequence对象创建一个StringBuffer对象，容量为CharSequence长度+16；
-                        示例：String testStr = new String("testString");
-                                StringBuffer struff = new StringBuffer(testStr);
-                5：StringBuffer对字符串操作的方法：
-                    1：获取字符串长度：StringBuffer string = new StringBuffer("testString");
-                        string.length()
-                    2：获取字符串容量：
-                        string.capacity()
-                    3：获取指定位置的字符：
-                        string.charAt(int index)
-                    4：从字符串中截取指定区间的字符转为字符数组：
-                        string.getCharts(int srcBegin, int srcEnd, char[] dst, int dstBegin)
-                    5：修改指定位置的字符：
-                        string.setCharAt(int index, char ch)
-                    6：追加字符串：
-                        string.append(Object obj)
-                        string.append(String str)
-                        string.append(StringBuffer sb)
-                        string.append(AbstractStringBuilder asb)
-                        string.append(CharSequence s)
-                        append(CharSequence s, int start, int end)
-                        string.append(char[] str)
-                        string.append(char[] str, int offset, int len)
-                        string.append(基本数据类型)
-                    7：删除指定区间子串：
-                        string.delete(int start, int end)
-                    8：删除指定位置字符：
-                        string.deleteCharAt(int index)
-                    9：替换指定区间子串：
-                        string.replace(int start, int end, String str)
-                    10：截取子串：  
-                        string.substring(int start)
-                        string.substring(int start,int end)
-                    11：向字符串中插入子串：
-                        string.insert(int offset,String str)
-                        string.insert(int offset,char[] str)
-                        string.insert(int offset, 基本数据类型数据)
-                    12：查找字符串首次出现的位置：
-                        string.indexOf(String str)
-                        string.indexOf(String str,int fromIndex)
-                    13：反向查找字符串首次出现的未知：
-                        string.lastIndexOf(String str)
-                        string.lastIndexof(String str,int fromIndex)
-                    14：反向字符串：
-                        string.reverse();
-                    15：转换为String类型的对象：
-                        string.toString()
-                        说明：StringBuffer对toString()方法做了优化，引入了成员属性toStringCache来存储首次调用toString()方法时所转换的String对象的字符数组，并且会在每此对字符串修改之后将该值清空；
-                    16：序列化StringBuffer对象：
-                        string.writeObject(java.io.ObjectOutputStream s)
-                        string.ReadObject(java.io.ObjectOutputStream s)
-                    
-            5：通过StringBuilder创建字符串：
-                StringBuilder和StringBuffer基本相同，唯一不同的在于StringBuilder中的方法不是线程安全的，而StringBuffer中的方法时线程安全的，除此之外，两个类的性质、用途、创建对象的方式、对字符串的操作方法均完全相同
+                1：程序保存字符时，实际上是存储字符在字符集中的码点在编码之后的编码值，java使Unicode字符集，因此码点都是unicode字符集中字符对应的码点，其值范围是0~65535；通常情况下使用utf-8编码格式对码点编码;
+                2：因此在创建字符类型数据时，即可以直接赋值一个字符直接量，也可以赋值一个大小在0~65535之间的整数，系统会自动将该整数作为字符集中的码点；
+                3：java中没有字符串类型的基本数据类型，而是由Sring、StringBuffer、StringBuilder类来间接的实现，因此特别注意单字符的字符串和字符不同，如："a"和'a'并不相同；
+    3.包装类型：
+        1：基本数据类型是独立的数据类型，不能像引用类型一样有继承关系，在面向对象中不能支持多态；为了基本类型的数据能够适配面向对象体系，java为每一种基本类型都提供了对应的包装类，可以将基本类型转换为引用类型；
+        2：java中针对8中基本数据类型分别提供了8中包装类，用来将基本类型转换为引用类型，分别如下：
+            基本类型名称        包装类型名称
+            byte         ->    Byte
+            short        ->    Short
+            int          ->    Integer
+            long         ->    Long
+            char         ->    Character
+            float        ->    Float
+            double       ->    Double
+            boolean      ->    Boolean
+            
+        3：关于装箱和拆箱：
+            1：将基本数据类型转换为引用类型数据，称之为装箱，装箱的本质在于创建一个包装类的对象，并将基本类型数据值赋值给包装类对象的属性；
+            2：将引用类型数据转换为基本类型数据，称之为拆箱，拆箱的本质在于将包装类型对象的属性值赋值给当前基本类型的变量；
+            3：手动装箱和拆箱：
+                对于JDK1.5之前，必须手动进行装箱和拆箱，其方式如下：
+                    装箱：new 包装类(基本数据类型数据)
+                        说明：
+                            1：包装类即为上述包装类型；
+                            2：装箱之后将得到引用类型的数据；
+                    拆箱：包装类型数据.xxxValue()
+                        说明：
+                            1：xxxValue，指不同数据类型，如：intValue()、floatValue()
+                            2：拆箱之后将得到基本类型的数据；
 
-流程控制：
-    1：条件：
-        第一种形式：if
-            if(条件){
-                /* do something... */
-            }
-        第二种形式：if...else
-            if(条件){
-                /* do something... */
-            }else{
-                /* do something... */
-            }
-        第三种形式：if...else if...else
-            if(条件){
-                /* do something... */
-            }else if(条件){
-                /* do something... */
-            }else{
-                /* do something... */
-            }
-        第四种形式：三目运算：
-            流程规则：如果b>c这个条件成立，将b赋值给a，否则将c赋值给a；
-            a = b>c ? b : c; 
-        第五种形式：switch
-            switch()
-            {
-                case a:
-                    /* do something */
-                    break;
-                case b:
-                    /* do something */
-                    break;
-                default:
-                    /* do something */
-            }
-            注意：
-                1：swith中的条件值可以是String类型的变量或者表达式、byte、short、int、char，不能是浮点数；
-                2：多个条件的处理方式相同时可以共用处理逻辑，在最后处理完成之后再break即可；
-                3：default分支不是必须要有的，根据实际情况选择是否需要default分支；
-    2：循环：
-        循环方式1：while
-            while(条件){
-                /* do something... */
-            }
-        循环方式2：do...while
-            do{
-                /* do something... */
-            }while(条件);
-        循环方式3：for：
-            for(循环遍量初始值;继续循环条件;循环遍量修改表达式){/* do something... */}
-        循环控制：
-            1：break：立即结束当前循环，并跳出循环开始执行循环之后的代码；
-            2：continue：终止本次循环，不再执行本次循环剩余的语句，并开始下一次循环；
+                对于JDK1.5及其之后的版本，无需手动装箱和拆箱，系统自动进行装箱拆箱操作：
+                    1：装箱：可以将基本类型数据 直接赋值 给对应的包装类型变量；
+                    2：拆箱：可以将包装类型数据 直接赋值 给对应的基本类型变量；
+                    3：包装类型的数据可以直接和基本类型的数据一起参与运算；
+
+        4：关于包装类型的继承结构：
+            Object:
+                |--Boolean
+                |--Character
+                |--Number:
+                    |--Byte
+                    |--Short
+                    |--Integer
+                    |--Long
+                    |--Float
+                    |--Double
+
+        5：关于装箱和拆箱的细节问题：
+            1：对于自动装箱和自动拆箱类型必须相想对应，不能在不同的类型之间装箱和拆箱；
+
+            2：装箱本质上是创建对象并将基本类型值赋值给对象属性的过程，为了能够提高装箱效率，jvm在启动时会提前创建一部分基本类型数据对应的包装类对象，并将数据值赋值给对应的包装类对象，在装箱时如果发现该数据对应的包装类对象已经存在，将不会再执行创建对象的过程，而是直接返回对应的包装类对象引用；具体情况如下：
+                1：对于Short、Interger、Long：
+                    系统会提前创建好[-128,127]之间的包装类对象；
+                2：对于Character：
+                    系统会提前创建好[0,128]之间的包装类对象；
+                3：对于Boolean：
+                    系统会提前创建好true和false对应的包装类对象；
+                4：对于Float、Double：
+                    由于float和double代表小数，两个整数之间有无数个小数，因此无法提前创建Float和Double类型的引用变量，对于float和double类型的数据装箱时，都是执行一次完整的创建包装类对象的过程；
+
+            3：由于jvm对于装箱的优化机制，实际装箱时如果数据在缓存数据的范围内，将会直接返回对应包装类的引用，同一个数据无论装箱多少次，都返回的是同一个包装类对象；但是不在缓存数据范围内的数据装箱时，会每次都执行装箱操作,同一个数据也将返回不同的对象；如：
+                //23在缓存数据范围内，因此多次装箱返回的依旧是同一个对象；
+                Interger a = 23;
+                Interger b = 23;
+                a==b;    //true;
+                //999并不在缓存数据范围内，因此每次装箱都会创建新的对象
+                Integer c = 999;
+                Integer d = 999;
+                c==d;  //false;
+
+            4：对于包装类型和基本类型的数字同时参与+、-、*、/运算时，会自动先将包装类型进行拆箱，转换为基本类型数据，然后进行+、-、*、/运算；
+
+            5：对于包装类型的数据拆箱时，会调用包装类的xxxValue()方法返回该包装类对象的value属性；因此无论是自动拆箱还是手动拆箱，都要注意当前包装类型的变量是否为null；否则将会报空指针异常；  
+                  
 运算：基本运算+Math+BigDecimal:
     基本运算：
         1：算数运算：
@@ -641,7 +579,6 @@
                     1：对低于int的类型总是先转换成int类型然后进行移位运算；
                     2：如果a>>b，b>32时，系统会先用b对32求余；，得到的余数才是真正移位的位数；因此：a>>33和a>>1相同；
                     3：移位运算不会修改操作数本身，而是的到一个新的结果并返回；
-
         6：符号运算符：
             运算类型：.、()、[]、{}     
             运算符说明：
@@ -776,31 +713,3 @@
                     使用0，0的个数表示整数位的个数；
                 2.E前面至少要有一个#或者0，否则E会被当做字符串的一部分，0的个数表示格式化之后小数部分的位数；
                 3.E之后的00表示指数的个数，如果不够将会使用0补齐；
-                
-            
-
-
-                        
-                
-            
-
-
-            
-
-            
-                
-
-
-                
-
-
-
-
-
-
-    
-
-    
-
-
-    
