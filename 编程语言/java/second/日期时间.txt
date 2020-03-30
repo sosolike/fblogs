@@ -1,0 +1,277 @@
+处理时间戳：Instant
+    Instant特征：
+        1.Instant表示时间戳，并且Instant创建的时间戳和时区无关，表示0时区的时间戳；
+        2.Instant是不可变类，线程安全；
+        3.Instant可以表示秒、毫秒、纳秒级别的时间戳；
+
+    Instant对象创建：
+        #获取此刻0时区的时间戳
+            Instant instant = Instant.now()
+        #通过设定以1970-01-01 00:00:00为基准的秒级时间间隔创建时间戳：
+            Instant instant = Instant.ofEpochSecond(int second)
+        #通过设定以1970-01-01 00:00:00为基准的毫秒级时间间隔创建时间戳：
+            Instant instant = Instant.ofEpochMilli(int millisSecond)
+    
+    打印Instant时间戳：
+        1.默认打印Instant时间戳显示英文格式的日期事件：
+            System.out.println(instant);
+            2020-03-30T04:29:57.691Z
+        2.将Instant转换为本地时区时间戳：
+            Instant instant = Instant.now().plusSeconds(TimeUnit.HOURS.toSeconds(8));  //东八区
+            Instant instant = Instant.now().plusMillis(TimeUnit.HOURS.toMillis(8));   //东八区
+        3.获取秒级、毫秒级、微秒级时间戳信息：
+            秒级：instant.getEpochSecond()
+            毫秒级：instant.toEpochMilli()
+            纳秒：instant.getNano()  //获取的是纳秒数
+
+处理日期：LocalDate
+    LocalDate特征：
+        1.LocalDate专注处理日期信息，即年、月、日信息，全路径为：java.time.LocalDate;
+        2.LocalDtae会根据当前系统当前时刻和默认时区创建处理日期信息；如果需要处理指定时区的日期时间信息可以使用ZonedDateTime类；
+        3.LocalDate类是不可变类，线程安全；
+    创建LocalDate对象：
+        #获取当前系统此刻默认时区日期对象
+            public static LocalDate now()
+            System.out.println(LocalDate.now()); //2020-03-30
+        #根据年、月、日创建日期对象
+            public static LocalDate of(int year, int month, int dayOfMonth)
+            System.out.println(LocalDate.of(2019,11,23)); //2019-11-23
+        #根据年和一年中的第几天创建日期对象
+            public static LocalDate ofYearDay(int year, int dayOfYear)
+            System.out.println(LocalDate.ofYearDay(2019,56)); //2019-02-25
+        #获取相对于1970-01-01的偏移日期，参数为偏移量；
+            public static LocalDate ofEpochDay(long epochDay)
+            System.out.println(LocalDate.ofEpochDay(10)); //1970-01-11
+    从LocalDate中获取日期信息：
+        #获取年份信息
+            public int getYear()
+        #获取月份信息
+            public int getMonthValue()
+        #获取当前天是一年中的第几天：
+            public int getDayOfYear()
+        #获取当前天是一月中的第几天：
+            public int getDayOfMonth()
+        #检测是否是瑞年：
+            public boolean isLeapYear()
+        #获取一年的天数
+            public int lengthOfYear()
+        #获取当月的天数
+            public int lengthOfMonth()
+        #返回星期信息
+            public DayOfWeek getDayOfWeek()
+        判断当前日期是否比指定日期晚：
+            public boolean isAfter(LocalDate localDate1)
+        判断当前日期是否比指定日期早：
+            public boolean isBefore(LocalDate localDate1)
+        判断当前日期是否和指定日期相同：
+            public boolean isEqual(LocalDate localDate1)
+    
+处理时间信息:LocalTime
+    LocalTime特征：
+        1.LocalTime专注处理时间信息，即时、分、秒、毫秒的处理；全路径为：java.time.LocalTime;
+        2.LocalTime会根据当前系统当前时刻和默认时区创建处理日期信息；如果需要处理指定时区的日期时间信息可以使用ZonedDateTime类；
+        3.LocalTime类是不可变类，线程安全；
+    创建LocalTime对象：
+        #根据系统当前时刻默认时区获取时间信息
+            public static LocalTime now()
+        #根据指定的时间信息使用当前系统默认时区创建时间对象
+            public static LocalTime of(int hour, int minute)：
+            public static LocalTime of(int hour, int minute, int second)
+            public static LocalTime of(int hour, int minute, int second, int nanoOfSecond)
+        #使用当天零点作为基准，指定间隔秒数创建时间对象：
+            public static LocalTime ofSecondOfDay(long secondOfDay)
+        #使用当天零点作为基准，指定间隔毫秒数创建时间对象：
+            public static LocalTime ofNanoOfDay(long nanoOfDay)
+    获取时间信息：
+        #获取LocalTime中的小时：
+            public int getHour()
+        #获取LocalTime中的分钟：
+            public int getMinute()
+        #获取LocalTime中的秒数：
+            public int getSecond()
+        #获取LocalTime中的毫秒数：
+            public int getNano()
+        修改当前 LocalTime 实例中的 hour 属性并重新返回一个新的实例：
+            public LocalTime withHour(int hour)
+        修改当前 LocalTime 实例中的 minute 属性并重新返回一个新的实例：
+            public LocalTime withMinute(int minute)
+        修改当前 LocalTime 实例中的 second 属性并重新返回一个新的实例：
+            public LocalTime withSecond(int second)
+        修改当前 LocalTime 实例中的 Nano 属性并重新返回一个新的实例：
+            public LocalTime withNano(int Nano)
+        判断当前时间是否比指定时间晚：
+            public boolean isAfter(LocalTime localTime1)
+        判断当前时间是否比指定时间早：
+            public boolean isBefore(LocalTime localTime1)
+        判断当前时间是否和指定时间相同：
+            public boolean isEqual(LocalTime localTime1)
+
+处理日期时间信息：LocalDateTime
+    LocalDateTime特征：
+        1.LocalDateTime同时处理日期时间信息；全路径为：java.time.LocalDateTime;
+        2.LocalDateTime会根据当前系统当前时刻和默认时区创建处理日期时间信息；如果需要处理指定时区的日期时间信息可以使用ZonedDateTime类；
+        3.LocalDateTime类是不可变类，线程安全；
+
+    创建LocalDateTime类对象：
+        #根据系统当前时刻默认时区获取日期时间信息
+            public static LocalDateTime now()
+        #根据指定的日期时间信息使用当前系统默认时区创建日期时间对象
+            public static LocalDateTime of(int year, int month,int dayOfMonth,int hour,int minute [,int second[,int nanoOfSecond]])
+            public static LocalDateTime of(int year, Month month,int dayOfMonth,int hour,int minute [,int second[,int nanoOfSecond]])：
+        #根据LocalDate和LocalTime类创建日期时间对象：
+            public static LocalDateTime of(LocalDate LocalDate, LocalTime localTime)
+        #使用1970-01-01 00:00:00作为基准，指定间隔秒数、毫秒数、时区创建日期时间对象：
+            public static LocalDateTime ofEpochSecond(long epochSecond,int nanoOfSecond,ZoneOffset offset)
+        #使用时间戳创建日期时间对象
+            public static LocalDateTime ofInstant(Instant instant,ZoneId zoneId);
+        
+    获取日期时间信息：
+        #获取年份信息
+            public int getYear()
+        #获取月份信息
+            public int getMonthValue()
+        #获取当前天是一年中的第几天：
+            public int getDayOfYear()
+        #获取当前天是一月中的第几天：
+            public int getDayOfMonth()
+        #获取LocalTime中的小时：
+            public int getHour()
+        #获取LocalTime中的分钟：
+            public int getMinute()
+        #获取LocalTime中的秒数：
+            public int getSecond()
+        #获取LocalTime中的毫秒数：
+            public int getNano()
+        #判断当前日期时间是否比指定日期时间晚：
+            public boolean isAfter(LocalDateTime localDateTime1)
+        #判断当前日期时间是否比指定日期时间早：
+            public boolean isBefore(LocalDateTime localDateTime1)
+        #判断当前日期时间是否和指定日期时间相同：
+            public boolean isEqual(LocalDateTime localDateTime1)
+        #修改当前 LocalDateTime 实例中的 year 属性并重新返回一个新的实例：
+            public LocalDateTime withYear(int year)
+        #修改当前 LocalDateTime 实例中的 month 属性并重新返回一个新的实例：
+            public LocalDateTime withMonth(int month)  
+        #修改当前 LocalDateTime 实例中的 dayOfYear 属性并重新返回一个新的实例：
+            public LocalDateTime withDayOfYonth(int dayOfYear)
+        #修改当前 LocalDateTime 实例中的 dayOfMonth 属性并重新返回一个新的实例：
+            public LocalDateTime withdayOfMonth(int dayOfMonth)  
+        #修改当前 LocalDateTime 实例中的 hour 属性并重新返回一个新的实例：
+            public LocalDateTime withHour(int hour)
+        #修改当前 LocalDateTime 实例中的 minute 属性并重新返回一个新的实例：
+            public LocalDateTime withMinute(int minute)
+        #修改当前 LocalDateTime 实例中的 second 属性并重新返回一个新的实例：
+            public LocalDateTime withSecond(int second)
+        #修改当前 LocalDateTime 实例中的 Nano 属性并重新返回一个新的实例：
+            public LocalDateTime withNano(int Nano)
+        #通过LocalDateTime类获取时间戳：
+            Instant instant = LocalDateTime.atZone(ZoneId.systemDefault()).toInstant();  //0时区的时间戳
+
+格式化日期时间：
+    1.java8中使用DateTimeFormatter作为格式化日期时间的类，线程安全；
+    2.将日期时间转换为String的格式：
+        1.定义格式化格式：
+            DateTimeFormatter formatter = DateFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        2.格式化日期时间：
+            String formatterDateTime = formatter.format(LocalDateTime.now());   
+
+    3.将String格式的日期时间转换为LocalDateTime：
+        1.定义格式化格式：  
+            DateTimeFormatter formatter = DateFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        2.转换为LocalDateTime:
+            LocalDateTime localDateTime = LocalDateTime.parse(str,mformatter)
+
+获取日期时间差：Period和Duration类：
+    对于LocalDate:只能使用Period获取日期间隔
+        LocalDate date_before = LocalDate.of(2017,7,22);
+        LocalDate date_after = LocalDate.now();
+        Period period = Period.between(date_before,date_after);
+        #获取时间差年数：
+            period.getYears()
+        #获取时间差月数：
+            period.getMonths()
+        #获取时间差天数：
+            period.getDays()
+    对于LocalTime:只能使用Duration获取时间间隔
+        LocalTime time_before = LocalTime.of(12,00,00);
+        LocalTime time_after = LocalTime.now();
+        Duration duration = Duration.between(time_before,time_after);
+        #获取时间差天数：
+            duration.toDays()
+        #获取时间差小时数：
+            duration.getHours()
+        #获取时间差分钟数：
+            duration.toMinutes()
+        #获取时间差秒数：
+            duration.toSeconds()
+        #获取时间差毫秒数：
+            duration.toMillis()
+        #获取时间差纳秒数：
+            duration.toNanos()
+    对于LocalDateTime: 只能使用Duration获取时间间隔
+        LocalDateTime ldt_before = LocalDateTime.of(2019,12,22,12,45,26);
+        LocalDateTime ldt_after = LocalDateTime.now();
+        Duration duration = Duration.between(ldt_before,ldt_after);
+        #获取时间差天数：
+            duration.toDays()
+        #获取时间差小时数：
+            duration.getHours()
+        #获取时间差分钟数：
+            duration.toMinutes()
+        #获取时间差秒数：
+            duration.toSeconds()
+        #获取时间差毫秒数：
+            duration.toMillis()
+        #获取时间差纳秒数：
+            duration.toNanos()
+
+ZoneId:
+    1.用来指定时区，全路径为：java.time.ZoneId
+    2.获取ZoneId：
+        1.获取系统默认时区ZoneId对象：ZoneId.systemDefault()
+        2.获取指定时区ZoneId对象：ZoneId.of("Asia/Shanghai")
+
+TimeUnit:
+    1.TimeUint表示时间粒度大小，是一个枚举类。全路径在java.util.concurrent.TimeUnit;
+    2.TimeUnit时间粒度：
+        #天
+            TtimeUnit.DAYS
+        #小时
+            TtimeUnit.HOURS
+        #分钟
+            TtimeUnit.MINUTES
+        #秒
+            TtimeUnit.SECONDS
+        #毫秒
+            TtimeUnit.MILLISECONDS
+        #微秒
+            TtimeUnit.MICROSECONDS
+        #纳秒
+            TtimeUnit.NANOSECONDS
+    3.时间粒度转换：
+        #转化成纳秒
+            public long toNanos(long d) 
+        #转化成微秒
+            public long toMicros(long d) 
+        #转化成毫秒
+            public long toMillis(long d)   
+        #转化成秒 
+            public long toSeconds(long d) 
+        #转化成分钟 
+            public long toMinutes(long d)  
+        #转化成小时
+            public long toHours(long d)   
+        #转化天 
+            public long toDays(long d)     
+        说明：
+            1.参数d表示几个原始时间单位，如：
+                TimeUnit.Days.toHours(2);表示将2天转换成小时，结果为48
+    4.用在线程休眠：
+        TimeUnit.SECONDS.sleep(long d)
+        说明：1.功能和Thread.sleep()完全相同，只是TimeUnit表示的时间更明确；
+             2.参数d为时长；
+        
+    
+
+
+               
