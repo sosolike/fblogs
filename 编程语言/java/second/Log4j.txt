@@ -1,0 +1,194 @@
+
+1.Log4j是java中记录日志的一个工具;
+2.maven项目需要先引入其依赖：
+    <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>1.2.17</version>
+    </dependency>
+3.Log4j由三部分组成：
+    Logger:负责日志收集和记录；
+    Appender:负责设置日志输出位置和输出方式
+    Layout:负责日志信息的格式化
+4.Logger：
+    1.Logger的获取：
+        1.Logger用来记录日志，在记录日志之前必须先要获取一个Logger；
+        rootLogger:
+            1.rootLogger是始终存在的，也就是说，即便不显式的创建一个Logger，Log4j也始终有一个默认的logger可以直接使用；
+            2.rootLogger的获取：
+                Logger logger = Logger.getLogger(ClassName.class)
+            3.rootLogger的特征：
+                1.获取rootLogger时必须传入当前类的Class对象；
+        自定义Logger：
+            1.自定义logger时必须在log的配置文件中指定：log4j.logger.mylog = [level],appender1,appender2...
+            2.配置文件中通过log4j.logger.loggerName配置之后，需要使用时可根据logger的名称：loggerName来获取：
+                Logger logger = Logger.getLogger("loggerName");
+            3.自定义Logger的特征：
+                1.Log4j中的层次是使用.分隔的，logger的名称也可以定义为a.b等方式；
+                2.获取自定义logger时，如果指定的logger名称并未配置，将会返回rootLogger；
+                3.通常情况下，自定义looger的信息不仅仅会输出到自定义logger的appender中，还会输出到自定义rootLogger中,如果需要关闭的话:
+                    1.可以在配置文件中使用以下配置关闭：log4j.additivity.mylog = false；
+                    2.可以在代码中配置：logger.setAdditivity(false);
+    2.输出级别：
+        1.Log4j允许的输出级别：
+            DEBUG < INFO < WARN < ERROR < FATAL
+        2.Log4j输出日志的级别管理方式：
+            logger在输出日志时只会输出和配置输出级别相同或者比配置级别更大的日志信息；如将logger的输出级别配置为INFO，那么只会输出INFO、WARN、ERROR、FATAL级别的信息；
+        3.logger输出级别的配置方式：
+            1.配置文件的方式：
+                log4j.logger.rootLogger = DEBUG,appender1...
+                其中DEBUG即为rootLogger的输出级别，自定义的logger也是以相同的方式来配置；
+            2.代码的方式：
+                logger.setLevel(Level.DEBUG)
+
+    3.日志的输出方式：
+        1.通过指定级别的方式输出：
+            logger.debug(Object logmsg)
+            logger.debug(Object logmsg,Throwable e)
+            logger.info(Object logmsg)
+            logger.info(Object logmsg,Throwable e)
+            logger.warn(Object logmsg)
+            logger.warn(Object logmsg,Throwable e)
+            logger.error(Object logmsg)
+            logger.error(Object logmsg,Throwable e)
+            logger.fatal(Object logmsg)
+            logger.fatal(Object logmsg,Throwable e)
+        2.通过统一的方式输出：
+            logger.log()
+    
+5.Appender：
+    1.appender表示日志信息的输出流，可以通过appender配置日志信息的输出位置，默认情况下rootLogger和自定义logger的appender都指向控制台；
+    2.一个logger可以配置多个appender，looger将会把信息输出到所配置的所有appender中；
+    3.常见的appender配置方式：
+        # 配置控制台appender
+            log4j.appender.console = org.apache.log4j.ConsoleAppender
+        #配置级别
+            log4j.appender.console.Threshold = DEBUG
+        #配置目标
+            log4j.appender.console.Target = System.out
+        #配置格式
+            log4j.appender.console.layout = org.apache.log4j.PatternLayout
+        #配置具体格式
+            log4j.appender.console.layout.ConversionPattern = [%d{yyyy-MM-dd HH:mm:ss}] [%p] [%t] [%l] %m%n
+
+        #配置一个普通的文件appender
+            log4j.appender.file = org.apache.log4j.FileAppender
+        #配置文件路径
+            log4j.appender.file.File = /Users/like/work/practice/log/root.log
+        #配置是否追加:true默认是追加模式，false是覆盖模式,默认是true
+            log4j.appender.file.Append = true
+        #消息是否立即输出：true立即输出，false不输出，默认是true
+            log4j.appender.file.ImmediateFlush=true
+        #配置appender级别
+            log4j.appender.file.Threshold = INFO
+        #配置编码类型
+            log4j.appender.file.Encoding=UTF-8
+        #配置格式
+            log4j.appender.file.layout = org.apache.log4j.PatternLayout
+        #配置具体格式
+            log4j.appender.file.layout.ConversionPattern = [%d{yyyy-MM-dd HH:mm:ss}] [%p] [%t] [%l] %m%n
+
+        #配置一个按照日期分隔的appender
+            log4j.appender.dailyfile = org.apache.log4j.DailyRollingFileAppender
+        #配置文件路径
+            log4j.appender.dailyfile.File = /Users/like/work/practice/log/dailyfile.log
+        #配置是否追加:true默认是追加模式，false是覆盖模式,默认是true
+            log4j.appender.dailyfile.Append = true
+        #消息是否立即输出：true立即输出，false不输出，默认是true
+            log4j.appender.dailyfile.ImmediateFlush=true
+        #配置appender级别
+            log4j.appender.dailyfile.Threshold = INFO
+        #配置分割粒度
+        # yyyy-MM-dd-HH-mm  每分钟
+        # yyyy-MM-dd-HH    每小时
+        # yyyy-MM-dd	每天
+        # yyyy-MM-dd-a	每半天
+            log4j.appender.dailyfile.DataPattern = '.'yyy-MM-dd-HH-mm
+        #配置编码类型
+            log4j.appender.dailyfile.Encoding=UTF-8
+        #配置格式
+            log4j.appender.dailyfile.layout = org.apache.log4j.PatternLayout
+        #配置具体格式
+            log4j.appender.dailyfile.layout.ConversionPattern = [%d{yyyy-MM-dd HH:mm:ss}] [%p] [%t] [%l] %m%n
+
+        #配置一个按照大小分隔的appender
+            log4j.appender.sizefile = org.apache.log4j.RollingFileAppender
+        #配置文件路径
+            log4j.appender.sizefile.File = /Users/like/work/practice/log/sizefile.log
+        #配置是否追加:true默认是追加模式，false是覆盖模式,默认是true
+            log4j.appender.sizefile.Append = true
+        #消息是否立即输出：true立即输出，false不输出，默认是true
+            log4j.appender.sizefile.ImmediateFlush=true
+        #配置appender级别:DEBUG、INFO、WARN、ERROR、FATIL
+            log4j.appender.sizefile.Threshold = INFO
+        #配置编码类型
+            log4j.appender.sizefile.Encoding=UTF-8
+        #配置单个文件最大大小
+            log4j.appender.sizefile.MaxFileSize=1kb
+        #配置需要保存的文件个数
+            log4j.appender.sizefile.MaxBackupIndex=3
+        #配置格式
+            log4j.appender.sizefile.layout = org.apache.log4j.PatternLayout
+        #配置具体格式
+            log4j.appender.sizefile.layout.ConversionPattern = [%d{yyyy-MM-dd HH:mm:ss}] [%p] [%t] [%l] %m%n
+
+        #应用于 socket
+            #log4j.appender.socket=org.apache.log4j.RollingFileAppender
+            #log4j.appender.socket.RemoteHost=localhost
+            #log4j.appender.socket.Port=5001
+            #log4j.appender.socket.LocationInfo=true
+
+        #复制代码发送日志到指定邮件
+            #log4j.appender.mail=org.apache.log4j.net.SMTPAppender
+            #log4j.appender.mail.Threshold=FATAL
+            #log4j.appender.mail.BufferSize=10
+            #log4j.appender.mail.From = xxx@mail.com
+            #log4j.appender.mail.SMTPHost=mail.com
+            #log4j.appender.mail.Subject=Log4J Message
+            #log4j.appender.mail.To= xxx@mail.com
+            #log4j.appender.mail.layout=org.apache.log4j.PatternLayout
+
+        #配置到数据库
+            #log4j.appender.database=org.apache.log4j.jdbc.JDBCAppender
+            #log4j.appender.database.URL=jdbc:mysql://localhost:3306/test
+            #log4j.appender.database.driver=com.mysql.jdbc.Driver
+            #log4j.appender.database.user=root
+            #log4j.appender.database.password=
+            #log4j.appender.database.sql=INSERT INTO LOG4J (Message) VALUES('=[%-5p] %d(%r) --> [%t] %l: %m %x %n')
+            #log4j.appender.database.layout=org.apache.log4j.PatternLayout
+    4.为logger指定appender:
+        1.配置文件的方式：
+            log4j.rootLogger = [LEVEL],appender1,appender2...
+            log4j.logger.myLogger = [LEVEL],appender1,appender2...
+            说明：
+                1.一个logger可以配置多个appender，多个appender使用,分开；
+                2.appender也需要指定输出级别，如果appender的输出级别和logger的输出级别冲突，则以级别最大的作为最终级别；
+                3.多个logger可以配置相同的appender；
+6.Layout：
+    1.Layout表示日志信息的格式化方式，Layout需要配置在appender上；
+    2.Layout配置元素：
+        # %p：输出日志信息的优先级，即DEBUG，INFO，WARN，ERROR，FATAL。
+        # %d：输出日志时间点的日期或时间，默认格式为ISO8601，也可以在其后指定格式，如：%d{yyyy/MM/dd HH:mm:ss,SSS}。
+        # %r：输出自应用程序启动到输出该log信息耗费的毫秒数。
+        # %t：输出产生该日志事件的线程名。
+        # %l：输出日志事件的发生位置，相当于%c.%M(%F:%L)的组合，包括类全名、方法、文件名以及在代码中的行数。例如：test.TestLog4j.main(TestLog4j.java:10)。
+        # %c：输出日志信息所属的类目，通常就是所在类的全名。
+        # %M：输出产生日志信息的方法名。
+        # %F：输出日志消息产生时所在的文件名称。
+        # %L:：输出代码中的行号。
+        # %m:：输出代码中指定的具体日志信息。
+        # %n：输出一个回车换行符，Windows平台为"rn"，Unix平台为"n"。
+        # %x：输出和当前线程相关联的NDC(嵌套诊断环境)，尤其用到像java servlets这样的多客户多线程的应用中。
+        # %%：输出一个"%"字符。
+        #另外，还可以在%与格式字符之间加上修饰符来控制其最小长度、最大长度、和文本的对齐方式。如：
+        # 1) c：指定输出category的名称，最小的长度是20，如果category的名称长度小于20的话，默认的情况下右对齐。
+        # 2)%-20c："-"号表示左对齐。
+        # 3)%.30c：指定输出category的名称，最大的长度是30，如果category的名称长度大于30的话，就会将左边多出的字符截掉，但小于30的话也不会补空格。
+    3.为appender指定Layout：
+        #配置格式
+            log4j.appender.sizefile.layout = org.apache.log4j.PatternLayout
+        #配置具体格式
+            log4j.appender.sizefile.layout.ConversionPattern = [%d{yyyy-MM-dd HH:mm:ss}] [%p] [%t] [%l] %m%n
+        说明：
+            1.一个appender只能指定一个layout；
+
