@@ -11,7 +11,7 @@
             2：创建一个目录，并指定相关权限：
                 mkdir -m 755 /tmp/tmpa/tmpb     #要求路径/tmp/tmpa必须已经存在，并且对该用户有写入和执行权限；
             3：递归创建目录：
-                mkdir -p /tmp/tmpa/tmpb     #只需要根路径存在即可，不要钱tmp/tmpa/tmpb存在，即可递归创建上述三级目录；
+                mkdir -p /tmp/tmpa/tmpb     #只需要根路径存在即可，不需要tmp/tmpa/tmpb存在，即可递归创建上述三级目录；
             4：递归创建目录并指定权限：
                 mkdir -m 755 -p /tmp/tmpa/tmpb      #递归创建目录的同时指定权限，该权限仅对最后一级目录有效；
 
