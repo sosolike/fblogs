@@ -1,0 +1,64 @@
+java-jdbc
+1.关于JDBC:
+    1:一组java访问数据库的API接口，仅规范了访问数据库的方式，达到以相同的方式访问不同的数据库，简化对数据库访问的目的；
+    2：JDBC本身只是接口，因此需要和数据库驱动搭配来使用，数据库驱动提供了访问数据库的实际操作，JDBC提供了访问数据库的门面；
+2：关于JDBC访问数据库的流程：
+    1：加载数据库驱动：
+        1:安装驱动:
+            对于maven项目直接配置数据库驱动依赖即可，如:
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>5.1.25</version>
+            </dependency>
+        2:配置驱动
+            对于mysql:Class.forName("com.mysql.jdbc.Driver");
+    
+    2：建立数据库连接；(DriverManager.getConnection())
+        1：建立连接：
+            Connection connection = DriverManager.getConnection("jdbc:mysql://host:port/database","user","password")
+            说明：1：connection表示当前客户端和数据库之间建立的物理连接；
+                 2：连接操作需要处理SQLException异常；
+
+        2：设置链接的超时时间：
+            1：通过DriverManger设置：DriverManager.setLoginTimeout(seconds)
+            2：通过url设置：jdbc:mysql://127.0.0.1:3066/test?connectionTimeout=3000
+
+        3：设置字符编码
+            1：通过url设置：jdbc:mysql://127.0.0.1:3066/test?connectionTimeout=3&socketTimeout=6&useUnicode=true&characterEncoding=utf-8
+            说明：1：useUnicode：是否使用unicode字符集
+                 2：characterEncoding：使用的编码方式
+    
+    3：执行sql语句：
+        1：sql语句的执行必须通过Statement实例对象，因此需要先创建Statement实例对象：
+            1：创建执行无参数sql语句的statement：
+                Statement stmt = connection.createStatement()
+                说明：1：createStatement创建的stmt仅能执行没有参数的sql语句；
+                     2：使用此种方式的stmt调用sql执行方法时必须给定一个完整的sql语句；
+                     
+            2：创建执行预处理sql语句的statement
+                Statement stmt = connection.prepareStatement(String sql)
+                说明：1：prepareStatement创建的stmt用来执行预处理的sql语句，创建时必须给定一个带有占位符的sql，如：SELECT * FROM test WHERE id > ?;
+                    2：此种方式的stmt和给定的预处理sql语句绑定，不同的预处理sql需要创建不同的statement;
+                    3：使用此种方式可以复用sql模板，并能够防止sql注入；
+                    4：此种方式的stmt执行sql时只需给予参数即可；
+
+            3：创建执行存储过程的statement
+                Statement stmt = connection.prepareCall(sql)
+        
+        2：执行具体的sql语句：
+            executeQuery()  //执行查询操作
+            executeUpdate() //执行更新操作
+            execute() //执行库表操作
+        
+        3：设置查询超时时间：
+            setQueryTimeout()
+        
+        3：处理结果集：ResultSet
+
+            
+
+             
+
+
+        
