@@ -1,0 +1,196 @@
+页面头部标签：
+    头部标签：
+    <head></head>
+    说明：
+        1.定义文档头部；其中的元素内容表示文档属性信息，而非文档内容部分；
+        
+    定义网页标题：
+    <title></title>
+
+    引入外部的css样式表：
+    <link rel="stylesheet" type="text/css" href="mystyle.css"></link>
+    说明：
+        1.通过get请求的方式引入外部css文件；
+        2.该标签允许跨域请求；
+    
+    直接在页面中定义css样式代码：
+        <style type="text/css"></style>
+    说明：
+        可以直接在style标签中定义样式代码；
+
+    引入外部js文件/定义js脚本代码
+    <script type="text/javascript" src="引入外部的js文件" [async="async"] [defer="defer"]></script>
+    说明：
+        1.type="text/javascript"是必选属性，表明外部脚本类型；
+        2.src属性用来指定需要引入的外部脚本地址；如果需要网络请求，则通过get请求的方式引入；并且允许跨域；
+        3.asycn=async：表明异步处理外部引入的脚本代码，不会阻塞页面的解析，html5引入，只有和src属性搭配才有效；
+        4.defer=defer：表明等文档全部解析完成之后再解析js脚本，但是只有ie支持，只有和src属性搭配才有效；
+        5.如过既没有async，也没有defer,那么脚本的解析会阻塞文档的解析过程；
+
+    <script type="text/javascript">定义js代码</script>
+    说明：
+        1.在script标签内部直接定义js代码！
+
+    定义页面的元信息，定义的元信息不会显示在页面上，但是会被浏览器解析：
+        定义关键字:
+            <meta name="keywords" content="a, b, c">
+        为网页定义描述内容:
+            <meta name="description" content="免费 Web & 编程 教程">
+        定义网页作者:
+            <meta name="author" content="Runoob">
+        每30秒钟刷新当前页面:
+            <meta http-equiv="refresh" content="30">
+
+    定义页面链接默认url和target：
+    <base href="base_url" target="_self">
+    说明:
+        1.base标签只能用在head中；
+        2.一个页面只能有一个base标签；
+        3.base标签中的url和target是所有链接的默认跳转地址和打开方式；
+
+页面body标签： 
+
+body:常见行内标记：
+    行内元素特征：
+        1.默认没有宽高，也不能设置宽高，其宽高由行内元素的内容尺寸决定；
+    
+    通用行内标记:
+        <span></span>:
+            无语义、无样式
+    文本格式化标签：
+        <b></b>:
+            粗体文本；语义上表示粗体字，样式上字体会加粗；
+        <i></i>:
+            斜体文本；语义上表示斜体字，样式上会以斜体出现；
+        <sub></sub>:
+            定义下标字；语义上表示下标，样式上会以下标的形式出现；
+        <sup><sup>:
+            定义上标字；语义上表示上标，样式上会以上标的形式出现；
+        <big><big>:
+            定义大号字；表示字号更大的字，样式上字号更大；
+        <small></small>:
+            定义小号字；表示字号更小的字，样式上字号更小；
+        <del></del>:
+            定义删除字；语义上表示已经删除的字；样式上带有中划线删除符号；
+        <ins></ins>:
+            定义插入字；语义上表示插入文本的字，样式上带有插入符号；
+        <strong><strong>:
+            加重语气字；语义上表示强调的字，没有样式效果；
+        <en><en>:
+            定义着重字；义上表示重视，没有样式效果；
+
+    引用标签:
+        <abbr title="原始文本">简写</abbr>：
+            定义原始文本的简写内容；语义上表示原始文本的简写，没有样式效果，页面仅显示简写内容，不会显示原始文本内容；
+        <bdo dir="ltr/rtl">文本信息</bdo>：
+            定义文字的方向，ltr表示正向，rtl表示反向；
+        <q>文本信息</q>：
+            表示普通的引用；语义上q表示的内容表示一段引用其他人的话；样式上会自动加上""包裹！
+    
+    链接标签:
+        超链接:
+            <a href="url" target="aim" >link content</a>
+            说明：1.可以将任何html内容作为链接的内容；
+                 2.href表示链接跳转地址；如果需要使用js替代的话，href的值可以是:href="javascript:void(0);"
+                 3.target表示超链接打开方式，其可以取值如下：
+                    _blank：在新的窗口打开
+                    _parent：在父窗口中打开
+                    _self：在当前页面打开
+                    _top：在顶级窗口打开；
+                    framename：在指定名称的窗口中打开；
+        锚点：
+            在html4中需要通过a标签的name属性和a标签的href属性做锚点：
+                定义锚点：<a name="md1"></a>
+                跳转至锚点：<a href="#md1">go锚点1</a>
+            在html5中可以通过a标签跳转至任意有id属性的标签：
+                定义锚点：<a id="md1"></a>
+                跳转至锚点：<a href="#md1">go锚点1</a>
+        
+        a标签样式：
+            未访问过的链接：蓝色字体并带有下划线。
+            访问过的链接：紫色并带有下划线。
+            点击链接时：红色并带有下划线。
+
+    表单相关标签：
+        表单:
+            <form></form>
+            说明：
+                1.表示创建一个表单，用来包含其他表单子元素；
+                2.action属性：表示表单的提交地址；
+                3.method：提交方式，可以取值GET或者POST;
+                5.enctype：表示在向服务端提交数据时的编码模式，一般用在method=POST的情况下，有如下取值方式：
+                    application/x-www-form-urlencoded：
+                        浏览器默认编码方式，会将数据编码为key=value&key=value的格式；如果有空格，将空格转换为+加号；有特殊符号，将特殊符号转换为ASCII HEX值
+                    multipart/form-data：   
+                        这种模式下浏览器不会对数据进行编码，而是使用boundary来分隔，boundary的值是：----Web**AJv3；在上传文件时必须使用此种编码格式；
+                    text/plain
+                3.autocomplete：html5新属性，表示是否启用表单自动完成功能,取值为on或者off；
+                4.name：表示指定表单的名称；
+                5.target：指定如何打开请求地址：
+                    _blank、 _self、_parent、_top
+        表单元素：
+            <input /> <label>：
+                1.input定义表单子元素，label定义input的标题；
+                2.input的type不同，表单元素类型不同，type:
+                    功能性：
+                        text：文本、password：密码、radio：单选框checkbox：多选框、button：按钮、submit：提交按钮、image：提交按钮、reset：重置按钮、hidden：隐藏域、file：上传文件
+                    验证数据:
+                        url：只能填url、tel：只能填电话号码、mail：只能填邮箱、date：日期、time：时间、datetime：日期时间、week：周、number：数字
+                3.所有input具有的属性:
+                    name：元素名称
+                    disabled=disabled：禁用当前元素
+                    autofocus=autofocus：自动获取当前页面输入焦点
+                    readonly=readonly：元素当前只读
+                    required=required：当前元素是必须元素；
+                    value：元素的值；
+                4.文本类标签：
+                    placeholder：设置提示内容
+                    max：最大值
+                    min：最小值
+                    maxlength：允许最大的字符数
+                5.单选按钮和多选按钮按名称分组，一组名称必须一致；
+            <select><optgroup><option>:
+                1.select表示下拉框，optgroup对下拉框中的元素分组，option表示下拉框中的元素；
+                2.如果元素选中会有selected=selected属性；也可通过该属性设置默认选中项；
+            <textarea>：文本输入域：
+                1.输入大量文本信息；
+                2.可通过rows和clos设置最大宽度和行数，通过maxlength设置允许的最大字符数；
+            <button>：设置按钮；
+            <datalist>：为input设置预选项；
+    表格标签：
+        <table><thead><tbody><tr><td>
+    窗口标签：
+        <iframe>
+
+body常见块标记：
+    通用块级标记：
+        <div></div>
+            无语义、无样式；
+    段落标记：
+        <p>段落<p>
+            表示文本段落，有语义，无样式
+    标题标记：
+        <h1></h1>~<h6></h6>
+            表示文本信息的标题，一共有6级标题，数字越大，标题越小；标题文字会加粗显示，有语义，有样式！
+    原样显示标记：
+        <pre></pre>
+            pre标记中的文本信息会原样显示，主要体现在不会压缩空格；无语义，无样式；
+    列表标记:
+        无序列表
+            <ul>
+                <li></li>
+            </ul>
+        有序列表：
+            <ol>
+                <li></li>
+            </ol>
+        自定义列表：
+            <dl>
+                <dt>Coffee</dt>
+                    <dd>- black hot drink</dd>
+                <dt>Milk</dt>
+                    <dd>- white cold drink</dd>
+            </dl>
+        
+
+    
