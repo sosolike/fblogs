@@ -713,3 +713,6 @@
                     使用0，0的个数表示整数位的个数；
                 2.E前面至少要有一个#或者0，否则E会被当做字符串的一部分，0的个数表示格式化之后小数部分的位数；
                 3.E之后的00表示指数的个数，如果不够将会使用0补齐；
+https://juejin.im/post/5b88a8f8e51d4538b7766d1a  常用扩展类库
+https://www.cnblogs.com/-beyond/p/10575078.html   摘要算法
+https://juejin.im/post/5e8140afe51d4546cc26aa6d

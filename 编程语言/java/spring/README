@@ -1,0 +1,19 @@
+spring-IOC
+    1.控制反转/依赖注入
+    2.xml方式实现控制反转：
+        0.配置元数据：spring-config.xml
+        1.bean创建：直接创建、静态工厂方法创建、工厂实例方法创建
+        2.bean名称：id、name、alias
+        3.bean依赖注入：constructor、set
+        3.bean懒加载：lazy_init
+        4.bean作用域:scope
+        5.bean继承:parent
+        6.bean初始化和销毁:init_method/destory_method、InilizingBean/DespoableBean、default...
+    3.configuration方式实现控制反转：
+        0.配置元数据：@Configuration类
+        1.bean创建：@ComponenctScan自动扫描、@Bean手动创建
+        2.bean名称：@Bean、@Component、@Controller、@Respoisy、@Service指定名称或者使用默认名称
+        3.bean依赖注入：@Bean手动注入、@ComponenctScan:@Autowared自动注入
+        3.bean懒加载：@Lazy
+        4.bean作用域:@Scope
+        5.bean初始化和销毁：@postConstruct/@preDestory、InilizingBean/DespoableBean、@Bean(initMethod/destoryMethod)
